@@ -30,5 +30,5 @@ jobs:
       run: |
         curl -X POST \
           -H "Content-Type: application/json" \
-          -d "{\"secret\": \"${{ secrets.SECRET_DEPLOY_KEY }}\"}" \
+          -d "{\"secret\": \"${{ secrets.DEPLOY_SECRET }}\"}" \
           https://deploymentbackend.jensramakers.nl/api/v1/process-digitalmenu-react
