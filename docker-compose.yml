@@ -4,10 +4,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
     volumes:
       - ./:/app
 
 networks:
   default:
     external: true
-    name: digital-menu-fe_default
+    name: digitalmenu_network

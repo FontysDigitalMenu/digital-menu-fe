@@ -5,7 +5,7 @@
 Create a docker network named "digital-menu-fe_default"
 
 ```bash
-docker network create digital-menu-fe_default
+docker network create digitalmenu_network
 ```
 
 Run the following command to start the container
