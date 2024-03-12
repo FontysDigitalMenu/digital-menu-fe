@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-function Login(){
+function Login({ checkAuthentication }){
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,6 +21,7 @@ function Login(){
 
             if (!response.ok) {
                 console.error('Login failed');
+                navigate("/login");
             }
 
             const data = await response.json();
@@ -29,9 +30,12 @@ function Login(){
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.token);
 
+            await checkAuthentication();
+
             navigate("/");
         } catch (error) {
             console.error('Error during login:', error);
+            navigate("/login");
         }
     };
 
