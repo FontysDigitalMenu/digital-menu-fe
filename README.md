@@ -2,7 +2,7 @@
 
 ## Getting started
 
-Create a docker network named "digital-menu-fe_default"
+Create a docker network named "digitalmenu_network"
 
 ```bash
 docker network create digitalmenu_network
