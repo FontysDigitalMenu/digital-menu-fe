@@ -1,4 +1,4 @@
-const MenuItem = ({ href, icon, text }) => {
+const NavBarItem = ({ href, icon, text }) => {
     return (
         <li>
             <a
@@ -12,4 +12,4 @@ const MenuItem = ({ href, icon, text }) => {
     );
 };
 
-export default MenuItem;
+export default NavBarItem;
