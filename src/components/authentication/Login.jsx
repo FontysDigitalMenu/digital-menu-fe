@@ -1,7 +1,8 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import AuthService from "../../services/AuthService.jsx";
 
-function Login({ checkAuthentication }){
+function Login({ setIsAuthenticated }){
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,6 +23,7 @@ function Login({ checkAuthentication }){
             if (!response.ok) {
                 console.error('Login failed');
                 navigate("/login");
+                return;
             }
 
             const data = await response.json();
@@ -30,7 +32,9 @@ function Login({ checkAuthentication }){
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
 
-            await checkAuthentication();
+            await AuthService.checkAuthentication();
+
+            setIsAuthenticated(true);
 
             navigate("/dashboard");
         } catch (error) {

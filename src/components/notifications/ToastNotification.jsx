@@ -1,35 +1,23 @@
-/*import React from "react";
-import { NotificationManager } from "react-notifications";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const ToastNotification = ({ type, message }) => {
+const ToastNotification = (type, message) => {
     switch (type) {
         case 'info':
-            return (
-                <NotificationManager info>
-                    <div>Info message: {message}</div>
-                </NotificationManager>
-            );
+            toast.info(message);
+            break;
         case 'success':
-            return (
-                <NotificationManager success>
-                    <div>Success message: {message}</div>
-                </NotificationManager>
-            );
+            toast.success(message);
+            break;
         case 'warning':
-            return (
-                <NotificationManager warning>
-                    <div>Warning message: {message}</div>
-                </NotificationManager>
-            );
+            toast.warning(message);
+            break;
         case 'error':
-            return (
-                <NotificationManager error>
-                    <div>Error message: {message}</div>
-                </NotificationManager>
-            );
+            toast.error(message);
+            break;
         default:
-            return null;
+            break;
     }
 };
 
-export default ToastNotification;*/
+export default ToastNotification;
