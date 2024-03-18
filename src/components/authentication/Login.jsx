@@ -28,11 +28,11 @@ function Login({ checkAuthentication }){
             console.log('Response:', data);
 
             localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('refreshToken', data.token);
+            localStorage.setItem('refreshToken', data.refreshToken);
 
             await checkAuthentication();
 
-            navigate("/");
+            navigate("/dashboard");
         } catch (error) {
             console.error('Error during login:', error);
             navigate("/login");

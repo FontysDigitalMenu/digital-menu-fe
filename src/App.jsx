@@ -3,6 +3,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Login from "./components/authentication/Login.jsx";
 import {useEffect, useState} from "react";
+import Dashboard from "./components/Dashboard.jsx";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -15,13 +16,12 @@ function App() {
         const token = localStorage.getItem('accessToken');
 
         if (!token) {
-/*            console.error('Token not found in localStorage');*/
             setIsAuthenticated(false);
             return;
         }
 
         try {
-            const response = await fetch('https://localhost:8000/api/User/info', {
+            const response = await fetch('https://localhost:8000/api/v1/User/info', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +53,8 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={isAuthenticated ? <Home /> : <Login checkAuthentication={checkAuthentication} />}/>
+                    <Route path="/" element={<Home />}/>
+                    <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Login checkAuthentication={checkAuthentication} />}/>
                     <Route path="/login" element={<Login checkAuthentication={checkAuthentication} /> } />
                 </Routes>
             </BrowserRouter>
