@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
-function TablesPage() {
+function Tables() {
     const [config, setConfig] = useState("");
     const [tables, setTables] = useState([]);
 
@@ -9,12 +10,12 @@ function TablesPage() {
             setConfig(await fetch('/config.json').then((res) => res.json()));
         }
 
-        getConfig();
+        getConfig().then(r => r);
     }, []);
 
     useEffect(() => {
         if (!config) return;
-        fetchQrCode();
+        fetchQrCode().then(r => r);
     }, [config]);
 
     async function fetchQrCode() {
@@ -23,7 +24,7 @@ function TablesPage() {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                // "Authorization": "Bearer " + accessToken,
+                "Authorization": "Bearer " + localStorage.getItem('accessToken'),
             },
             credentials: "include",
         });
@@ -34,11 +35,13 @@ function TablesPage() {
 
     return (
         <>
+            <Link to={"/admin/tables/create"}>Create new</Link>
+            <h1>Tables</h1>
             {
                 tables.map((table) => {
                     return (
                         <div key={table.id}>
-                            <p>{table.name}</p>
+                            <Link className={"hover:underline"} to={`/admin/tables/${table.id}/edit`}>{table.name}</Link>
                             <img src={`data:image/png;base64,${table.qrCode}`} alt="qr code" width={200}/>
                         </div>
                     )
@@ -48,4 +51,4 @@ function TablesPage() {
     );
 }
 
-export default TablesPage;
+export default Tables;

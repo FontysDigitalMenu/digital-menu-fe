@@ -1,15 +1,30 @@
 import './App.css'
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Login from "./components/authentication/Login.jsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Dashboard from "./components/Dashboard.jsx";
+import ScannedTable from "./components/tables/ScannedTable.jsx";
+import Tables from "./components/admin/tables/Tables.jsx";
+import TablesCreate from "./components/admin/tables/TablesCreate.jsx";
+import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [config, setConfig] = useState();
 
     useEffect(() => {
-        checkAuthentication().then(r => r);
+        async function getConfig() {
+            setConfig(await fetch('/config.json').then((res) => res.json()));
+        }
+
+        getConfig().then(r => r);
+    }, []);
+
+    useEffect(() => {
+        if (config) {
+            checkAuthentication().then(r => r);
+        }
     }, []);
 
     const checkAuthentication = async () => {
@@ -21,7 +36,7 @@ function App() {
         }
 
         try {
-            const response = await fetch('https://localhost:8000/api/v1/User/info', {
+            const response = await fetch(`${config.API_URL}/api/v1/User/info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,6 +71,12 @@ function App() {
                     <Route path="/" element={<Home />}/>
                     <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Login checkAuthentication={checkAuthentication} />}/>
                     <Route path="/login" element={<Login checkAuthentication={checkAuthentication} /> } />
+                    <Route path="/table/:id" element={<ScannedTable />} />
+
+                    {/*ADMIN*/}
+                    <Route path={"/admin/tables"} element={<Tables />} />
+                    <Route path={"/admin/tables/create"} element={<TablesCreate />} />
+                    <Route path={"/admin/tables/:id/edit"} element={<TablesEdit />} />
                 </Routes>
             </BrowserRouter>
         </>
