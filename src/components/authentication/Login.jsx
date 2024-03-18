@@ -1,15 +1,17 @@
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import AuthService from "../../services/AuthService.jsx";
+import ConfigContext from "../../provider/ConfigProvider.jsx";
 
 function Login({ setIsAuthenticated }){
+    const config = useContext(ConfigContext);
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const sendLoginRequest = async () => {
         try {
-            const response = await fetch('https://localhost:8000/login', {
+            const response = await fetch(`${config.API_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +34,7 @@ function Login({ setIsAuthenticated }){
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
 
-            await AuthService.checkAuthentication();
+            await AuthService.checkAuthentication(config);
 
             setIsAuthenticated(true);
 
