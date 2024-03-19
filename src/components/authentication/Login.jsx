@@ -11,7 +11,7 @@ function Login({ setIsAuthenticated }){
 
     const sendLoginRequest = async () => {
         try {
-            const response = await fetch(`${config.API_URL}/login`, {
+            const response = await fetch(`${config.API_URL}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,7 +29,6 @@ function Login({ setIsAuthenticated }){
             }
 
             const data = await response.json();
-            console.log('Response:', data);
 
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
@@ -38,7 +37,7 @@ function Login({ setIsAuthenticated }){
 
             setIsAuthenticated(true);
 
-            navigate("/admin/dashboard");
+            navigate("/admin");
         } catch (error) {
             console.error('Error during login:', error);
             navigate("/login");
