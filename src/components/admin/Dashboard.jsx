@@ -1,4 +1,4 @@
-import SideNav from "./navigation/SideNav.jsx";
+import SideNav from "../navigation/SideNav.jsx";
 
 function Dashboard({setIsAuthenticated}){
     return (
