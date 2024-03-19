@@ -51,7 +51,7 @@ const AuthService = {
         }
 
         try {
-            const response = await fetch(`${config.API_URL}/refresh`, {
+            const response = await fetch(`${config.API_URL}/api/refresh`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
