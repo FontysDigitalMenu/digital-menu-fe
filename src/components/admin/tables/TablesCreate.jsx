@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
+import SideNav from "../../navigation/SideNav.jsx";
+import ButtonSubmit from "../../elements/ButtonSubmit.jsx";
+import ToastNotification from "../../notifications/ToastNotification.jsx";
+import ButtonCancel from "../../elements/ButtonCancel.jsx";
 
-function TablesCreate() {
+function TablesCreate({setIsAuthenticated}) {
     const navigate = useNavigate();
     const [config, setConfig] = useState("");
     const [tableForm, setTableForm] = useState({
@@ -39,7 +43,8 @@ function TablesCreate() {
         });
 
         if (response.status === 204) {
-            alert("Created successfully");
+            ToastNotification('success', 'Created successfully');
+
             return navigate('/admin/tables')
         } else if (response.status === 401) {
             // await auth.refresh();
@@ -48,14 +53,23 @@ function TablesCreate() {
     }
 
     return (
-        <form onSubmit={submitTable}>
-            <div>
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" required onChange={handleFormChange}/>
+        <>
+            <SideNav setIsAuthenticated={setIsAuthenticated}/>
+
+            <div className="p-4 sm:ml-64">
+                <form onSubmit={submitTable} className={"flex flex-col gap-y-2"}>
+                    <div>
+                        <label htmlFor="name">Name</label>
+                        <input type="text" id="name" name="name" required onChange={handleFormChange}
+                               className={"input"}/>
+                    </div>
+                    <div className={"flex gap-x-1"}>
+                        <ButtonCancel text={"Cancel"} navigateUrl={"/admin/tables"}/>
+                        <ButtonSubmit text={"Create"}/>
+                    </div>
+                </form>
             </div>
-            <button type="button" onClick={() => navigate("/admin/tables")}>Cancel</button>
-            <button type="submit">Create</button>
-        </form>
+        </>
     );
 }
 

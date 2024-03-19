@@ -38,7 +38,7 @@ function Login({ setIsAuthenticated }){
 
             setIsAuthenticated(true);
 
-            navigate("/dashboard");
+            navigate("/admin/dashboard");
         } catch (error) {
             console.error('Error during login:', error);
             navigate("/login");
@@ -64,7 +64,7 @@ function Login({ setIsAuthenticated }){
                         <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <input type="username" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="username" required
+                                <input type="email" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="username" required
                                        value={email}
                                        onChange={(e) => setEmail(e.target.value)}/>
                             </div>

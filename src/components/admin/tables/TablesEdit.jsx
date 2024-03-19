@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
+import SideNav from "../../navigation/SideNav.jsx";
+import ToastNotification from "../../notifications/ToastNotification.jsx";
+import ButtonCancel from "../../elements/ButtonCancel.jsx";
+import ButtonSubmit from "../../elements/ButtonSubmit.jsx";
 
-function TablesCreate() {
+function TablesEdit({setIsAuthenticated}) {
     const {id} = useParams();
     const navigate = useNavigate();
     const [config, setConfig] = useState("");
@@ -40,9 +44,8 @@ function TablesCreate() {
             credentials: "include",
         });
 
-        if (response.status === 204) {
+        if (response.status === 200) {
             const data = await response.json();
-            console.log(data)
             setTableForm(data);
         } else if (response.status === 401) {
             // await auth.refresh();
@@ -66,25 +69,33 @@ function TablesCreate() {
         });
 
         if (response.status === 204) {
-            alert("Updated successfully");
+            ToastNotification('success', 'Updated successfully');
             return navigate('/admin/tables')
         } else if (response.status === 401) {
-           // await auth.refresh();
-           // submitTable();
+            // await auth.refresh();
+            // submitTable();
         }
     }
 
     return (
-        <form onSubmit={submitTable}>
-            <div>
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" defaultValue={tableForm.name} required
-                       onChange={handleFormChange}/>
+        <>
+            <SideNav setIsAuthenticated={setIsAuthenticated}/>
+
+            <div className="p-4 sm:ml-64">
+                <form onSubmit={submitTable} className={"flex flex-col gap-y-2"}>
+                    <div>
+                        <label htmlFor="name">Name</label>
+                        <input type="text" id="name" name="name" defaultValue={tableForm.name} required
+                               onChange={handleFormChange} className={"input"}/>
+                    </div>
+                    <div className={"flex gap-x-1"}>
+                        <ButtonCancel text={"Cancel"} navigateUrl={"/admin/tables"}></ButtonCancel>
+                        <ButtonSubmit text={"Update"}></ButtonSubmit>
+                    </div>
+                </form>
             </div>
-            <button type="button" onClick={() => navigate("/admin/tables")}>Cancel</button>
-            <button type="submit">Update</button>
-        </form>
-    );
+        </>
+);
 }
 
-export default TablesCreate;
+export default TablesEdit;

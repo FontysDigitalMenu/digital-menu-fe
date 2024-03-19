@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 import Spinner from "../../Spinner.jsx";
 import TableQrCode from "./TableQrCode.jsx";
+import SideNav from "../../navigation/SideNav.jsx";
+import ToastNotification from "../../notifications/ToastNotification.jsx";
+import ButtonCreateNew from "../../elements/ButtonCreateNew.jsx";
 
-function Tables() {
+function Tables({setIsAuthenticated}) {
     const [config, setConfig] = useState("");
     const [tables, setTables] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +53,7 @@ function Tables() {
 
         if (response.status === 204) {
             fetchQrCode().then(r => r);
+            ToastNotification('success', 'Deleted successfully');
         } else if (response.status === 401) {
             // await auth.refresh();
             // submitDelete(id);
@@ -59,29 +62,33 @@ function Tables() {
 
     return (
         <>
-            <Link to={"/admin/tables/create"}>Create new</Link>
-            <h1>Tables</h1>
-            {isLoading && <Spinner/>}
-            <table>
-                <thead>
-                <tr>
-                    <th>name</th>
-                    <th>qrcode</th>
-                    <th>actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    tables.map((table) => {
-                        return (
-                            <tr key={table.id}>
-                                <TableQrCode table={table} config={config} handleDelete={submitDelete} />
-                            </tr>
-                        )
-                    })
-                }
-                </tbody>
-            </table>
+            <SideNav setIsAuthenticated={setIsAuthenticated}/>
+
+            <div className="p-4 sm:ml-64">
+                <ButtonCreateNew text={"Create new"} navigateUrl={"/admin/tables/create"} />
+                <h1>Tables</h1>
+                {isLoading && <Spinner/>}
+                <table>
+                    <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>qrcode</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        tables.map((table) => {
+                            return (
+                                <tr key={table.id}>
+                                    <TableQrCode table={table} config={config} handleDelete={submitDelete}/>
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                </table>
+            </div>
         </>
     );
 }
