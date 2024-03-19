@@ -40,12 +40,13 @@ function TablesCreate() {
             credentials: "include",
         });
 
-        if (response.status === 200) {
+        if (response.status === 204) {
             const data = await response.json();
             console.log(data)
             setTableForm(data);
         } else if (response.status === 401) {
-
+            // await auth.refresh();
+            // fetchTable();
         }
     }
 
@@ -77,8 +78,10 @@ function TablesCreate() {
         <form onSubmit={submitTable}>
             <div>
                 <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" defaultValue={tableForm.name} required onChange={handleFormChange}/>
+                <input type="text" id="name" name="name" defaultValue={tableForm.name} required
+                       onChange={handleFormChange}/>
             </div>
+            <button type="button" onClick={() => navigate("/admin/tables")}>Cancel</button>
             <button type="submit">Update</button>
         </form>
     );

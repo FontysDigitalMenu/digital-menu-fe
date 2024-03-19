@@ -53,6 +53,7 @@ function TablesCreate() {
                 <label htmlFor="name">Name</label>
                 <input type="text" id="name" name="name" required onChange={handleFormChange}/>
             </div>
+            <button type="button" onClick={() => navigate("/admin/tables")}>Cancel</button>
             <button type="submit">Create</button>
         </form>
     );
