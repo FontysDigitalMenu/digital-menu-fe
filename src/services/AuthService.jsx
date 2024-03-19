@@ -1,7 +1,7 @@
 const AuthService = {
     isAuthenticated: false,
 
-    async checkAuthentication() {
+    async checkAuthentication(config) {
         const token = localStorage.getItem('accessToken');
 
         if (!token) {
@@ -10,7 +10,7 @@ const AuthService = {
         }
 
         try {
-            const response = await fetch('https://localhost:8000/api/v1/User/info', {
+            const response = await fetch(`${config.API_URL}/api/v1/User/info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const AuthService = {
         }
     },
 
-    async refreshAccessToken() {
+    async refreshAccessToken(config) {
         const refreshToken = localStorage.getItem('refreshToken');
 
         if (!refreshToken) {
@@ -51,7 +51,7 @@ const AuthService = {
         }
 
         try {
-            const response = await fetch('https://localhost:8000/refresh', {
+            const response = await fetch(`${config.API_URL}/refresh`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
