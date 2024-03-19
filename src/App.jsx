@@ -12,10 +12,12 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        AuthService.checkAuthentication(config).then(isAuthenticated => setIsAuthenticated(isAuthenticated));
+        if (config){
+            AuthService.checkAuthentication(config).then(isAuthenticated => setIsAuthenticated(isAuthenticated));
 
-        if (!isAuthenticated){
-            AuthService.refreshAccessToken(config).then(r => r);
+            if (!isAuthenticated){
+                AuthService.refreshAccessToken(config).then(r => r);
+            }
         }
     }, [config]);
 
