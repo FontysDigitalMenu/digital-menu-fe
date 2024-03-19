@@ -1,37 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import TablesPage from "./TablesPage.jsx";
+import {BrowserRouter, Navigate, Route, Routes, useNavigate} from "react-router-dom";
+import Home from "./components/Home.jsx";
+import Login from "./components/authentication/Login.jsx";
+import {useContext, useEffect, useState} from "react";
+import Dashboard from "./components/admin/Dashboard.jsx";
+import AuthService from "./services/AuthService.jsx";
+import Tables from "./components/admin/tables/Tables";
+import ScannedTable from "./components/tables/ScannedTable";
+import ConfigContext from "./provider/ConfigProvider.jsx";
+import TablesCreate from "./components/admin/tables/TablesCreate.jsx";
+import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
+import {ToastContainer} from "react-toastify";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const config = useContext(ConfigContext);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <TablesPage />
-    </>
-  )
+    useEffect(() => {
+        if (config){
+            AuthService.checkAuthentication(config).then(isAuthenticated => setIsAuthenticated(isAuthenticated));
+
+            if (!isAuthenticated){
+                AuthService.refreshAccessToken(config).then(r => r);
+            }
+        }
+    }, [config]);
+
+    return (
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home />}/>
+                    <Route path="/table/:id" element={<ScannedTable />} />
+
+                    {/*AUTH*/}
+                    <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} /> } />
+
+                    {/*ADMIN*/}
+                    <Route path={"/admin"} element={isAuthenticated ? <Dashboard setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />}/>
+                    <Route path={"/admin/tables"} element={isAuthenticated ? <Tables setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path={"/admin/tables/create"} element={isAuthenticated ? <TablesCreate setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path={"/admin/tables/:id/edit"} element={isAuthenticated ? <TablesEdit setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+                </Routes>
+            </BrowserRouter>
+
+            <ToastContainer />
+        </>
+    )
 }
 
 export default App

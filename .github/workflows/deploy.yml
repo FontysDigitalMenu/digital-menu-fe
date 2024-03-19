@@ -1,4 +1,4 @@
-name: Deployment 
+name: Deployment
 
 on:
   push:
@@ -8,14 +8,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    
+
     - name: Build the Docker image
       working-directory: ./
-      run: docker build -t jensr22/digitalmenu-react:latest -f Dockerfile.prod . 
+      run: docker build -t jensr22/digitalmenu-react:latest -f Dockerfile.prod .
 
     - name: Log into Docker Hub
       uses: docker/login-action@v3
