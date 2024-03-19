@@ -38,9 +38,9 @@ function App() {
 
                     {/*ADMIN*/}
                     <Route path={"/admin"} element={isAuthenticated ? <Dashboard setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />}/>
-                    <Route path={"/admin/tables"} element={isAuthenticated ? <Tables /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path={"/admin/tables/create"} element={isAuthenticated ? <TablesCreate /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path={"/admin/tables/:id/edit"} element={isAuthenticated ? <TablesEdit /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path={"/admin/tables"} element={isAuthenticated ? <Tables setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path={"/admin/tables/create"} element={isAuthenticated ? <TablesCreate setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path={"/admin/tables/:id/edit"} element={isAuthenticated ? <TablesEdit setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
                 </Routes>
             </BrowserRouter>
 
