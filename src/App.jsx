@@ -1,77 +1,36 @@
 import './App.css'
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Login from "./components/authentication/Login.jsx";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Dashboard from "./components/Dashboard.jsx";
-import ScannedTable from "./components/tables/ScannedTable.jsx";
-import Tables from "./components/admin/tables/Tables.jsx";
-import TablesCreate from "./components/admin/tables/TablesCreate.jsx";
-import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
+import AuthService from "./services/AuthService.jsx";
+import Tables from "./components/admin/tables/Tables";
+import TablesCreate from "./components/admin/tables/TablesEdit";
+import TablesEdit from "./components/admin/tables/TablesEdit";
+import ScannedTable from "./components/tables/ScannedTable";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [config, setConfig] = useState();
 
     useEffect(() => {
-        async function getConfig() {
-            setConfig(await fetch('/config.json').then((res) => res.json()));
-        }
+        AuthService.checkAuthentication().then(isAuthenticated => setIsAuthenticated(isAuthenticated));
 
-        getConfig().then(r => r);
-    }, []);
-
-    useEffect(() => {
-        if (config) {
-            checkAuthentication().then(r => r);
+        if (!isAuthenticated){
+            AuthService.refreshAccessToken().then(r => r);
         }
     }, []);
-
-    const checkAuthentication = async () => {
-        const token = localStorage.getItem('accessToken');
-
-        if (!token) {
-            setIsAuthenticated(false);
-            return;
-        }
-
-        try {
-            const response = await fetch(`${config.API_URL}/api/v1/User/info`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            });
-
-            if (!response.ok) {
-                console.error('Login failed');
-                setIsAuthenticated(false);
-                return;
-            }
-
-            const data = await response.json();
-
-            if (data.includes('Admin')) {
-                setIsAuthenticated(true);
-            } else {
-                console.error('User does not have permission');
-                setIsAuthenticated(false);
-            }
-        } catch (error) {
-            console.error('Error during login:', error);
-            setIsAuthenticated(false);
-        }
-    };
 
     return (
         <>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Home />}/>
-                    <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Login checkAuthentication={checkAuthentication} />}/>
-                    <Route path="/login" element={<Login checkAuthentication={checkAuthentication} /> } />
+                    <Route path="/dashboard" element={isAuthenticated ? <Dashboard setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />}/>
                     <Route path="/table/:id" element={<ScannedTable />} />
+
+                    {/*AUTH*/}
+                    <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} /> } />
 
                     {/*ADMIN*/}
                     <Route path={"/admin/tables"} element={<Tables />} />
