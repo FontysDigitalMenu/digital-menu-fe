@@ -2,7 +2,7 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 import SidebarToggle from "./SideBarToggle.jsx";
 import LogoutButton from "./LogoutButton.jsx";
-import MenuItem from "./MenuItem.jsx";
+import NavBarItem from "./NavBarItem.jsx";
 
 function SideNav({setIsAuthenticated}) {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ function SideNav({setIsAuthenticated}) {
                 <div
                     className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-red-500">
                     <ul className="space-y-2 font-medium text-lg">
-                        <MenuItem href={'/dashboard'} icon={'home'} text={'Home'} />
+                        <NavBarItem href={'/dashboard'} icon={'home'} text={'Home'} />
                     </ul>
                     <ul className="space-y-2 font-medium text-lg">
                         <LogoutButton onClick={logout} />
