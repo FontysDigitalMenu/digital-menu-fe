@@ -1,8 +1,8 @@
+import CartOverview from "./CartOverview"
+
 function Home(){
     return (
-        <div>
-            Home menu
-        </div>
+        <CartOverview />
     )
 }
 export default Home
