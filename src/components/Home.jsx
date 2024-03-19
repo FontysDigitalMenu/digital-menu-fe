@@ -113,12 +113,19 @@ function Home() {
                             <div className="mt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
                                 {category.menuItemViewModels.map((menuItem) => (
                                     <div key={menuItem.id} className="flex flex-col bg-white shadow-lg rounded-lg p-4">
-                                        <img className="h-40 md:h-52 w-full object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpjVJ95QK9Z7ppeuEptxKb-QhLhdKkx6XbzuVd90YuJaJavpvQ2qTxDDpkH95m4A3Jbj8&usqp=CAU" alt=""/>
-                                        <div key={menuItem.id} className="flex items-center justify-between pt-2 font-medium text-lg">
+                                        <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl} alt=""/>
+                                        <div key={menuItem.id}
+                                             className="flex items-center justify-between pt-2 font-medium text-lg">
                                             <p>{menuItem.name}</p>
-                                            <p>${menuItem.price}</p>
+                                            <p>{new Intl.NumberFormat('nl-NL', {
+                                                style: 'currency',
+                                                currency: 'EUR'
+                                            }).format(menuItem.price / 100)}</p>
                                         </div>
-                                        <button className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add to order</button>
+                                        <button
+                                            className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add
+                                            to order
+                                        </button>
                                     </div>
                                 ))}
                             </div>
