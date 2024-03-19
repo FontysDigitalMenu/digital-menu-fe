@@ -1,24 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import {useContext, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import SideNav from "../../navigation/SideNav.jsx";
 import ButtonSubmit from "../../elements/ButtonSubmit.jsx";
 import ToastNotification from "../../notifications/ToastNotification.jsx";
 import ButtonCancel from "../../elements/ButtonCancel.jsx";
+import ConfigContext from "../../../provider/ConfigProvider.jsx";
+import AuthService from "../../../services/AuthService.jsx";
 
 function TablesCreate({setIsAuthenticated}) {
     const navigate = useNavigate();
-    const [config, setConfig] = useState("");
+    const config = useContext(ConfigContext);
     const [tableForm, setTableForm] = useState({
         name: "",
     })
-
-    useEffect(() => {
-        async function getConfig() {
-            setConfig(await fetch('/config.json').then((res) => res.json()));
-        }
-
-        getConfig().then(r => r);
-    }, []);
 
     function handleFormChange(e) {
         setTableForm(prevState => ({
@@ -29,8 +23,6 @@ function TablesCreate({setIsAuthenticated}) {
 
     async function submitTable(e) {
         e.preventDefault();
-
-        // if (alreadyRefreshed) return;
 
         const response = await fetch(`${config.API_URL}/api/v1/Table`, {
             method: "POST",
@@ -47,8 +39,8 @@ function TablesCreate({setIsAuthenticated}) {
 
             return navigate('/admin/tables')
         } else if (response.status === 401) {
-            // await auth.refresh();
-            // submitTable();
+            await AuthService.refreshAccessToken();
+            await submitTable(e);
         }
     }
 

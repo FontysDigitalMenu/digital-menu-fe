@@ -1,25 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import SideNav from "../../navigation/SideNav.jsx";
 import ToastNotification from "../../notifications/ToastNotification.jsx";
 import ButtonCancel from "../../elements/ButtonCancel.jsx";
 import ButtonSubmit from "../../elements/ButtonSubmit.jsx";
+import ConfigContext from "../../../provider/ConfigProvider.jsx";
 
 function TablesEdit({setIsAuthenticated}) {
     const {id} = useParams();
+    const config = useContext(ConfigContext);
     const navigate = useNavigate();
-    const [config, setConfig] = useState("");
     const [tableForm, setTableForm] = useState({
         name: "",
     })
-
-    useEffect(() => {
-        async function getConfig() {
-            setConfig(await fetch('/config.json').then((res) => res.json()));
-        }
-
-        getConfig().then(r => r);
-    }, []);
 
     useEffect(() => {
         if (!config) return;

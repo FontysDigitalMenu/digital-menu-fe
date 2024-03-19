@@ -1,22 +1,16 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Spinner from "../../Spinner.jsx";
 import TableQrCode from "./TableQrCode.jsx";
 import SideNav from "../../navigation/SideNav.jsx";
 import ToastNotification from "../../notifications/ToastNotification.jsx";
 import ButtonCreateNew from "../../elements/ButtonCreateNew.jsx";
+import ConfigContext from "../../../provider/ConfigProvider.jsx";
+import AuthService from "../../../services/AuthService.jsx";
 
 function Tables({setIsAuthenticated}) {
-    const [config, setConfig] = useState("");
+    const config = useContext(ConfigContext);
     const [tables, setTables] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        async function getConfig() {
-            setConfig(await fetch('/config.json').then((res) => res.json()));
-        }
-
-        getConfig().then(r => r);
-    }, []);
 
     useEffect(() => {
         if (!config) return;
@@ -55,8 +49,8 @@ function Tables({setIsAuthenticated}) {
             fetchQrCode().then(r => r);
             ToastNotification('success', 'Deleted successfully');
         } else if (response.status === 401) {
-            // await auth.refresh();
-            // submitDelete(id);
+            await AuthService.refreshAccessToken();
+            await submitDelete(id);
         }
     }
 

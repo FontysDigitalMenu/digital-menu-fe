@@ -29,10 +29,10 @@ function TableQrCode({table, config, handleDelete}) {
                 <ReactToPrint
                     content={() => printRef.current}
                     trigger={() => {
-                        return <button>print</button>;
+                        return <button className="material-symbols-outlined border rounded text-4xl">print</button>;
                     }}
                 />
-                <button onClick={() => handleDelete(table.id)}>verwijder</button>
+                <button className="material-symbols-outlined text-red-700 border rounded text-4xl" onClick={() => handleDelete(table.id)}>delete</button>
             </td>
         </>
     );
