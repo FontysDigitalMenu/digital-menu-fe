@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import ConfigContext from "../provider/ConfigProvider.jsx";
 import ToastNotification from "./notifications/ToastNotification.jsx";
+import {Link} from "react-router-dom";
 
 function Home() {
     const config = useContext(ConfigContext);

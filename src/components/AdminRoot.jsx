@@ -1,10 +1,10 @@
 import {Outlet} from "react-router-dom";
 import SideNav from "./navigation/SideNav.jsx";
 
-function AdminRoot(){
+function AdminRoot({setIsAuthenticated}){
     return(
         <>
-            <SideNav/>
+            <SideNav setIsAuthenticated={setIsAuthenticated}/>
             <Outlet/>
         </>
     )

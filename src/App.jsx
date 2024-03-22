@@ -58,7 +58,7 @@ function App() {
                     <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} /> } />
 
                     {/*ADMIN*/}
-                    <Route path={"/admin"} element={isAuthenticated ? <AdminRoot/> : <Navigate to="/login" />}>
+                    <Route path={"/admin"} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated}/> : <Navigate to="/login" />}>
                         <Route path={""} element={<Dashboard setIsAuthenticated={setIsAuthenticated} />}/>
                         <Route path={"tables"} element={<Tables setIsAuthenticated={setIsAuthenticated} />} />
                         <Route path={"tables/create"} element={<TablesCreate setIsAuthenticated={setIsAuthenticated} />} />
