@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import ConfigContext from "../provider/ConfigProvider.jsx";
 import Nav from "./navigation/Nav.jsx";
+import {Link} from "react-router-dom";
 
 function Home() {
     const config = useContext(ConfigContext);
@@ -140,9 +141,9 @@ function Home() {
 
             <div className="bottom-box w-full sticky bottom-0 left-0">
                 <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center">
-                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                    <Link to="/cart" className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                         View order
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
