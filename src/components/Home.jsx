@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import ConfigContext from "../provider/ConfigProvider.jsx";
 import Nav from "./navigation/Nav.jsx";
+import {Link} from "react-router-dom";
+import ToastNotification from "./notifications/ToastNotification.jsx";
 
 function Home() {
     const config = useContext(ConfigContext);
@@ -63,6 +65,26 @@ function Home() {
         }
     };
 
+    const handleAddToOrder = async (id) => {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify({
+                menuItemId: id,
+                deviceId: localStorage.getItem("deviceId"),
+            }),
+        });
+
+        if (response.status === 204) {
+            ToastNotification('success', 'Added item to order');
+        } else {
+            ToastNotification('error', 'Error while adding item to order');
+        }
+    }
+
     const updateCategories = (data) => {
         data.forEach((fetchedCategory) => {
             const existingCategoryIndex = findExistingCategoryIndex(fetchedCategory);
@@ -114,7 +136,7 @@ function Home() {
                                 {category.menuItemViewModels.map((menuItem) => (
                                     <div key={menuItem.id} className="flex flex-col justify-between bg-white shadow-lg rounded-lg p-4">
                                         <div>
-                                            <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl} alt=""/>
+                                            <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl} alt={menuItem.name}/>
                                             <div key={menuItem.id}
                                                  className="flex items-center justify-between pt-2 font-medium text-lg">
                                                 <p>{menuItem.name}</p>
@@ -124,9 +146,9 @@ function Home() {
                                                 }).format(menuItem.price / 100)}</p>
                                             </div>
                                         </div>
-                                        <button
-                                            className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add
-                                            to order
+                                        <button onClick={() => handleAddToOrder(menuItem.id)}
+                                            className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                            Add to order
                                         </button>
                                     </div>
                                 ))}
@@ -140,9 +162,9 @@ function Home() {
 
             <div className="bottom-box w-full sticky bottom-0 left-0">
                 <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center">
-                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                    <Link to="/cart" className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                         View order
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
