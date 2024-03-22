@@ -12,10 +12,24 @@ import TablesCreate from "./components/admin/tables/TablesCreate.jsx";
 import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
 import {ToastContainer} from "react-toastify";
 import CartOverview from "./components/cart/CartOverview.jsx";
+import { v4 } from 'uuid';
 
 function App() {
     const config = useContext(ConfigContext);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [deviceId, setDeviceId] = useState('');
+
+    useEffect(() => {
+        const storedDeviceId = localStorage.getItem('deviceId');
+
+        if (!storedDeviceId) {
+            const newDeviceId = v4();
+            localStorage.setItem('deviceId', newDeviceId);
+            setDeviceId(newDeviceId);
+        } else {
+            setDeviceId(storedDeviceId);
+        }
+    }, []);
 
     useEffect(() => {
         if (config){
