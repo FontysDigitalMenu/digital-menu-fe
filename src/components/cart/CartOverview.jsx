@@ -107,7 +107,7 @@ function CartOverview() {
                                                 <div className="size-full flex items-center justify-center p-2">
                                                     <div
                                                         className="count-box rounded-md overflow-hidden bg-white h-8 w-full flex text-lg">
-                                                        <button onClick={() => handleMinus(cartItem.id)}
+                                                        <button onClick={() => handleMinus(cartItem.menuItem.id)}
                                                             className="w-1/3 h-full bg-gray-300 font-bold flex items-center justify-center">
                                                             -
                                                         </button>
@@ -115,7 +115,7 @@ function CartOverview() {
                                                             className="w-1/3 font-bold flex items-center justify-center">
                                                             {cartItem.quantity}
                                                         </div>
-                                                        <button onClick={() => handlePlus(cartItem.id)}
+                                                        <button onClick={() => handlePlus(cartItem.menuItem.id)}
                                                             className="w-1/3 h-full bg-gray-300 font-bold flex items-center justify-center">
                                                             +
                                                         </button>
