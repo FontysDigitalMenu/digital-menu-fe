@@ -17,19 +17,20 @@ import { v4 } from 'uuid';
 function App() {
     const config = useContext(ConfigContext);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [deviceId, setDeviceId] = useState('');
 
     useEffect(() => {
-        const storedDeviceId = localStorage.getItem('deviceId');
+        if (!config) return;
 
-        if (!storedDeviceId) {
+        if (config.DEVICE_ID !== undefined) {
+            localStorage.setItem('deviceId', config.DEVICE_ID);
+            return;
+        }
+
+        if (!localStorage.getItem('deviceId')) {
             const newDeviceId = v4();
             localStorage.setItem('deviceId', newDeviceId);
-            setDeviceId(newDeviceId);
-        } else {
-            setDeviceId(storedDeviceId);
         }
-    }, []);
+    }, [config]);
 
     useEffect(() => {
         if (config){
