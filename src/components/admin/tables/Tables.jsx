@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import Spinner from "../../Spinner.jsx";
+import Spinner from "../../elements/Spinner.jsx";
 import TableQrCode from "./TableQrCode.jsx";
 import ToastNotification from "../../notifications/ToastNotification.jsx";
 import ButtonCreateNew from "../../elements/ButtonCreateNew.jsx";

@@ -11,12 +11,28 @@ import ConfigContext from "./provider/ConfigProvider.jsx";
 import TablesCreate from "./components/admin/tables/TablesCreate.jsx";
 import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
 import {ToastContainer} from "react-toastify";
+import CartOverview from "./components/cart/CartOverview.jsx";
+import { v4 } from 'uuid';
 import Root from "./components/Root.jsx";
 import AdminRoot from "./components/AdminRoot.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        if (!config) return;
+
+        if (config.DEVICE_ID !== undefined) {
+            localStorage.setItem('deviceId', config.DEVICE_ID);
+            return;
+        }
+
+        if (!localStorage.getItem('deviceId')) {
+            const newDeviceId = v4();
+            localStorage.setItem('deviceId', newDeviceId);
+        }
+    }, [config]);
 
     useEffect(() => {
         if (config){
@@ -33,9 +49,11 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Root/>}>
-                        <Route path="" element={<Home />} />
+                        <Route path="" element={<Home />}/>
+                        <Route path="cart" element={<CartOverview />}/>
                         <Route path="table/:id" element={<ScannedTable />} />
                     </Route>
+
                     {/*AUTH*/}
                     <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} /> } />
 
