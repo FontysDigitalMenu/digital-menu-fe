@@ -23,7 +23,7 @@ function App() {
     useEffect(() => {
         if (!config) return;
 
-        if (config.DEVICE_ID !== undefined) {
+        if (config.DEVICE_ID !== null) {
             localStorage.setItem('deviceId', config.DEVICE_ID);
             return;
         }
