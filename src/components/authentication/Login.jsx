@@ -1,14 +1,17 @@
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import AuthService from "../../services/AuthService.jsx";
+import ConfigContext from "../../provider/ConfigProvider.jsx";
 
-function Login({ checkAuthentication }){
+function Login({ setIsAuthenticated }){
+    const config = useContext(ConfigContext);
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const sendLoginRequest = async () => {
         try {
-            const response = await fetch('https://localhost:8000/login', {
+            const response = await fetch(`${config.API_URL}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,17 +25,19 @@ function Login({ checkAuthentication }){
             if (!response.ok) {
                 console.error('Login failed');
                 navigate("/login");
+                return;
             }
 
             const data = await response.json();
-            console.log('Response:', data);
 
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
 
-            await checkAuthentication();
+            await AuthService.checkAuthentication(config);
 
-            navigate("/dashboard");
+            setIsAuthenticated(true);
+
+            navigate("/admin");
         } catch (error) {
             console.error('Error during login:', error);
             navigate("/login");
@@ -58,7 +63,7 @@ function Login({ checkAuthentication }){
                         <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <input type="username" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="username" required
+                                <input type="email" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="username" required
                                        value={email}
                                        onChange={(e) => setEmail(e.target.value)}/>
                             </div>
