@@ -1,5 +1,5 @@
 import './App.css'
-import {BrowserRouter, Navigate, Route, Routes, useNavigate} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Login from "./components/authentication/Login.jsx";
 import {useContext, useEffect, useState} from "react";
@@ -63,7 +63,7 @@ function App() {
                 </Routes>
             </BrowserRouter>
 
-            <ToastContainer />
+            <ToastContainer stacked />
         </>
     )
 }
