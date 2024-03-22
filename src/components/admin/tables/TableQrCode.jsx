@@ -1,9 +1,9 @@
-import React, {useRef} from 'react';
+import {useRef} from 'react';
 import {Link} from "react-router-dom";
 import QRCode from "react-qr-code";
 import {ReactToPrint} from "react-to-print";
 
-function TableQrCode({table, config, handleDelete, setIsAuthenticated}) {
+function TableQrCode({table, config, handleDelete}) {
     const printRef = useRef();
 
     return (
