@@ -11,10 +11,28 @@ import ConfigContext from "./provider/ConfigProvider.jsx";
 import TablesCreate from "./components/admin/tables/TablesCreate.jsx";
 import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
 import {ToastContainer} from "react-toastify";
+import CartOverview from "./components/cart/CartOverview.jsx";
+import { v4 } from 'uuid';
+import Root from "./components/Root.jsx";
+import AdminRoot from "./components/AdminRoot.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        if (!config) return;
+
+        if (config.DEVICE_ID !== undefined) {
+            localStorage.setItem('deviceId', config.DEVICE_ID);
+            return;
+        }
+
+        if (!localStorage.getItem('deviceId')) {
+            const newDeviceId = v4();
+            localStorage.setItem('deviceId', newDeviceId);
+        }
+    }, [config]);
 
     useEffect(() => {
         if (config){
@@ -30,17 +48,22 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />}/>
-                    <Route path="/table/:id" element={<ScannedTable />} />
+                    <Route path="/" element={<Root/>}>
+                        <Route path="" element={<Home />}/>
+                        <Route path="cart" element={<CartOverview />}/>
+                        <Route path="table/:id" element={<ScannedTable />} />
+                    </Route>
 
                     {/*AUTH*/}
                     <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} /> } />
 
                     {/*ADMIN*/}
-                    <Route path={"/admin"} element={isAuthenticated ? <Dashboard setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />}/>
-                    <Route path={"/admin/tables"} element={isAuthenticated ? <Tables setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path={"/admin/tables/create"} element={isAuthenticated ? <TablesCreate setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path={"/admin/tables/:id/edit"} element={isAuthenticated ? <TablesEdit setIsAuthenticated={setIsAuthenticated} /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path={"/admin"} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated}/> : <Navigate to="/login" />}>
+                        <Route path={""} element={<Dashboard setIsAuthenticated={setIsAuthenticated} />}/>
+                        <Route path={"tables"} element={<Tables setIsAuthenticated={setIsAuthenticated} />} />
+                        <Route path={"tables/create"} element={<TablesCreate setIsAuthenticated={setIsAuthenticated} />} />
+                        <Route path={"tables/:id/edit"} element={<TablesEdit setIsAuthenticated={setIsAuthenticated} />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
 
