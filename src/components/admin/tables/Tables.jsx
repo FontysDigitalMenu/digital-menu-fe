@@ -56,7 +56,7 @@ function Tables({setIsAuthenticated}) {
 
     return (
         <>
-            <SideNav setIsAuthenticated={setIsAuthenticated} />
+            <SideNav setIsAuthenticated={setIsAuthenticated}/>
 
             <div className="p-4 sm:ml-64">
                 <ButtonCreateNew text={"Create new"} navigateUrl={"/admin/tables/create"} />
