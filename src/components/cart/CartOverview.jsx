@@ -73,6 +73,8 @@ function CartOverview() {
 
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
+            <Nav />
+
             <div>
                 <div className="mt-6 w-full flex justify-center">
                     <div className="w-96 md:w-[500px]">
