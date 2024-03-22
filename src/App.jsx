@@ -1,5 +1,5 @@
 import './App.css'
-import {BrowserRouter, Navigate, Route, Routes, useNavigate} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Login from "./components/authentication/Login.jsx";
 import {useContext, useEffect, useState} from "react";
@@ -11,6 +11,7 @@ import ConfigContext from "./provider/ConfigProvider.jsx";
 import TablesCreate from "./components/admin/tables/TablesCreate.jsx";
 import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
 import {ToastContainer} from "react-toastify";
+import CartOverview from "./components/cart/CartOverview.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
@@ -31,6 +32,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Home />}/>
+                    <Route path="/cart" element={<CartOverview />}/>
                     <Route path="/table/:id" element={<ScannedTable />} />
 
                     {/*AUTH*/}
