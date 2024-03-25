@@ -15,6 +15,7 @@ import CartOverview from "./components/cart/CartOverview.jsx";
 import { v4 } from 'uuid';
 import AdminRoot from "./components/AdminRoot.jsx";
 import Root from "./components/Root.jsx";
+import OrderProgress from "./components/order/OrderProgress.jsx"
 
 function App() {
     const config = useContext(ConfigContext);
@@ -52,6 +53,11 @@ function App() {
                         <Route path="" element={<Home />} />
                         <Route path="cart" element={<CartOverview />} />
                         <Route path="table/:id" element={<ScannedTable />} />
+                    </Route>
+
+                    <Route path="/order" element={<Root/>}>
+                        <Route path="confirmation" element={<Home />} />
+                        <Route path="progress" element={<OrderProgress />} />
                     </Route>
 
                     {/*AUTH*/}
