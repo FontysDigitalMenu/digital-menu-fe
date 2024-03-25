@@ -56,7 +56,6 @@ function App() {
                     </Route>
 
                     <Route path="/order" element={<Root/>}>
-                        <Route path="confirmation" element={<Home />} />
                         <Route path="progress" element={<OrderProgress />} />
                     </Route>
 
