@@ -1,12 +1,13 @@
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Spinner from "../../elements/Spinner.jsx";
 import TableQrCode from "./TableQrCode.jsx";
 import ToastNotification from "../../notifications/ToastNotification.jsx";
 import ButtonCreateNew from "../../elements/ButtonCreateNew.jsx";
 import ConfigContext from "../../../provider/ConfigProvider.jsx";
 import AuthService from "../../../services/AuthService.jsx";
+import SideNav from "../../navigation/SideNav.jsx";
 
-function Tables() {
+function Tables({setIsAuthenticated}) {
     const config = useContext(ConfigContext);
     const [tables, setTables] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +56,8 @@ function Tables() {
 
     return (
         <>
+            <SideNav setIsAuthenticated={setIsAuthenticated}/>
+
             <div className="p-4 sm:ml-64">
                 <ButtonCreateNew text={"Create new"} navigateUrl={"/admin/tables/create"} />
                 <h1>Tables</h1>

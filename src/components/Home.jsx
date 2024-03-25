@@ -2,6 +2,7 @@ import { useContext, useEffect, useState, useRef } from "react";
 import ConfigContext from "../provider/ConfigProvider.jsx";
 import ToastNotification from "./notifications/ToastNotification.jsx";
 import {Link} from "react-router-dom";
+import Nav from "./navigation/Nav.jsx";
 
 function Home() {
     const config = useContext(ConfigContext);
@@ -114,6 +115,7 @@ function Home() {
 
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
+            <Nav />
 
             <div className="min-h-screen flex flex-col bg-gray-50">
                 <div className="p-2 md:p-4">

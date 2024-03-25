@@ -1,12 +1,13 @@
-import {useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import ButtonSubmit from "../../elements/ButtonSubmit.jsx";
 import ToastNotification from "../../notifications/ToastNotification.jsx";
 import ButtonCancel from "../../elements/ButtonCancel.jsx";
 import ConfigContext from "../../../provider/ConfigProvider.jsx";
 import AuthService from "../../../services/AuthService.jsx";
+import SideNav from "../../navigation/SideNav.jsx";
 
-function TablesCreate() {
+function TablesCreate({setIsAuthenticated}) {
     const navigate = useNavigate();
     const config = useContext(ConfigContext);
     const [tableForm, setTableForm] = useState({
@@ -45,6 +46,8 @@ function TablesCreate() {
 
     return (
         <>
+            <SideNav setIsAuthenticated={setIsAuthenticated} />
+
             <div className="p-4 sm:ml-64">
                 <form onSubmit={submitTable} className={"flex flex-col gap-y-2"}>
                     <div>

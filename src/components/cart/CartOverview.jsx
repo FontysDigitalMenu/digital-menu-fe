@@ -7,7 +7,7 @@ import ToastNotification from "../notifications/ToastNotification.jsx";
 function CartOverview() {
     const config = useContext(ConfigContext);
     const [isLoading, setIsLoading] = useState(false);
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItemCollection, setCartItemCollection] = useState();
 
     useEffect(() => {
         if (!config) return;
@@ -27,7 +27,9 @@ function CartOverview() {
 
         if (response.status === 200) {
             const data = await response.json();
-            setCartItems(data.cartItems);
+            setCartItemCollection(data);
+        } else if (response.status === 404) {
+            setCartItemCollection(null);
         }
     }
 
@@ -73,6 +75,8 @@ function CartOverview() {
 
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
+            <Nav/>
+
             <div>
                 <div className="mt-6 w-full flex justify-center">
                     <div className="w-96 md:w-[500px]">
@@ -81,7 +85,7 @@ function CartOverview() {
                         </div>
                         <div className="min-h-screen flex flex-col px-2">
                             {
-                                cartItems.map((cartItem) => {
+                                cartItemCollection && cartItemCollection.cartItems.map((cartItem) => {
                                     return (
                                         <div key={cartItem.id}
                                              className="product-card w-full h-24 md:h-28 mx-auto bg-gray-100 shadow-lg rounded-xl flex mt-5">
@@ -107,16 +111,16 @@ function CartOverview() {
                                                 <div className="size-full flex items-center justify-center p-2">
                                                     <div
                                                         className="count-box rounded-md overflow-hidden bg-white h-8 w-full flex text-lg">
-                                                        <button onClick={() => handleMinus(cartItem.id)}
-                                                            className="w-1/3 h-full bg-gray-300 font-bold flex items-center justify-center">
+                                                        <button onClick={() => handleMinus(cartItem.menuItem.id)}
+                                                                className="w-1/3 h-full bg-gray-300 font-bold flex items-center justify-center">
                                                             -
                                                         </button>
                                                         <div
                                                             className="w-1/3 font-bold flex items-center justify-center">
                                                             {cartItem.quantity}
                                                         </div>
-                                                        <button onClick={() => handlePlus(cartItem.id)}
-                                                            className="w-1/3 h-full bg-gray-300 font-bold flex items-center justify-center">
+                                                        <button onClick={() => handlePlus(cartItem.menuItem.id)}
+                                                                className="w-1/3 h-full bg-gray-300 font-bold flex items-center justify-center">
                                                             +
                                                         </button>
                                                     </div>
@@ -128,9 +132,16 @@ function CartOverview() {
                             }
                         </div>
 
-                        <div className="bottom-box w-full pt-3 sticky bottom-0 left-0" style={{backgroundColor: "rgb(255,255,255,.8)"}}>
+                        <div className="bottom-box w-full pt-3 sticky bottom-0 left-0"
+                             style={{backgroundColor: "rgb(255,255,255,.8)"}}>
                             <div className="total-box h-1/2 flex items-center justify-center text-2xl font-bold">
-                                Your Total: €3,00
+                                Your Total: &nbsp;
+                                {
+                                    new Intl.NumberFormat('nl-NL', {
+                                        style: 'currency',
+                                        currency: 'EUR'
+                                    }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)
+                                }
                             </div>
                             <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center">
                                 <button
