@@ -13,6 +13,8 @@ import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
 import {ToastContainer} from "react-toastify";
 import CartOverview from "./components/cart/CartOverview.jsx";
 import { v4 } from 'uuid';
+import AdminRoot from "./components/AdminRoot.jsx";
+import Root from "./components/Root.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
@@ -46,18 +48,22 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />}/>
-                    <Route path="/cart" element={<CartOverview />}/>
-                    <Route path="/table/:id" element={<ScannedTable />} />
+                    <Route path="/" element={<Root/>}>
+                        <Route path="" element={<Home />} />
+                        <Route path="cart" element={<CartOverview />} />
+                        <Route path="table/:id" element={<ScannedTable />} />
+                    </Route>
 
                     {/*AUTH*/}
                     <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} /> } />
 
                     {/*ADMIN*/}
-                    <Route path={"/admin"} element={isAuthenticated ? <Dashboard setIsAuthenticated={setIsAuthenticated} /> : <Navigate to='/login'/> }/>
-                    <Route path={"/admin/tables"} element={isAuthenticated ? <Tables setIsAuthenticated={setIsAuthenticated} /> : <Navigate to='/login'/> }/>
-                    <Route path={"/admin/tables/create"} element={isAuthenticated ? <TablesCreate setIsAuthenticated={setIsAuthenticated} /> : <Navigate to='/login'/>}/>
-                    <Route path={"/admin/tables/:id/edit"} element={isAuthenticated ? <TablesEdit setIsAuthenticated={setIsAuthenticated} /> : <Navigate to='/login'/>}/>
+                    <Route path={"/admin"} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />}>
+                        <Route path={""} element={<Dashboard />}/>
+                        <Route path={"tables"} element={<Tables />} />
+                        <Route path={"tables/create"} element={<TablesCreate />} />
+                        <Route path={"tables/:id/edit"} element={<TablesEdit />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
 
