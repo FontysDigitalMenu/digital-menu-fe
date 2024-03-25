@@ -134,23 +134,18 @@ function Home() {
                             </div>
                             <div className="mt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
                                 {category.menuItemViewModels.map((menuItem) => (
-                                    <div key={menuItem.id} className="flex flex-col justify-between bg-white shadow-lg rounded-lg p-4">
+                                    <Link to={`/menu/${menuItem.id}`} key={menuItem.id} className="flex flex-col justify-between bg-white shadow-lg rounded-lg p-4">
                                         <div>
                                             <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl} alt={menuItem.name}/>
-                                            <div key={menuItem.id}
-                                                 className="flex items-center justify-between pt-2 font-medium text-lg">
+                                            <div key={menuItem.id} className="flex items-center justify-between pt-2 font-medium text-lg">
                                                 <p>{menuItem.name}</p>
-                                                <p>{new Intl.NumberFormat('nl-NL', {
-                                                    style: 'currency',
-                                                    currency: 'EUR'
-                                                }).format(menuItem.price / 100)}</p>
+                                                <p>{new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(menuItem.price / 100)}</p>
                                             </div>
                                         </div>
-                                        <button onClick={() => handleAddToOrder(menuItem.id)}
-                                            className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        <button onClick={() => handleAddToOrder(menuItem.id)} className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                             Add to order
                                         </button>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                         </div>

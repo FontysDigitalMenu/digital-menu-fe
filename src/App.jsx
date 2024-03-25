@@ -13,6 +13,8 @@ import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
 import {ToastContainer} from "react-toastify";
 import CartOverview from "./components/cart/CartOverview.jsx";
 import { v4 } from 'uuid';
+import MenuItemDetails from "./components/MenuItemDetails.jsx";
+import CartItemEdit from "./components/CartItemEdit.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
@@ -47,6 +49,8 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Home />}/>
+                    <Route path="/menu/:id" element={<MenuItemDetails />} />
+                    <Route path="/cartItem/edit/:id" element={<CartItemEdit />} />
                     <Route path="/cart" element={<CartOverview />}/>
                     <Route path="/table/:id" element={<ScannedTable />} />
 
