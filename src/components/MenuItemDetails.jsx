@@ -46,7 +46,7 @@ function MenuItemDetails() {
                 body: JSON.stringify({
                     menuItemId: id,
                     deviceId: localStorage.getItem("deviceId"),
-                    note: document.getElementById('note').value,
+                    note: document.getElementById('note').value === "" ? undefined : document.getElementById('note').value,
                     excludedIngredients: selectedIngredients.map(ingredient => ingredient.name)
                 }),
             });
@@ -63,8 +63,6 @@ function MenuItemDetails() {
 
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
-            <Nav />
-
             <div className="min-h-screen flex flex-col bg-gray-50">
                 <div className="p-2 md:p-4">
                     <div>
