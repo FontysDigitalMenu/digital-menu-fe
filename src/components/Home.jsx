@@ -48,7 +48,7 @@ function Home() {
     const fetchCategories = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${config.API_URL}/api/v1/MenuItem/Paged/GetCategories?lastId=${lastId}&amount=6`);
+            const response = await fetch(`${config.API_URL}/api/v1/MenuItem/GetCategories?lastId=${lastId}&amount=6`);
 
             if (!response.ok) {
                 console.error("Failed to fetch categories");
