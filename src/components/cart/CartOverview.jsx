@@ -1,7 +1,5 @@
 import {useContext, useEffect, useState} from "react";
 import ConfigContext from "../../provider/ConfigProvider.jsx";
-
-import Nav from "../navigation/Nav.jsx";
 import ToastNotification from "../notifications/ToastNotification.jsx";
 import {Link} from "react-router-dom";
 
@@ -74,6 +72,28 @@ function CartOverview() {
         }
     }
 
+    async function handleCheckout() {
+        const response = await fetch(`${config.API_URL}/api/v1/Order`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify({
+                deviceId: localStorage.getItem("deviceId"),
+                tableId: localStorage.getItem("tableId"),
+            }),
+        });
+
+        if (response.status === 201) {
+            const data = await response.json();
+            window.location.href = data.redirectUrl;
+        } else if (response.status === 400) {
+        } else if (response.status === 404) {
+        } else if (response.status === 500) {
+        }
+    }
+
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
 
@@ -89,7 +109,7 @@ function CartOverview() {
                                     return (
                                         <div key={cartItem.id} className="bg-gray-100 shadow-lg mt-5 rounded-xl">
                                             <div
-                                                 className="product-card w-full h-24 md:h-28 mx-auto flex">
+                                                className="product-card w-full h-24 md:h-28 mx-auto flex">
                                                 <div className="image-box h-full flex items-center justify-center">
                                                     <div className="ml-2.5 w-20 bg-white rounded-xl">
                                                         <img className="rounded-xl object-cover aspect-square"
@@ -155,8 +175,8 @@ function CartOverview() {
                                 }
                             </div>
                             <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center">
-                                <button
-                                    className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                                <button onClick={handleCheckout}
+                                        className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                                     Checkout Order
                                 </button>
                             </div>
