@@ -35,14 +35,14 @@ function CartOverview() {
     }
 
     async function handlePlus(id) {
-        const response = await fetch(`${config.API_URL}/api/v1/CartItem`, {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem/plus`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             },
             body: JSON.stringify({
-                menuItemId: id,
+                cartItemId: id,
                 deviceId: localStorage.getItem("deviceId"),
             }),
         });
@@ -55,14 +55,14 @@ function CartOverview() {
     }
 
     async function handleMinus(id) {
-        const response = await fetch(`${config.API_URL}/api/v1/CartItem`, {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem/minus`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             },
             body: JSON.stringify({
-                menuItemId: id,
+                cartItemId: id,
                 deviceId: localStorage.getItem("deviceId"),
             }),
         });
@@ -113,7 +113,7 @@ function CartOverview() {
                                                     <div className="size-full flex items-center justify-center p-2">
                                                         <div
                                                             className="count-box rounded-md overflow-hidden bg-white h-8 w-full flex text-lg">
-                                                            <button onClick={() => handleMinus(cartItem.menuItem.id)}
+                                                            <button onClick={() => handleMinus(cartItem.id)}
                                                                     className="w-1/3 h-full bg-gray-300 font-bold flex items-center justify-center">
                                                                 -
                                                             </button>
@@ -121,7 +121,7 @@ function CartOverview() {
                                                                 className="w-1/3 font-bold flex items-center justify-center">
                                                                 {cartItem.quantity}
                                                             </div>
-                                                            <button onClick={() => handlePlus(cartItem.menuItem.id)}
+                                                            <button onClick={() => handlePlus(cartItem.id)}
                                                                     className="w-1/3 h-full bg-gray-300 font-bold flex items-center justify-center">
                                                                 +
                                                             </button>
@@ -130,14 +130,14 @@ function CartOverview() {
                                                 </div>
                                             </div>
 
-                                            {cartItem.note &&
-                                                <div className="px-3 pb-3 pt-4 flex justify-between w-full">
+                                            <div className="px-3 pb-3 pt-4 flex justify-between w-full">
+                                                {cartItem.note &&
                                                     <p>{cartItem.note}</p>
-                                                    <Link to={`/cartItem/edit/${cartItem.id}`}>
-                                                        <p className="text-blue-500">View details</p>
-                                                    </Link>
-                                                </div>
-                                            }
+                                                }
+                                                <Link to={`/cartItem/edit/${cartItem.id}`} className="w-full">
+                                                    <p className="text-blue-500 flex justify-end">View details</p>
+                                                </Link>
+                                            </div>
                                         </div>
                                     )
                                 })
