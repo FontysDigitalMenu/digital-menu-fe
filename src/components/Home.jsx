@@ -115,7 +115,6 @@ function Home() {
 
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
-            <Nav />
 
             <div className="min-h-screen flex flex-col bg-gray-50">
                 <div className="p-2 md:p-4">
