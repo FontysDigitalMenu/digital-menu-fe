@@ -17,6 +17,7 @@ import MenuItemDetails from "./components/MenuItemDetails.jsx";
 import CartItemEdit from "./components/CartItemEdit.jsx";
 import AdminRoot from "./components/AdminRoot.jsx";
 import Root from "./components/Root.jsx";
+import OrderProgress from "./components/order/OrderProgress.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
@@ -37,7 +38,7 @@ function App() {
     }, [config]);
 
     useEffect(() => {
-        if (config){
+        if (config) {
             AuthService.checkAuthentication(config).then(isAuthenticated => setIsAuthenticated(isAuthenticated));
 
             if (!isAuthenticated){
@@ -57,6 +58,10 @@ function App() {
                         <Route path="cartItem/edit/:id" element={<CartItemEdit />} />
                         <Route path="cart" element={<CartOverview />} />
                         <Route path="table/:id" element={<ScannedTable />} />
+                    </Route>
+
+                    <Route path="/order" element={<Root/>}>
+                        <Route path="progress/:orderId" element={<OrderProgress/>}/>
                     </Route>
 
                     {/*AUTH*/}
