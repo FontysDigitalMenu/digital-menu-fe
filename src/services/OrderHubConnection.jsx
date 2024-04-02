@@ -4,7 +4,7 @@ let connection;
 
 export function startConnection(backendUrl) {
     connection = new HubConnectionBuilder()
-        .withUrl(`${backendUrl}/orderHub`, {})
+        .withUrl(`${backendUrl}/api/orderHub`, {})
         .withAutomaticReconnect()
         .build();
 
