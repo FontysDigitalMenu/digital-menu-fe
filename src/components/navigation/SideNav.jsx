@@ -25,6 +25,7 @@ function SideNav({setIsAuthenticated}) {
                     <ul className="space-y-2 font-medium text-lg">
                         <NavBarItem href={'/admin'} icon={'home'} text={'Home'} />
                         <NavBarItem href={'/admin/tables'} icon={'table_restaurant'} text={'Tables'} />
+                        <NavBarItem href={'/admin/receiveOrder'} icon={'table_restaurant'} text={'receiveOrder'} />
                     </ul>
                     <ul className="space-y-2 font-medium text-lg">
                         <LogoutButton onClick={logout} />
