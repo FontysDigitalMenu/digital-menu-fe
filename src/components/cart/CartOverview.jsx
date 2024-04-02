@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useLayoutEffect, useState} from "react";
 import ConfigContext from "../../provider/ConfigProvider.jsx";
 import ToastNotification from "../notifications/ToastNotification.jsx";
 import {Link} from "react-router-dom";
@@ -12,6 +12,10 @@ function CartOverview() {
         if (!config) return;
         fetchCartItems().then(r => r);
     }, [config]);
+
+    useLayoutEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     async function fetchCartItems() {
         setIsLoading(true);
