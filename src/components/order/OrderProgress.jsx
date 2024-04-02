@@ -37,7 +37,7 @@ function OrderProgress() {
                 <div className="mt-6 w-full flex justify-center">
                     <div className="w-96 md:w-[500px]">
                         <div className="title-box text-6xl font-bold w-full px-2 mb-6">
-                            <p className="text-center">Thank you for your order!</p>
+                            <p className="text-center">{order && order.paymentStatus === "Paid" ? "Thank you for your order!" : "Processing payment"}</p>
                         </div>
                         <div className="flex justify-start">
                             <img className="w-20" src={waiter} alt=""/>

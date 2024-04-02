@@ -17,6 +17,7 @@ import MenuItemDetails from "./components/MenuItemDetails.jsx";
 import CartItemEdit from "./components/CartItemEdit.jsx";
 import AdminRoot from "./components/AdminRoot.jsx";
 import Root from "./components/Root.jsx";
+import ReceiveOrder from "./ReceiveOrder.jsx";
 import OrderProgress from "./components/order/OrderProgress.jsx";
 
 function App() {
@@ -26,8 +27,9 @@ function App() {
     useEffect(() => {
         if (!config) return;
 
-        if (config.DEVICE_ID !== null) {
+        if (config.DEVICE_ID !== null || config.TABLE_ID !== null) {
             localStorage.setItem('deviceId', config.DEVICE_ID);
+            localStorage.setItem('tableId', config.TABLE_ID);
             return;
         }
 
@@ -73,6 +75,8 @@ function App() {
                         <Route path={"tables"} element={<Tables />} />
                         <Route path={"tables/create"} element={<TablesCreate />} />
                         <Route path={"tables/:id/edit"} element={<TablesEdit />} />
+                        <Route path={"receiveOrder"} element={<ReceiveOrder />} />
+
                     </Route>
                 </Routes>
             </BrowserRouter>
