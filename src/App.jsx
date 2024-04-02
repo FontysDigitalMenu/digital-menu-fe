@@ -2,6 +2,7 @@ import './App.css'
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Login from "./components/authentication/Login.jsx";
+import Orders from "./components/staff/Orders.jsx";
 import {useContext, useEffect, useState} from "react";
 import Dashboard from "./components/admin/Dashboard.jsx";
 import AuthService from "./services/AuthService.jsx";
@@ -52,6 +53,10 @@ function App() {
                         <Route path="" element={<Home />} />
                         <Route path="cart" element={<CartOverview />} />
                         <Route path="table/:id" element={<ScannedTable />} />
+                    </Route>
+
+                    <Route path="/staff">
+                        <Route path="orders" element={<Orders />} />
                     </Route>
 
                     {/*AUTH*/}
