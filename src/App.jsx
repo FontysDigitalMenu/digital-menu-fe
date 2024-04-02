@@ -13,11 +13,13 @@ import TablesEdit from "./components/admin/tables/TablesEdit.jsx";
 import {ToastContainer} from "react-toastify";
 import CartOverview from "./components/cart/CartOverview.jsx";
 import { v4 } from 'uuid';
+import MenuItemDetails from "./components/MenuItemDetails.jsx";
+import CartItemEdit from "./components/CartItemEdit.jsx";
 import AdminRoot from "./components/AdminRoot.jsx";
 import Root from "./components/Root.jsx";
 import ReceiveOrder from "./ReceiveOrder.jsx";
 import SendOrder from "./SendOrder.jsx";
-
+import OrderProgress from "./components/order/OrderProgress.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
@@ -38,7 +40,7 @@ function App() {
     }, [config]);
 
     useEffect(() => {
-        if (config){
+        if (config) {
             AuthService.checkAuthentication(config).then(isAuthenticated => setIsAuthenticated(isAuthenticated));
 
             if (!isAuthenticated){
@@ -51,11 +53,17 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
+
                     <Route path="/" element={<Root/>}>
                         <Route path="" element={<Home />} />
+                        <Route path="menu/:id" element={<MenuItemDetails />} />
+                        <Route path="cartItem/edit/:id" element={<CartItemEdit />} />
                         <Route path="cart" element={<CartOverview />} />
                         <Route path="table/:id" element={<ScannedTable />} />
-                        <Route path="sendOrder" element={<SendOrder />} />
+                    </Route>
+
+                    <Route path="/order" element={<Root/>}>
+                        <Route path="progress/:orderId" element={<OrderProgress/>}/>
                     </Route>
 
                     {/*AUTH*/}
