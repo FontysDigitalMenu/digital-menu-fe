@@ -1,16 +1,14 @@
 import { HubConnectionBuilder } from '@microsoft/signalr';
 
-const connection = new HubConnectionBuilder()
-    .withUrl(`https://localhost:8000/orderHub`, {})
-    .withAutomaticReconnect()
-    .build();
+let connection;
 
-export function startConnection() {
+export function startConnection(backendUrl) {
+    connection = new HubConnectionBuilder()
+        .withUrl(`${backendUrl}/orderHub`, {})
+        .withAutomaticReconnect()
+        .build();
+
     return connection.start();
-}
-
-export function sendOrder(order) {
-    return connection.invoke('SendOrder', order);
 }
 
 export function startListen(callback) {

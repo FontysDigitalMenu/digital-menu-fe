@@ -18,7 +18,6 @@ import CartItemEdit from "./components/CartItemEdit.jsx";
 import AdminRoot from "./components/AdminRoot.jsx";
 import Root from "./components/Root.jsx";
 import ReceiveOrder from "./ReceiveOrder.jsx";
-import SendOrder from "./SendOrder.jsx";
 import OrderProgress from "./components/order/OrderProgress.jsx";
 
 function App() {

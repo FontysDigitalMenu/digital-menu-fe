@@ -3,12 +3,11 @@ import {startConnection, startListen, stopListen} from "./services/OrderHubConne
 import ConfigContext from "./provider/ConfigProvider.jsx";
 
 function ReceiveOrder() {
-    const [receivedOrder, setReceivedOrder] = useState(null);
     const config = useContext(ConfigContext);
-    const [orders, setOrders] = useState(null);
+    const [orders, setOrders] = useState([]);
+
     function handleReceivedOrder(order) {
         console.log(order)
-        setReceivedOrder(order);
         setOrders(prevOrders => [...prevOrders, order]);
     }
 
@@ -34,9 +33,12 @@ function ReceiveOrder() {
     }, [config]);
 
     useEffect(() => {
+        if (!config) return;
+
         const connect = async () => {
             try {
-                await startConnection();
+                console.log('Trying to connect to hub...');
+                await startConnection(config.API_URL);
                 console.log('SignalR Connected!');
                 startListen(handleReceivedOrder);
             } catch (error) {
@@ -48,7 +50,7 @@ function ReceiveOrder() {
         return()=>{
             stopListen();
         }
-    }, []);
+    }, [config]);
 
     return (
         <>
@@ -61,7 +63,12 @@ function ReceiveOrder() {
                                 <p>Order ID: {order.id}</p>
                                 <p>Table ID: {order.tableId}</p>
                                 <p>Status: {order.status}</p>
-                                <p>Total Amount: ${order.totalAmount}</p>
+                                <p>Total Amount:
+                                    {new Intl.NumberFormat('nl-NL', {
+                                        style: 'currency',
+                                        currency: 'EUR'
+                                    }).format(order.totalAmount / 100)}
+                                </p>
                                 <p>Menu Items:</p>
                                 <ul>
                                     {order.menuItems.map((item) => (
