@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import ConfigContext from "../provider/ConfigProvider.jsx";
-import Nav from "./navigation/Nav.jsx";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ToastNotification from "./notifications/ToastNotification.jsx";
 
 function MenuItemDetails() {
     const { id } = useParams();
+    const navigate = useNavigate()
     const config = useContext(ConfigContext);
     const [menuItem, setMenuItem] = useState(null);
 
@@ -53,6 +53,7 @@ function MenuItemDetails() {
 
             if (response.status === 204) {
                 ToastNotification("success", "Added item to order");
+                navigate("/");
             } else {
                 ToastNotification("error", "Failed to add menu item");
             }
@@ -66,6 +67,21 @@ function MenuItemDetails() {
             <div className="min-h-screen flex flex-col bg-gray-50">
                 <div className="p-2 md:p-4">
                     <div>
+                        <div className="px-2 pt-4">
+                            <button
+                                className=" py-2.5 px-5 rounded-lg"
+                                style={{
+                                    boxShadow: "0px 0px 6px rgba(0, 0, 0, 0.1)"
+                                }}
+                                onClick={() => navigate('/')}>
+                                <div className="flex gap-2 pt-1">
+                                    <span className="material-symbols-outlined">
+                                        arrow_back
+                                    </span>
+                                    <p className="text-lg font-medium">Back</p>
+                                </div>
+                            </button>
+                        </div>
                         <div className="pt-10">
                             <div className="px-8 md:px-16 md:flex justify-center">
                                 <div className="flex flex-col md:w-[800px]">

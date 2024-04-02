@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState, useRef } from "react";
+import {useContext, useEffect, useState, useRef, useLayoutEffect} from "react";
 import ConfigContext from "../provider/ConfigProvider.jsx";
 import ToastNotification from "./notifications/ToastNotification.jsx";
 import {Link} from "react-router-dom";
-import Nav from "./navigation/Nav.jsx";
 
 function Home() {
     const config = useContext(ConfigContext);
@@ -10,10 +9,18 @@ function Home() {
     const [lastId, setLastId] = useState(0);
     const [loading, setLoading] = useState(false);
     const observer = useRef();
+    const isFirstRun = useRef(true);
+
+    useLayoutEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
-        if (config) {
-            fetchCategories().then(r => r);
+        if (isFirstRun.current) {
+            if (config) {
+                fetchCategories().then(r => r);
+                isFirstRun.current = false;
+            }
         }
     }, [config]);
 
@@ -118,9 +125,11 @@ function Home() {
 
             <div className="min-h-screen flex flex-col bg-gray-50">
                 <div className="p-2 md:p-4">
-                    <div className="mb-8 flex md:flex-row items-center w-full overflow-y-auto" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+                    <div className="mb-8 flex md:flex-row items-center w-full overflow-y-auto"
+                         style={{scrollbarWidth: "none", msOverflowStyle: "none"}}>
                         {categories.map((category) => (
-                            <a key={category.id} href={`#${category.name}`} className="cursor-pointer bg-gray-300 py-0.5 px-8 mx-1 mt-2 md:mt-0 text-2xl rounded-xl text-white">
+                            <a key={category.id} href={`#${category.name}`}
+                               className="cursor-pointer bg-gray-300 py-0.5 px-8 mx-1 mt-2 md:mt-0 text-2xl rounded-xl text-white">
                                 {category.name}
                             </a>
                         ))}
@@ -133,15 +142,22 @@ function Home() {
                             </div>
                             <div className="mt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
                                 {category.menuItemViewModels.map((menuItem) => (
-                                    <div key={menuItem.id} className="flex flex-col justify-between bg-white shadow-lg rounded-lg p-4">
+                                    <div key={menuItem.id}
+                                         className="flex flex-col justify-between bg-white shadow-lg rounded-lg p-4">
                                         <Link to={`/menu/${menuItem.id}`}>
-                                            <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl} alt={menuItem.name}/>
-                                            <div key={menuItem.id} className="flex items-center justify-between pt-2 font-medium text-lg">
+                                            <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl}
+                                                 alt={menuItem.name}/>
+                                            <div key={menuItem.id}
+                                                 className="flex items-center justify-between pt-2 font-medium text-lg">
                                                 <p>{menuItem.name}</p>
-                                                <p>{new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(menuItem.price / 100)}</p>
+                                                <p>{new Intl.NumberFormat('nl-NL', {
+                                                    style: 'currency',
+                                                    currency: 'EUR'
+                                                }).format(menuItem.price / 100)}</p>
                                             </div>
                                         </Link>
-                                        <button onClick={() => handleAddToOrder(menuItem.id)} className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        <button onClick={() => handleAddToOrder(menuItem.id)}
+                                                className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                             Add to order
                                         </button>
                                     </div>
@@ -150,13 +166,14 @@ function Home() {
                         </div>
                     ))}
 
-                    <div id="bottom-of-page" style={{ height: "1px" }}></div>
+                    <div id="bottom-of-page" style={{height: "1px"}}></div>
                 </div>
             </div>
 
-            <div className="bottom-box w-full sticky bottom-0 left-0">
-                <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center">
-                    <Link to="/cart" className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+            <div className="bottom-box w-full sticky bottom-0 left-0" style={{backgroundColor: "rgb(255,255,255,.8)"}}>
+                <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
+                    <Link to="/cart"
+                          className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                         View order
                     </Link>
                 </div>
@@ -164,4 +181,5 @@ function Home() {
         </div>
     );
 }
+
 export default Home;
