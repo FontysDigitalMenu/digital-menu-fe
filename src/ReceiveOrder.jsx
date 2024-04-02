@@ -18,7 +18,8 @@ function ReceiveOrder() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem('accessToken'),
                 },
             });
 
@@ -73,7 +74,11 @@ function ReceiveOrder() {
                                 <ul>
                                     {order.menuItems.map((item) => (
                                         <li key={item.id}>
-                                            {item.name} - ${item.price}
+                                            {item.name} -
+                                            {new Intl.NumberFormat('nl-NL', {
+                                                style: 'currency',
+                                                currency: 'EUR'
+                                            }).format(item.price / 100)}
                                         </li>
                                     ))}
                                 </ul>
