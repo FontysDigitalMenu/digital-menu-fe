@@ -27,8 +27,9 @@ function App() {
     useEffect(() => {
         if (!config) return;
 
-        if (config.DEVICE_ID !== null) {
+        if (config.DEVICE_ID !== null || config.TABLE_ID !== null) {
             localStorage.setItem('deviceId', config.DEVICE_ID);
+            localStorage.setItem('tableId', config.TABLE_ID);
             return;
         }
 
