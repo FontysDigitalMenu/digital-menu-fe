@@ -22,7 +22,7 @@ import OrderProgress from "./components/order/OrderProgress.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     useEffect(() => {
         if (!config) return;
@@ -76,7 +76,6 @@ function App() {
                         <Route path={"tables/create"} element={<TablesCreate />} />
                         <Route path={"tables/:id/edit"} element={<TablesEdit />} />
                         <Route path={"receiveOrder"} element={<ReceiveOrder />} />
-
                     </Route>
                 </Routes>
             </BrowserRouter>
