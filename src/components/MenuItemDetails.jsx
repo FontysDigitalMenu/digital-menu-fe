@@ -113,7 +113,7 @@ function MenuItemDetails() {
                                                             {menuItem.ingredients.map((ingredient) => (
                                                                 <div key={ingredient.id}>
                                                                     <div className="flex pb-2">
-                                                                        <input defaultChecked type="checkbox" id={`ingredient-${ingredient.id}`}  className="w-8 h-8 shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
+                                                                        <input defaultChecked type="checkbox" id={`ingredient-${ingredient.id}`}  className="w-8 h-8 shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" />
                                                                         <label htmlFor={`ingredient-${ingredient.id}`} className="ml-3 mt-2">{ingredient.name}</label>
                                                                     </div>
                                                                 </div>
