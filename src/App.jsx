@@ -23,7 +23,7 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     useEffect(() => {
         if (!config) return;
