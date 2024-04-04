@@ -2,7 +2,7 @@ import './App.css'
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Login from "./components/authentication/Login.jsx";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useLayoutEffect, useState} from "react";
 import Dashboard from "./components/admin/Dashboard.jsx";
 import AuthService from "./services/AuthService.jsx";
 import Tables from "./components/admin/tables/Tables";
@@ -19,10 +19,11 @@ import AdminRoot from "./components/AdminRoot.jsx";
 import Root from "./components/Root.jsx";
 import ReceiveOrder from "./ReceiveOrder.jsx";
 import OrderProgress from "./components/order/OrderProgress.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     useEffect(() => {
         if (!config) return;
@@ -49,36 +50,40 @@ function App() {
         }
     }, [config]);
 
+
+
     return (
         <>
             <BrowserRouter>
-                <Routes>
+                <ScrollToTop>
+                    <Routes>
 
-                    <Route path="/" element={<Root/>}>
-                        <Route path="" element={<Home />} />
-                        <Route path="menu/:id" element={<MenuItemDetails />} />
-                        <Route path="cartItem/edit/:id" element={<CartItemEdit />} />
-                        <Route path="cart" element={<CartOverview />} />
-                        <Route path="table/:id" element={<ScannedTable />} />
-                    </Route>
+                        <Route path="/" element={<Root/>}>
+                            <Route path="" element={<Home />} />
+                            <Route path="menu/:id" element={<MenuItemDetails />} />
+                            <Route path="cartItem/edit/:id" element={<CartItemEdit />} />
+                            <Route path="cart" element={<CartOverview />} />
+                            <Route path="table/:id" element={<ScannedTable />} />
+                        </Route>
 
-                    <Route path="/order" element={<Root/>}>
-                        <Route path="progress/:orderId" element={<OrderProgress/>}/>
-                    </Route>
+                        <Route path="/order" element={<Root/>}>
+                            <Route path="progress/:orderId" element={<OrderProgress/>}/>
+                        </Route>
 
-                    {/*AUTH*/}
-                    <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} /> } />
+                        {/*AUTH*/}
+                        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} /> } />
 
-                    {/*ADMIN*/}
-                    <Route path={"/admin"} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />}>
-                        <Route path={""} element={<Dashboard />}/>
-                        <Route path={"tables"} element={<Tables />} />
-                        <Route path={"tables/create"} element={<TablesCreate />} />
-                        <Route path={"tables/:id/edit"} element={<TablesEdit />} />
-                        <Route path={"receiveOrder"} element={<ReceiveOrder />} />
+                        {/*ADMIN*/}
+                        <Route path={"/admin"} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />}>
+                            <Route path={""} element={<Dashboard />}/>
+                            <Route path={"tables"} element={<Tables />} />
+                            <Route path={"tables/create"} element={<TablesCreate />} />
+                            <Route path={"tables/:id/edit"} element={<TablesEdit />} />
+                            <Route path={"receiveOrder"} element={<ReceiveOrder />} />
 
-                    </Route>
-                </Routes>
+                        </Route>
+                    </Routes>
+                </ScrollToTop>
             </BrowserRouter>
 
             <ToastContainer stacked />

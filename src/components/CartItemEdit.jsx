@@ -120,7 +120,7 @@ function CartItemEdit() {
                                                                         <input
                                                                             defaultChecked={!cartItemWithExcludedIngredients.excludedIngredients.some(excluded => excluded.id === ingredient.id)}
                                                                             type="checkbox"
-                                                                            className="w-8 h-8 shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                                                            className="w-8 h-8 shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                                                             id={`ingredient-checkbox-${ingredient.id}`}
                                                                         />
                                                                         <label htmlFor={`ingredient-checkbox-${ingredient.id}`} className="ml-3 mt-2">{ingredient.name}</label>
