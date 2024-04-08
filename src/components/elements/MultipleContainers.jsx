@@ -1,4 +1,4 @@
-import {useContext, useEffect, useMemo, useState} from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
@@ -52,14 +52,18 @@ const defaultTasks = [
   },
 ];
 
-function MultipleContainers() {
+function MultipleContainers({ orders }) {
   const config = useContext(ConfigContext);
   const [columns, setColumns] = useState(defaultCols);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
-  const [tasks, setTasks] = useState(defaultTasks);
+  const [tasks, setTasks] = useState();
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
-  const [order, setOrder] = useState([]);
+  useEffect(() => {
+    console.log(orders);
+
+    setTasks();
+  }, [orders]);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -77,37 +81,6 @@ function MultipleContainers() {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
-  useEffect(() => {
-    if (config){
-      fetchOrders().then((r) => r);
-    }
-  }, [config]);
-
-  const fetchOrders = async () => {
-    try {
-      const response = await fetch(`${config.API_URL}/api/v1/order/paid`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer " + localStorage.getItem("accessToken"),
-        },
-      });
-
-      if (!response.ok) {
-        ToastNotification("error", "Failed to fetch orders");
-        return;
-      }
-
-      const data = await response.json();
-      console.log(data);
-      setOrder(data);
-    } catch(e) {
-      ToastNotification("error", "Failed to fetch orders");
-      console.error(e);
-    }
-  };
 
   return (
     <div className="flex w-full items-center overflow-x-auto overflow-y-hidden pt-10">
