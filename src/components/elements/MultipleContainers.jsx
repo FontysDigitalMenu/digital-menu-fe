@@ -1,5 +1,4 @@
-import PlusIcon from "../icons/PlusIcon";
-import { useEffect, useMemo, useState } from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
@@ -18,6 +17,7 @@ import {
 import { createPortal } from "react-dom";
 import TaskCard from "./SortableItem";
 import ToastNotification from "../notifications/ToastNotification";
+import ConfigContext from "../../provider/ConfigProvider.jsx";
 
 const defaultCols = [
   {
@@ -53,6 +53,7 @@ const defaultTasks = [
 ];
 
 function MultipleContainers() {
+  const config = useContext(ConfigContext);
   const [columns, setColumns] = useState(defaultCols);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
   const [tasks, setTasks] = useState(defaultTasks);
@@ -78,8 +79,10 @@ function MultipleContainers() {
   );
 
   useEffect(() => {
-    fetchOrders().then((r) => r);
-  }, []);
+    if (config){
+      fetchOrders().then((r) => r);
+    }
+  }, [config]);
 
   const fetchOrders = async () => {
     try {
@@ -87,8 +90,8 @@ function MultipleContainers() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+          "Accept": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("accessToken"),
         },
       });
 
@@ -100,8 +103,9 @@ function MultipleContainers() {
       const data = await response.json();
       console.log(data);
       setOrder(data);
-    } catch {
+    } catch(e) {
       ToastNotification("error", "Failed to fetch orders");
+      console.error(e);
     }
   };
 
