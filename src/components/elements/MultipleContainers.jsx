@@ -73,9 +73,9 @@ function MultipleContainers() {
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <div className="mx-auto flex gap-4">
-          <div className="flex gap-4">
-            <SortableContext items={columnsId}>
+        <div className="mx-auto flex gap-4 w-full px-2">
+          <div className="flex gap-4 w-full">
+            <SortableContext items={columnsId} className="cursor-default w-full">
               {columns.map((col) => (
                 <ColumnContainer key={col.id} column={col}
                   deleteTask={deleteTask} updateTask={updateTask} tasks={tasks.filter((task) => task.columnId === col.id)}
@@ -116,39 +116,40 @@ function MultipleContainers() {
   }
 
   function onDragStart(event) {
-    if (event.active.data.current?.type === "Column") {
-      setActiveColumn(event.active.data.current.column);
+    const isTaskDrag = event.active.data.current?.type === "Task";
+    if (!isTaskDrag) {
+      event.cancel();
       return;
     }
-
-    if (event.active.data.current?.type === "Task") {
-      setActiveTask(event.active.data.current.task);
-    }
+  
+    setActiveTask(event.active.data.current.task);
   }
 
   function onDragEnd(event) {
-    setActiveColumn(null);
     setActiveTask(null);
-
+  
     const { active, over } = event;
     if (!over) return;
-
+  
     const activeId = active.id;
     const overId = over.id;
-
-    if (activeId === overId) return;
-
-    const isActiveAColumn = active.data.current?.type === "Column";
-    if (!isActiveAColumn) return;
-
-    // console.log("DRAG END");
-
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
-
-      const overColumnIndex = columns.findIndex((col) => col.id === overId);
-
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
+  
+    const isActiveATask = active.data.current?.type === "Task";
+    const isOverATask = over.data.current?.type === "Task";
+    const isOverAColumn = over.data.current?.type === "Column";
+  
+    if (!isActiveATask || !isOverATask) return;
+  
+    setTasks((tasks) => {
+      const activeIndex = tasks.findIndex((t) => t.id === activeId);
+      const overIndex = tasks.findIndex((t) => t.id === overId);
+  
+      if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
+        tasks[activeIndex].columnId = tasks[overIndex].columnId;
+        return arrayMove(tasks, activeIndex, overIndex - 1);
+      }
+  
+      return arrayMove(tasks, activeIndex, overIndex);
     });
   }
 

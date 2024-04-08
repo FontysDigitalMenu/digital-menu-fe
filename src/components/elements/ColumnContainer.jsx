@@ -31,10 +31,10 @@ function ColumnContainer({column, tasks, deleteTask, updateTask}) {
   }
 
   return (
-    <div ref={setNodeRef} style={style} className="bg-columnBackgroundColor w-[500px] h-[600px] max-h-[600px] rounded-lg
+    <div ref={setNodeRef} style={style} className="bg-columnBackgroundColor w-[300px] md:w-1/3 min-h-[500px] rounded-lg
     flex flex-col">
       <div {...attributes} {...listeners}
-        className="bg-mainBackgroundColor text-md h-[60px] cursor-grab rounded-md rounded-b-none p-3 font-bold
+        className="bg-mainBackgroundColor text-md h-[60px] cursor-default rounded-md rounded-b-none p-3 font-bold
             border-columnBackgroundColor border-4 flex items-center justify-between">
         <div className="flex gap-2">
             <p className="text-white bg-black">{column.title}</p>
@@ -42,11 +42,11 @@ function ColumnContainer({column, tasks, deleteTask, updateTask}) {
       </div>
 
       <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
-        <SortableContext items={tasksIds}>
+        <div items={tasksIds}>
           {tasks.map((task) => (
             <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask}/>
           ))}
-        </SortableContext>
+        </div>
       </div>
     </div>
   );
