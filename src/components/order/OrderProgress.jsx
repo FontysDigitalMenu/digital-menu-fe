@@ -126,7 +126,8 @@ function OrderProgress() {
                     <div>
                         <p className="text-2xl md:text-4xl font-bold flex justify-center">Page not found!</p>
 
-                        <img className="pt-6 px-6 md:px-0 w-full h-full md:h-[400px] md:w-[400px]" src={pageNotFoundImage} alt="" />
+                        <img className="pt-6 px-6 md:px-0 w-full h-full md:h-[400px] md:w-[400px]"
+                             src={pageNotFoundImage} alt=""/>
                     </div>
                 </div>
             }
