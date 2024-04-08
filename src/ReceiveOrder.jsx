@@ -1,13 +1,18 @@
 import {useContext, useEffect, useState} from "react";
 import {startConnection, startListen, stopListen} from "./services/OrderHubConnection.jsx";
 import ConfigContext from "./provider/ConfigProvider.jsx";
-
+import notification from "./assets/notification.mp3"
+import orderNotification from "./assets/order-sound-effect.mp3"
+import toastNotification from "./components/notifications/ToastNotification.jsx";
 function ReceiveOrder() {
     const config = useContext(ConfigContext);
     const [orders, setOrders] = useState([]);
 
     function handleReceivedOrder(order) {
         console.log(order)
+        const audio = new Audio(orderNotification);
+        audio.play();
+        toastNotification("success", "Received order")
         setOrders(prevOrders => [...prevOrders, order]);
     }
 
@@ -25,6 +30,7 @@ function ReceiveOrder() {
 
             if (response.status === 200) {
                 const data = await response.json();
+                console.log(data);
                 setOrders(data);
             } else if (response.status === 404) {
                 setOrders(null);
@@ -57,29 +63,27 @@ function ReceiveOrder() {
         <>
             <div className="p-4 sm:ml-64">
                 <h2>Received Orders</h2>
-                {orders  !== null ? (
+                {orders !== null ? (
                     <div>
                         {orders.map((order, index) => (
                             <div key={index} className="mb-4">
-                                <p>Order ID: {order.id}</p>
-                                <p>Table ID: {order.tableId}</p>
-                                <p>Status: {order.status}</p>
-                                <p>Total Amount:
-                                    {new Intl.NumberFormat('nl-NL', {
-                                        style: 'currency',
-                                        currency: 'EUR'
-                                    }).format(order.totalAmount / 100)}
-                                </p>
-                                <p>Menu Items:</p>
-                                <ul>
+                                <p>Order: {order.id}</p>
+                                <ul className="list-none p-0">
                                     {order.menuItems.map((item) => (
-                                        <li key={item.id}>
-                                            {item.name} -
-                                            {new Intl.NumberFormat('nl-NL', {
-                                                style: 'currency',
-                                                currency: 'EUR'
+                                        <>
+                                            <li key={item.id} className="border border-black rounded mb-2">
+                                                <div className="flex justify-between items-center">
+                                        <span>
+                                            {item.quantity} | {item.name} -{" "}
+                                            {new Intl.NumberFormat("nl-NL", {
+                                                style: "currency",
+                                                currency: "EUR",
                                             }).format(item.price / 100)}
-                                        </li>
+                                        </span>
+                                                </div>
+                                            </li>
+                                            {item.note && <li className="border border-black rounded mb-2">{item.note}</li>}
+                                        </>
                                     ))}
                                 </ul>
                             </div>
@@ -89,8 +93,8 @@ function ReceiveOrder() {
                     <p>No orders received yet.</p>
                 )}
             </div>
-
         </>
+
     );
 }
 
