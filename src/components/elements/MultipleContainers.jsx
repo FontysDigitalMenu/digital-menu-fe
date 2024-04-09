@@ -21,34 +21,16 @@ import ConfigContext from "../../provider/ConfigProvider.jsx";
 
 const defaultCols = [
   {
-    id: "todo",
+    id: "Pending",
     title: "Pending",
   },
   {
-    id: "doing",
+    id: "Processing",
     title: "Processing",
   },
   {
-    id: "done",
+    id: "Completed",
     title: "Completed",
-  },
-];
-
-const defaultTasks = [
-  {
-    id: "1",
-    columnId: "todo",
-    content: "This is task number 1",
-  },
-  {
-    id: "2",
-    columnId: "todo",
-    content: "This is task number 2",
-  },
-  {
-    id: "3",
-    columnId: "todo",
-    content: "This is task number 3",
   },
 ];
 
@@ -56,14 +38,25 @@ function MultipleContainers({ orders }) {
   const config = useContext(ConfigContext);
   const [columns, setColumns] = useState(defaultCols);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
-  const [tasks, setTasks] = useState();
+  const [tasks, setTasks] = useState([]);
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
   useEffect(() => {
     console.log(orders);
-
-    setTasks();
+    transformOrder(orders);
   }, [orders]);
+
+  function transformOrder(orders) {
+    let newTasks = [];
+    orders.forEach((order) => {
+      newTasks.push({
+        id: order.id,
+        columnId: order.status,
+        order: order,
+      });
+    });
+    setTasks(newTasks);
+  }
 
   const sensors = useSensors(
     useSensor(MouseSensor, {

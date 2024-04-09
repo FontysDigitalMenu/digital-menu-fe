@@ -3,7 +3,6 @@ import { useSortable } from "@dnd-kit/sortable";
 
 function SortableItem({ task }) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
-  const [editMode, setEditMode] = useState(false);
 
   const {
     setNodeRef,
@@ -28,11 +27,6 @@ function SortableItem({ task }) {
       : "none",
   };
 
-  const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
-    setMouseIsOver(false);
-  };
-
   return (
     <div
       ref={setNodeRef}
@@ -53,21 +47,12 @@ function SortableItem({ task }) {
         setMouseIsOver(false);
       }}
     >
-      {editMode ? (
-        <textarea
-          className="h-[90%] w-full resize-none border-none rounded bg-transparent text-white focus:outline-none"
-          autoFocus
-          onBlur={toggleEditMode}
-          defaultValue={task.content}
-        />
-      ) : (
-        <p
-          aria-disabled
-          className="my-auto h-[90%] text-white w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap"
-        >
-          {task.content}
-        </p>
-      )}
+      <p
+        aria-disabled
+        className="my-auto h-[90%] text-white w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap"
+      >
+        {task.order.id}
+      </p>
     </div>
   );
 }
