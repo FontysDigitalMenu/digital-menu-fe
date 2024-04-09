@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 
-function SortableItem({ order }) {
+function SortableItem({ task }) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   const {
     setNodeRef,
@@ -12,10 +13,10 @@ function SortableItem({ order }) {
     transition,
     isDragging,
   } = useSortable({
-    id: order.id,
+    id: task.order.id,
     data: {
       type: "Task",
-      order,
+      task,
     },
     disabled: false,
   });
@@ -27,14 +28,19 @@ function SortableItem({ order }) {
       : "none",
   };
 
+  const toggleEditMode = () => {
+    setEditMode((prev) => !prev);
+    setMouseIsOver(false);
+  };
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className={`bg-gray-400 p-2.5 items-center flex text-left
-            rounded-xl cursor-grab relative ${isDragging ? "opacity-30" : ""}
+      className={`bg-white p-2.5 items-center flex text-left
+            rounded-xl cursor-grab relative border-2 border-black mb-3 ${isDragging ? "opacity-30" : ""}
             ${
               mouseIsOver
                 ? "hover:ring-2 hover:ring-inset hover:ring-red-500"
@@ -47,18 +53,26 @@ function SortableItem({ order }) {
         setMouseIsOver(false);
       }}
     >
+      {editMode ? (
+        <textarea
+          className="w-full resize-none border-none rounded bg-transparent text-white focus:outline-none "
+          autoFocus
+          onBlur={toggleEditMode}
+          defaultValue={task.content}
+        />
+      ) : (
       <div
         aria-disabled
         className="my-auto text-black w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap"
       >
        
-                                <p>Order: {order.id}</p>
+                                <p className="mb-2 font-bold">Order: {task.order.orderNumber}</p>
                                 <ul className="list-none p-0">
-                                    {order.menuItems.map((item) => (
+                                    {task.order.menuItems.map((item) => (
                                         <div key={item.id}>
                                             <li key={item.id} className="border border-black rounded mb-2">
                                                 <div className="flex justify-between items-center">
-                                        <span>
+                                        <span className="pl-2">
                                             {item.quantity} | {item.name} -{" "}
                                             {new Intl.NumberFormat("nl-NL", {
                                                 style: "currency",
@@ -72,7 +86,10 @@ function SortableItem({ order }) {
                                     ))}
                                 </ul>
                     </div>
+      )}
             </div>
+                                  
+            
   );
 }
 

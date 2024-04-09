@@ -35,7 +35,7 @@ function ColumnContainer({ column, tasks, deleteTask, updateTask }) {
       <div
         ref={setNodeRef}
         style={style}
-        className="bg-columnBackgroundColor opacity-40 border-2 border-pink-500
+        className="bg-columnBackgroundColor opacity-40 border-2 border-red-500
       w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"
       ></div>
     );
@@ -45,17 +45,17 @@ function ColumnContainer({ column, tasks, deleteTask, updateTask }) {
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-gray-400 w-[300px] md:w-1/3 min-h-[500px] rounded-lg
+      className="bg-gray-200 w-[300px] md:w-1/3 min-h-[500px] rounded-lg
     flex flex-col"
     >
       <div
         {...attributes}
         {...listeners}
-        className="bg-gray-400 text-md h-[60px] cursor-default rounded-md rounded-b-none p-3 font-bold
-            border-gray-400 border-4 flex items-center justify-between"
+        className=" bg-gray-200 text-md h-[60px] cursor-default rounded-md rounded-b-none p-3 font-bold
+            border-gray-200 border-4 flex items-center justify-between"
       >
         <div className="flex gap-2">
-          <p className=" bg-gray-400">{column.title}</p>
+          <p className=" bg-gray-200">{column.title}</p>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ function ColumnContainer({ column, tasks, deleteTask, updateTask }) {
           {tasks.map((task) => (
             <SortableItem
               key={task.id}
-              order={task.order}
+              task={task}
             />
           ))}
         </div>

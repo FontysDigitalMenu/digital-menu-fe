@@ -15,9 +15,9 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
-import TaskCard from "./SortableItem";
 import ToastNotification from "../notifications/ToastNotification";
 import ConfigContext from "../../provider/ConfigProvider.jsx";
+import SortableItem from "./SortableItem";
 
 const defaultCols = [
   {
@@ -105,7 +105,7 @@ function MultipleContainers({ orders }) {
         {createPortal(
           <DragOverlay>
             {activeTask && (
-              <TaskCard
+              <SortableItem
                 task={activeTask}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
