@@ -1,13 +1,13 @@
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import AuthService from "../../services/AuthService.jsx";
-import ConfigContext from "../../provider/ConfigProvider.jsx";
+import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import AuthService from '../../services/AuthService.jsx'
+import ConfigContext from '../../provider/ConfigProvider.jsx'
 
-function Login({ setIsAuthenticated }){
-    const config = useContext(ConfigContext);
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+function Login({ setIsAuthenticated }) {
+    const config = useContext(ConfigContext)
+    const navigate = useNavigate()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     const sendLoginRequest = async () => {
         try {
@@ -18,38 +18,38 @@ function Login({ setIsAuthenticated }){
                 },
                 body: JSON.stringify({
                     email: email,
-                    password: password
+                    password: password,
                 }),
-            });
+            })
 
             if (!response.ok) {
-                console.error('Login failed');
-                navigate("/login");
-                return;
+                console.error('Login failed')
+                navigate('/login')
+                return
             }
 
-            const data = await response.json();
+            const data = await response.json()
 
-            localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('accessToken', data.accessToken)
+            localStorage.setItem('refreshToken', data.refreshToken)
 
-            await AuthService.checkAuthentication(config);
+            await AuthService.checkAuthentication(config)
 
-            setIsAuthenticated(true);
+            setIsAuthenticated(true)
 
-            navigate("/admin");
+            navigate('/admin')
         } catch (error) {
-            console.error('Error during login:', error);
-            navigate("/login");
+            console.error('Error during login:', error)
+            navigate('/login')
         }
-    };
+    }
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        await sendLoginRequest().then(r => r);
-    };
+        event.preventDefault()
+        await sendLoginRequest().then((r) => r)
+    }
 
-    return(
+    return (
         <div className="bg-gray-50">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900">
@@ -57,23 +57,41 @@ function Login({ setIsAuthenticated }){
                 </a>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                            Sign in to your account
-                        </h1>
+                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Sign in to your account</h1>
                         <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                             <div>
-                                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <input type="email" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="username" required
-                                       value={email}
-                                       onChange={(e) => setEmail(e.target.value)}/>
+                                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    name="username"
+                                    id="username"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    placeholder="username"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                             </div>
                             <div>
-                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required
-                                       value={password}
-                                       onChange={(e) => setPassword(e.target.value)}/>
+                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
+                                    Password
+                                </label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="••••••••"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
                             </div>
-                            <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
+                            <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Sign in
+                            </button>
                         </form>
                     </div>
                 </div>
