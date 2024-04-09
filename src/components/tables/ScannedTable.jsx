@@ -1,14 +1,14 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect} from "react";
+import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 function ScannedTable() {
-    const {id} = useParams();
-    const navigate = useNavigate();
+    const { id } = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
-        localStorage.setItem("tableId", id);
-        return navigate('/');
-    }, []);
+        localStorage.setItem('tableId', id)
+        return navigate('/')
+    }, [])
 }
 
-export default ScannedTable;
+export default ScannedTable

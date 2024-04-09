@@ -1,10 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom'
 
 function KitchenRoot({ setIsAuthenticated }) {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+    return (
+        <>
+            <Outlet />
+        </>
+    )
 }
-export default KitchenRoot;
+export default KitchenRoot

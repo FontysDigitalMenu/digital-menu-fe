@@ -10,7 +10,7 @@ function LogoutButton({ onClick }) {
                 </div>
             </button>
         </li>
-    );
+    )
 }
 
-export default LogoutButton;
+export default LogoutButton

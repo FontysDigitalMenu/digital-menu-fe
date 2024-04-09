@@ -1,0 +1,9 @@
+# Ignore everything recursively
+*
+
+# But not the .ts files
+!*.js
+!*.jsx
+
+# Check subdirectories too
+!*/
