@@ -20,6 +20,7 @@ import Root from "./components/Root.jsx";
 import ReceiveOrder from "./ReceiveOrder.jsx";
 import OrderProgress from "./components/order/OrderProgress.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import MyOrders from "./components/account/MyOrders.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
@@ -64,6 +65,7 @@ function App() {
                             <Route path="cartItem/edit/:id" element={<CartItemEdit />} />
                             <Route path="cart" element={<CartOverview />} />
                             <Route path="table/:id" element={<ScannedTable />} />
+                            <Route path="account/orders" element={<MyOrders />} />
                         </Route>
 
                         <Route path="/order" element={<Root/>}>
@@ -86,7 +88,7 @@ function App() {
                 </ScrollToTop>
             </BrowserRouter>
 
-            <ToastContainer stacked />
+            <ToastContainer stacked position={"top-center"} />
         </>
     )
 }
