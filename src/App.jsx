@@ -22,6 +22,7 @@ import ReceiveOrder from "./ReceiveOrder.jsx";
 import OrderProgress from "./components/order/OrderProgress.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import MyOrders from "./components/account/MyOrders.jsx";
+import KitchenRoot from "./components/KitchenRoot.jsx";
 
 function App() {
     const config = useContext(ConfigContext);
@@ -80,9 +81,7 @@ function App() {
                         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated}/>}/>
 
                         {/*ADMIN*/}
-                        <Route path={"/admin"}
-                               element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated}/> :
-                                   <Navigate to="/login"/>}>
+                        <Route path={"/admin"} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated}/> : <Navigate to="/login"/>}>
                             <Route path={""} element={<Dashboard/>}/>
                             <Route path={"tables"} element={<Tables/>}/>
                             <Route path={"tables/create"} element={<TablesCreate/>}/>
@@ -90,11 +89,9 @@ function App() {
                             <Route path={"receiveOrder"} element={<ReceiveOrder/>}/>
                         </Route>
 
-                        <Route path={"/kitchen"} element={isAuthenticated ? (<KitchenRoot setIsAuthenticated={setIsAuthenticated} />) : (<Navigate to="/login" />
-                                )
-                            }
-                        >
-                            <Route path={"receive/order"} element={<ReceiveOrder />} />
+                        {/*KITCHEN*/}
+                        <Route path={"/kitchen"} element={isAuthenticated ? (<KitchenRoot setIsAuthenticated={setIsAuthenticated}/>) : (<Navigate to="/login"/>)}>
+                            <Route path={"receive/order"} element={<ReceiveOrder/>}/>
                         </Route>
                     </Routes>
                 </ScrollToTop>
