@@ -72,16 +72,20 @@ function SortableItem({ task }) {
                                         <div key={item.id}>
                                             <li key={item.id} className="border border-black rounded mb-2">
                                                 <div className="flex justify-between items-center">
-                                        <span className="pl-2">
-                                            {item.quantity} | {item.name} -{" "}
-                                            {new Intl.NumberFormat("nl-NL", {
-                                                style: "currency",
-                                                currency: "EUR",
-                                            }).format(item.price / 100)}
+                                        <span className="flex">
+                                          <div className="w-7 border-r-2 border-black flex justify-center">
+                                            {item.quantity}
+                                          </div>
+                                          <div className="pl-2 flex flex-col">
+                                          <div>
+                                            {item.name}
+                                          </div>
+                                            {item.note && <li>{item.note}</li>}
+                                          </div>
+                                            
                                         </span>
                                                 </div>
                                             </li>
-                                            {item.note && <li className="border border-black rounded mb-2">{item.note}</li>}
                                         </div>
                                     ))}
                                 </ul>
