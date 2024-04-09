@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 
-function SortableItem({ task }) {
+function SortableItem({ order }) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
 
   const {
@@ -12,10 +12,10 @@ function SortableItem({ task }) {
     transition,
     isDragging,
   } = useSortable({
-    id: task.id,
+    id: order.id,
     data: {
       type: "Task",
-      task,
+      order,
     },
     disabled: false,
   });
@@ -33,11 +33,11 @@ function SortableItem({ task }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left
+      className={`bg-gray-400 p-2.5 items-center flex text-left
             rounded-xl cursor-grab relative ${isDragging ? "opacity-30" : ""}
             ${
               mouseIsOver
-                ? "hover:ring-2 hover:ring-inset hover:ring-rose-500"
+                ? "hover:ring-2 hover:ring-inset hover:ring-red-500"
                 : ""
             }`}
       onMouseEnter={() => {
@@ -47,13 +47,32 @@ function SortableItem({ task }) {
         setMouseIsOver(false);
       }}
     >
-      <p
+      <div
         aria-disabled
-        className="my-auto h-[90%] text-white w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap"
+        className="my-auto text-black w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap"
       >
-        {task.order.id}
-      </p>
-    </div>
+       
+                                <p>Order: {order.id}</p>
+                                <ul className="list-none p-0">
+                                    {order.menuItems.map((item) => (
+                                        <div key={item.id}>
+                                            <li key={item.id} className="border border-black rounded mb-2">
+                                                <div className="flex justify-between items-center">
+                                        <span>
+                                            {item.quantity} | {item.name} -{" "}
+                                            {new Intl.NumberFormat("nl-NL", {
+                                                style: "currency",
+                                                currency: "EUR",
+                                            }).format(item.price / 100)}
+                                        </span>
+                                                </div>
+                                            </li>
+                                            {item.note && <li className="border border-black rounded mb-2">{item.note}</li>}
+                                        </div>
+                                    ))}
+                                </ul>
+                    </div>
+            </div>
   );
 }
 

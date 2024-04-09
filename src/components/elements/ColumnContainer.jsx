@@ -1,7 +1,7 @@
 import TrashIcon from "../icons/TrashIcon";
 import { useMemo, useState } from "react";
 import PlusIcon from "../icons/PlusIcon";
-import TaskCard from "./SortableItem";
+import SortableItem from "./SortableItem";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -45,28 +45,26 @@ function ColumnContainer({ column, tasks, deleteTask, updateTask }) {
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-columnBackgroundColor w-[300px] md:w-1/3 min-h-[500px] rounded-lg
+      className="bg-gray-400 w-[300px] md:w-1/3 min-h-[500px] rounded-lg
     flex flex-col"
     >
       <div
         {...attributes}
         {...listeners}
-        className="bg-mainBackgroundColor text-md h-[60px] cursor-default rounded-md rounded-b-none p-3 font-bold
-            border-columnBackgroundColor border-4 flex items-center justify-between"
+        className="bg-gray-400 text-md h-[60px] cursor-default rounded-md rounded-b-none p-3 font-bold
+            border-gray-400 border-4 flex items-center justify-between"
       >
         <div className="flex gap-2">
-          <p className="text-white bg-black">{column.title}</p>
+          <p className=" bg-gray-400">{column.title}</p>
         </div>
       </div>
 
       <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
         <div items={tasksIds}>
           {tasks.map((task) => (
-            <TaskCard
+            <SortableItem
               key={task.id}
-              task={task}
-              deleteTask={deleteTask}
-              updateTask={updateTask}
+              order={task.order}
             />
           ))}
         </div>
