@@ -10,10 +10,8 @@ function Nav() {
             <Navbar.Toggle style={{ color: "white", backgroundColor: "#EF4444", outline: "0px solid", borderColor: "transparent", boxShadow: "none" }} />
             <Navbar.Collapse>
                 <div style={{ backgroundColor: "#EF4444" }} className="font-medium flex flex-col rounded-lg bg-gray-50 md:flex-row">
-                    <Navbar.Link as={Link} to="/" active className="flex rounded bg-red-500 text-white">About us</Navbar.Link>
-                    <Navbar.Link as={Link} to="/" active className="flex rounded bg-red-500 text-white">Contact</Navbar.Link>
-                    <Navbar.Link as={Link} to="/" active className="flex rounded bg-red-500 text-white">Privacy</Navbar.Link>
-                    <Navbar.Link as={Link} to="/" active className="flex rounded bg-red-500 text-white">Terms And Service</Navbar.Link>
+                    <Navbar.Link as={Link} to="/account/orders" active className="flex rounded bg-red-500 text-white">My Orders</Navbar.Link>
+                    <Navbar.Link as={Link} to="/cart" active className="flex rounded bg-red-500 text-white">View Order</Navbar.Link>
                 </div>
             </Navbar.Collapse>
         </Navbar>

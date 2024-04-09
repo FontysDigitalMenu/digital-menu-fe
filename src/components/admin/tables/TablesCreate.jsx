@@ -33,7 +33,7 @@ function TablesCreate() {
             body: JSON.stringify(tableForm),
         });
 
-        if (response.status === 204) {
+        if (response.status === 201) {
             ToastNotification('success', 'Created successfully');
 
             return navigate('/admin/tables')
