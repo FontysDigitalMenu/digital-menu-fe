@@ -65,7 +65,7 @@ function SortableItem({ task }) {
         aria-disabled
         className="my-auto text-black w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap"
       >
-       
+
                                 <p className="mb-2 font-bold">Order: {task.order.orderNumber}</p>
                                 <ul className="list-none p-0">
                                     {task.order.menuItems.map((item) => (
@@ -77,12 +77,26 @@ function SortableItem({ task }) {
                                             {item.quantity}
                                           </div>
                                           <div className="pl-2 flex flex-col">
-                                          <div>
-                                            {item.name}
+                                            <div>
+                                              {item.name}
+                                            </div>
+                                            <div>
+                                              {item.excludedIngredients.map((excludedIngredient) => {
+                                                return (
+                                                    <div className="flex gap-2 pt-2">
+                                                        <span className="material-symbols-outlined text-red-600">
+                                                            close
+                                                        </span>
+                                                      <p>{excludedIngredient.name}</p>
+                                                    </div>
+                                                )
+                                              })}
+                                            </div>
+                                            <div>
+                                               {item.note && <li>note: {item.note}</li>}
+                                            </div>
                                           </div>
-                                            {item.note && <li>{item.note}</li>}
-                                          </div>
-                                            
+
                                         </span>
                                                 </div>
                                             </li>
@@ -92,8 +106,8 @@ function SortableItem({ task }) {
                     </div>
       )}
             </div>
-                                  
-            
+
+
   );
 }
 

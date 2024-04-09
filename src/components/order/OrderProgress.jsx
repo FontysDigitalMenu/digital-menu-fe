@@ -100,6 +100,18 @@ function OrderProgress() {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div className="px-3 pb-3 flex flex-col">
+                                                    {menuItem.excludedIngredients.map((excludedIngredient) => {
+                                                        return (
+                                                            <div className="flex gap-2 pt-2">
+                                                                <span className="material-symbols-outlined text-red-600">
+                                                                    close
+                                                                </span>
+                                                                <p>{excludedIngredient.name}</p>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
                                                 <div className="px-3 pb-3 flex justify-between w-full">
                                                     {menuItem.note && (
                                                         <p className="pt-2">{menuItem.note}</p>
@@ -117,7 +129,7 @@ function OrderProgress() {
                                 }).format(order ? order.totalAmount / 100 : 0)}
                             </div>
                             <div className="title-box text-2xl font-bold w-full px-2 mt-4 mb-4">
-                                <p className="text-left">Order ID: {orderId}</p>
+                                <p className="text-left">Order Number: {order.orderNumber}</p>
                             </div>
                         </div>
                     </div>

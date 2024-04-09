@@ -15,7 +15,7 @@ function ReceiveOrder() {
 
   function handleReceivedOrder(order) {
     console.log(order);
-    const audio = new Audio(orderNotification);
+    const audio = new Audio(notification);
     audio.play();
     toastNotification("success", "Received order");
     setOrders((prevOrders) => [...prevOrders, order]);
@@ -66,39 +66,6 @@ function ReceiveOrder() {
   return (
     <>
       <MultipleContainers orders={orders} />
-
-      {/* <div className="p-4 sm:ml-64">
-                <h2>Received Orders</h2>
-                {orders !== null ? (
-                    <div>
-                        {orders.map((order, index) => (
-                            <div key={index} className="mb-4">
-                                <p>Order: {order.id}</p>
-                                <ul className="list-none p-0">
-                                    {order.menuItems.map((item) => (
-                                        <>
-                                            <li key={item.id} className="border border-black rounded mb-2">
-                                                <div className="flex justify-between items-center">
-                                        <span>
-                                            {item.quantity} | {item.name} -{" "}
-                                            {new Intl.NumberFormat("nl-NL", {
-                                                style: "currency",
-                                                currency: "EUR",
-                                            }).format(item.price / 100)}
-                                        </span>
-                                                </div>
-                                            </li>
-                                            {item.note && <li className="border border-black rounded mb-2">{item.note}</li>}
-                                        </>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p>No orders received yet.</p>
-                )}
-            </div> */}
     </>
   );
 }
