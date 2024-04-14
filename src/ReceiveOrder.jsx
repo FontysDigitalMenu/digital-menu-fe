@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 import { startConnection, startListen, stopListen } from './services/OrderHubConnection.jsx'
 import ConfigContext from './provider/ConfigProvider.jsx'
 import notification from './assets/notification.mp3'
-import orderNotification from './assets/order-sound-effect.mp3'
 import toastNotification from './components/notifications/ToastNotification.jsx'
 import MultipleContainers from './components/elements/MultipleContainers.jsx'
 function ReceiveOrder() {

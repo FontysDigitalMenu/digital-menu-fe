@@ -93,6 +93,10 @@ function CartOverview() {
             const data = await response.json()
             window.location.href = data.redirectUrl
         } else if (response.status === 400) {
+            const data = await response.json()
+            if (data.errors.TableId) {
+                ToastNotification('error', 'Please scan a table')
+            }
         } else if (response.status === 404) {
         } else if (response.status === 500) {
         }
