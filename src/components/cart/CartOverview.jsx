@@ -2,6 +2,7 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import ToastNotification from '../notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 function CartOverview() {
     const config = useContext(ConfigContext)
@@ -95,7 +96,9 @@ function CartOverview() {
         } else if (response.status === 400) {
             const data = await response.json()
             if (data.errors.TableId) {
-                ToastNotification('error', 'Please scan a table using your camera on your phone')
+                toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                    autoClose: 8000,
+                })
             }
         } else if (response.status === 404) {
         } else if (response.status === 500) {
