@@ -95,7 +95,7 @@ function CartOverview() {
         } else if (response.status === 400) {
             const data = await response.json()
             if (data.errors.TableId) {
-                ToastNotification('error', 'Please scan a table')
+                ToastNotification('error', 'Please scan a table using your camera on your phone')
             }
         } else if (response.status === 404) {
         } else if (response.status === 500) {
