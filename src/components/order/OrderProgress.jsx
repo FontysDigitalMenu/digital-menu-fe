@@ -8,6 +8,7 @@ function OrderProgress() {
     const config = useContext(ConfigContext);
     const {orderId} = useParams();
     const [order, setOrder] = useState();
+    const [loading, setLoading] = useState(true);
 
     console.log(orderId);
 
@@ -30,11 +31,14 @@ function OrderProgress() {
         } else if (response.status === 404) {
             setOrder(null);
         }
+
+        setLoading(false);
     }
 
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
-            {order ?
+            {!loading && (
+                order ?
                 <div>
                     <div className="mt-6 w-full flex justify-center">
                         <div className="w-96 md:w-[500px]">
@@ -141,7 +145,7 @@ function OrderProgress() {
                         <p className="text-4xl font-bold flex justify-center pt-2">Page not found!</p>
                     </div>
                 </div>
-            }
+            )}
         </div>
     );
 }
