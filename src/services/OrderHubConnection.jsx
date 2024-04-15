@@ -1,23 +1,20 @@
-import { HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnectionBuilder } from '@microsoft/signalr'
 
-let connection;
+let connection
 
 export function startConnection(backendUrl) {
-    connection = new HubConnectionBuilder()
-        .withUrl(`${backendUrl}/api/orderHub`, {})
-        .withAutomaticReconnect()
-        .build();
+    connection = new HubConnectionBuilder().withUrl(`${backendUrl}/api/orderHub`, {}).withAutomaticReconnect().build()
 
-    return connection.start();
+    return connection.start()
 }
 
 export function startListen(callback) {
-    connection.on("ReceiveOrder", (order) => {
-        console.log("Received order:", order);
-        callback(order);
-    });
+    connection.on('ReceiveOrder', (order) => {
+        console.log('Received order:', order)
+        callback(order)
+    })
 }
 
 export function stopListen() {
-    connection.off("ReceiveOrder");
+    connection.off('ReceiveOrder')
 }

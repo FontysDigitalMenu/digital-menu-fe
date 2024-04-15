@@ -1,11 +1,11 @@
-import {Outlet} from "react-router-dom";
-import Nav from "./navigation/Nav.jsx";
+import { Outlet } from 'react-router-dom'
+import Nav from './navigation/Nav.jsx'
 
-function Root(){
-    return(
+function Root() {
+    return (
         <>
-            <Nav/>
-            <Outlet/>
+            <Nav />
+            <Outlet />
         </>
     )
 }
