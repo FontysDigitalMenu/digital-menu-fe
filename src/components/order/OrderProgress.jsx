@@ -90,7 +90,7 @@ function OrderProgress() {
                                                 <div className="px-3 pb-3 flex flex-col">
                                                     {menuItem.excludedIngredients.map((excludedIngredient) => {
                                                         return (
-                                                            <div className="flex gap-2 pt-2">
+                                                            <div key={excludedIngredient.id} className="flex gap-2 pt-2">
                                                                 <span className="material-symbols-outlined text-red-600">close</span>
                                                                 <p>{excludedIngredient.name}</p>
                                                             </div>
