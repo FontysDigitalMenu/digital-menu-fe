@@ -61,8 +61,8 @@ function MultipleContainers({ orders }) {
     return (
         <div className="flex w-full items-center overflow-x-auto overflow-y-hidden pt-10">
             <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}>
-                <div className="mx-auto flex gap-4 w-full px-2">
-                    <div className="flex gap-4 w-full">
+                <div className="mx-auto flex gap-4 justify-center w-full px-2">
+                    <div className="flex gap-4 w-[60%]">
                         <SortableContext items={columnsId} className="cursor-default w-full">
                             {columns.map((col) => (
                                 <ColumnContainer key={col.id} column={col} deleteTask={deleteTask} updateTask={updateTask} tasks={tasks.filter((task) => task.columnId === col.id)} />
