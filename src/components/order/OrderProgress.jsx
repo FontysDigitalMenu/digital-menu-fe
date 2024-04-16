@@ -9,6 +9,7 @@ function OrderProgress() {
     const [order, setOrder] = useState()
     const [loading, setLoading] = useState(true)
     const [paymentStatusText, setPaymentStatusText] = useState('')
+    const [waiterPosition, setWaiterPosition] = useState('')
 
     useEffect(() => {
         if (!config) return
@@ -17,6 +18,18 @@ function OrderProgress() {
 
     useEffect(() => {
         if (order === undefined || order === null) return
+
+        switch (order.status) {
+            case 'Pending':
+                setWaiterPosition('justify-start')
+                break
+            case 'Processing':
+                setWaiterPosition('justify-center')
+                break
+            case 'Completed':
+                setWaiterPosition('justify-end')
+                break
+        }
 
         let tempPaymentStatusText = ''
 
@@ -67,24 +80,46 @@ function OrderProgress() {
             {!loading && order && order.paymentStatus === 'Paid' && (
                 <div>
                     <div className="mt-6 w-full flex justify-center">
-                        <div className="w-96 md:w-[500px]">
+                        <div className="w-[420px]">
                             <div className="title-box text-6xl font-bold w-full px-2 mb-6">
                                 <p className="text-center">{paymentStatusText}</p>
                             </div>
-                            <div className="flex justify-start">
+                            <div className={`flex ${waiterPosition}`}>
                                 <img className="w-20" src={waiter} alt="" />
                             </div>
-                            <div className="flex">
-                                <div className="rounded-l-lg h-[40px] w-[120px] bg-green-500"></div>
-                                <div
-                                    className="w-0 h-0
-                                  border-t-[20px] border-t-transparent
-                                  border-b-[20px] border-b-transparent
-                                  border-l-[30px] border-l-green-500
-                                  "
-                                ></div>
+
+                            <div className={'relative text-white'}>
+                                <div className="flex absolute w-full z-30">
+                                    <div className="rounded-l-lg h-[40px] w-[30%] bg-green-500 flex justify-end items-center pr-3">Received</div>
+                                    <div
+                                        className="w-0 h-0
+                                      border-t-[20px] border-t-transparent
+                                      border-b-[20px] border-b-transparent
+                                      border-l-[30px] border-l-green-500
+                                      "
+                                    ></div>
+                                </div>
+                                {(order.status === 'Processing' || order.status === 'Completed') && (
+                                    <div className="flex absolute w-full z-20">
+                                        <div className="rounded-l-lg h-[40px] w-2/3 bg-green-600 flex justify-end items-center pr-3">Processing</div>
+                                        <div
+                                            className="w-0 h-0
+                                          border-t-[20px] border-t-transparent
+                                          border-b-[20px] border-b-transparent
+                                          border-l-[30px] border-l-green-600
+                                          "
+                                        ></div>
+                                    </div>
+                                )}
+
+                                {order.status === 'Completed' && (
+                                    <div className="flex absolute w-full z-10">
+                                        <div className="rounded-l-lg h-[40px] w-full bg-green-700 flex justify-end items-center rounded pr-3">Done</div>
+                                    </div>
+                                )}
                             </div>
-                            <div className="total-box text-2xl font-bold w-full px-2 mt-4 mb-4 pt-4">
+
+                            <div className="total-box text-2xl font-bold w-full px-2 mt-8 mb-4 pt-4">
                                 Total: &nbsp;
                                 {new Intl.NumberFormat('nl-NL', {
                                     style: 'currency',

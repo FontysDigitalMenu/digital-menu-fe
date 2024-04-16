@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
 import ColumnContainer from './ColumnContainer'
 import { DndContext, DragOverlay, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
-import { SortableContext, arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
+import { arrayMove, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { createPortal } from 'react-dom'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import SortableItem from './SortableItem'
@@ -28,10 +28,29 @@ function MultipleContainers({ orders }) {
     const [tasks, setTasks] = useState([])
     const [activeColumn, setActiveColumn] = useState(null)
     const [activeTask, setActiveTask] = useState(null)
+
     useEffect(() => {
         console.log(orders)
         transformOrder(orders)
     }, [orders])
+
+    async function updateOrderStatus(orderId, status) {
+        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+            body: JSON.stringify({
+                orderStatus: status,
+            }),
+        })
+
+        if (response.status === 204) {
+            console.log('Updated')
+        }
+    }
 
     function transformOrder(orders) {
         let newTasks = []
@@ -109,6 +128,8 @@ function MultipleContainers({ orders }) {
 
         const { active, over } = event
         if (!over) return
+
+        updateOrderStatus(active.data.current.task.id, active.data.current.task.columnId)
 
         const activeId = active.id
         const overId = over.id
