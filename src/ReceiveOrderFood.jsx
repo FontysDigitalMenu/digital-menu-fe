@@ -19,7 +19,7 @@ function ReceiveOrder() {
     useEffect(() => {
         if (!config) return
         async function fetchPaidOrders() {
-            const response = await fetch(`${config.API_URL}/api/v1/Order/paid/all`, {
+            const response = await fetch(`${config.API_URL}/api/v1/Order/paid/food`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
