@@ -1,14 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import waiter from '../../assets/waiter.jpg'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 function OrderProgress() {
     const config = useContext(ConfigContext)
     const { orderId } = useParams()
     const [order, setOrder] = useState()
     const [loading, setLoading] = useState(true)
-    const [paymentStatusClass, setPaymentStatusClass] = useState('')
     const [paymentStatusText, setPaymentStatusText] = useState('')
 
     useEffect(() => {
@@ -17,40 +16,32 @@ function OrderProgress() {
     }, [config])
 
     useEffect(() => {
-        if (order === undefined) return
+        if (order === undefined || order === null) return
 
-        let tempPaymentStatusClass = ''
         let tempPaymentStatusText = ''
 
         switch (order.paymentStatus) {
             case 'Pending':
-                tempPaymentStatusClass = 'bg-yellow-300 text-yellow-900'
                 tempPaymentStatusText = 'Processing payment'
                 break
             case 'Paid':
-                tempPaymentStatusClass = 'bg-green-300 text-green-900'
                 tempPaymentStatusText = 'Thank you for your order!'
                 break
             case 'Canceled':
-                tempPaymentStatusClass = 'bg-red-300 text-red-900'
                 tempPaymentStatusText = 'Payment canceled'
                 break
             case 'Refund':
-                tempPaymentStatusClass = 'bg-purple-300 text-purple-900'
                 tempPaymentStatusText = 'Payment refunded'
                 break
             case 'Expired':
-                tempPaymentStatusClass = 'bg-orange-300 text-orange-900'
                 tempPaymentStatusText = 'Payment expired'
                 break
             default:
-                tempPaymentStatusClass = 'bg-gray-300 text-gray-900'
                 tempPaymentStatusText = 'Unknown payment error'
                 break
         }
 
         setPaymentStatusText(tempPaymentStatusText)
-        setPaymentStatusClass(tempPaymentStatusClass)
     }, [order])
 
     async function fetchOrder(orderId) {
@@ -93,6 +84,16 @@ function OrderProgress() {
                                   "
                                 ></div>
                             </div>
+                            <div className="total-box text-2xl font-bold w-full px-2 mt-4 mb-4 pt-4">
+                                Total: &nbsp;
+                                {new Intl.NumberFormat('nl-NL', {
+                                    style: 'currency',
+                                    currency: 'EUR',
+                                }).format(order ? order.totalAmount / 100 : 0)}
+                            </div>
+                            <div className="title-box text-2xl font-bold w-full px-2 mt-4 mb-4">
+                                <p className="text-left">Order Number: {order.orderNumber}</p>
+                            </div>
                             <div className="title-box text-2xl font-bold w-full px-2 mt-4">
                                 <p className="text-left">Overview</p>
                             </div>
@@ -129,7 +130,7 @@ function OrderProgress() {
                                                 <div className="px-3 pb-3 flex flex-col">
                                                     {menuItem.excludedIngredients.map((excludedIngredient) => {
                                                         return (
-                                                            <div className="flex gap-2 pt-2">
+                                                            <div key={excludedIngredient.id} className="flex gap-2 pt-2">
                                                                 <span className="material-symbols-outlined text-red-600">close</span>
                                                                 <p>{excludedIngredient.name}</p>
                                                             </div>
@@ -141,24 +142,40 @@ function OrderProgress() {
                                         )
                                     })}
                             </div>
-                            <div className="total-box text-2xl font-bold w-full px-2 mt-4 mb-4 pt-4">
-                                Total: &nbsp;
-                                {new Intl.NumberFormat('nl-NL', {
-                                    style: 'currency',
-                                    currency: 'EUR',
-                                }).format(order ? order.totalAmount / 100 : 0)}
-                            </div>
-                            <div className="title-box text-2xl font-bold w-full px-2 mt-4 mb-4">
-                                <p className="text-left">Order Number: {order.orderNumber}</p>
-                            </div>
                         </div>
                     </div>
                 </div>
             )}
 
-            {!loading && order && order.paymentStatus === 'Pending' && 'Processing payment'}
+            {!loading && order && order.paymentStatus === 'Pending' && (
+                <div>
+                    <div className="mt-6 w-full flex justify-center">
+                        <div className="w-96 md:w-[500px]">
+                            <div className="title-box text-6xl font-bold w-full px-2 mb-6">
+                                <p className="text-center">{paymentStatusText}</p>
+                            </div>
+                            <div className={'flex justify-center'}>Please wait and refresh this page to check the payment status</div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
-            {!loading && order && order.paymentStatus === 'Canceled' && 'Payment canceled please try again'}
+            {!loading && order && order.paymentStatus === 'Canceled' && (
+                <div>
+                    <div className="mt-6 w-full flex justify-center">
+                        <div className="w-96 md:w-[500px]">
+                            <div className="title-box text-6xl font-bold w-full px-2 mb-6">
+                                <p className="text-center">{paymentStatusText}</p>
+                            </div>
+                            <div className={'flex justify-center'}>
+                                <Link to={'/cart'} className={'flex items-center py-2 text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600'}>
+                                    Please try again
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {!loading && order === null && (
                 <div className="w-full flex justify-center items-center pt-20">
