@@ -1,4 +1,4 @@
-import MultipleContainers from '../elements/MultipleContainers';
+import MultipleContainers from '../elements/MultipleContainers'
 
 function Orders() {
     return (

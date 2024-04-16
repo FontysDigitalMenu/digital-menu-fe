@@ -1,10 +1,10 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom'
 import StaffNav from './navigation/StaffNav'
 
 function KitchenRoot({ setIsAuthenticated }) {
     return (
         <>
-            <StaffNav/>
+            <StaffNav />
             <Outlet />
         </>
     )
