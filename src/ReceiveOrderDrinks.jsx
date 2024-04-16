@@ -3,10 +3,7 @@ import { startConnection, startListen, stopListen } from './services/OrderHubCon
 import ConfigContext from './provider/ConfigProvider.jsx'
 import notification from './assets/notification.mp3'
 import toastNotification from './components/notifications/ToastNotification.jsx'
-import MultipleContainers from './components/elements/MultipleContainers.jsx'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUtensils } from '@fortawesome/free-solid-svg-icons'
-
+import MultipleContainersDrinks from './components/elements/MultipleContainersDrinks.jsx'
 function ReceiveOrder() {
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
@@ -22,7 +19,7 @@ function ReceiveOrder() {
     useEffect(() => {
         if (!config) return
         async function fetchPaidOrders() {
-            const response = await fetch(`${config.API_URL}/api/v1/Order/paid/all`, {
+            const response = await fetch(`${config.API_URL}/api/v1/Order/paid/drinks`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,10 +60,7 @@ function ReceiveOrder() {
 
     return (
         <>
-            <div className="title text-center text-2xl">
-                <FontAwesomeIcon icon={faUtensils} /> Kitchen
-            </div>
-            <MultipleContainers orders={orders} />
+            <MultipleContainersDrinks orders={orders} />
         </>
     )
 }
