@@ -3,7 +3,7 @@ import { startConnection, startListen, stopListen } from './services/OrderHubCon
 import ConfigContext from './provider/ConfigProvider.jsx'
 import notification from './assets/notification.mp3'
 import toastNotification from './components/notifications/ToastNotification.jsx'
-import MultipleContainers from './components/elements/MultipleContainers.jsx'
+import MultipleContainersDrinks from './components/elements/MultipleContainersDrinks.jsx'
 function ReceiveOrder() {
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
@@ -60,7 +60,7 @@ function ReceiveOrder() {
 
     return (
         <>
-            <MultipleContainers orders={orders} />
+            <MultipleContainersDrinks orders={orders} />
         </>
     )
 }
