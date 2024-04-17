@@ -29,6 +29,24 @@ function MultipleContainers({ orders }) {
         transformOrder(orders)
     }, [orders])
 
+    async function updateOrderStatus(orderId, status) {
+        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+            body: JSON.stringify({
+                orderStatus: status,
+            }),
+        })
+
+        if (response.status === 204) {
+            console.log('Updated')
+        }
+    }
+
     function transformOrder(orders) {
         let newTasks = []
         orders.forEach((order) => {
@@ -105,6 +123,8 @@ function MultipleContainers({ orders }) {
 
         const { active, over } = event
         if (!over) return
+
+        updateOrderStatus(active.data.current.task.id, active.data.current.task.columnId)
 
         const activeId = active.id
         const overId = over.id
