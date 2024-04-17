@@ -3,8 +3,10 @@ import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import CreatableSelect from 'react-select/creatable'
 import Select from 'react-select'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
+import { useNavigate } from 'react-router-dom'
 
 function MenuItemsCreate() {
+    const navigate = useNavigate()
     const config = useContext(ConfigContext)
     const [categories, setCategories] = useState([])
     const [ingredients, setIngredients] = useState([])
@@ -93,17 +95,22 @@ function MenuItemsCreate() {
             formData.append('name', menuData.name)
             formData.append('price', menuData.price)
             formData.append('description', menuData.description)
-            formData.append('categories', JSON.stringify(menuData.categories))
 
-            const ingredients = menuData.ingredients.map((ingredient) => ({
-                name: ingredient.ingredient.value,
-                amount: ingredient.amount,
-            }))
+            menuData.categories.forEach((category) => {
+                formData.append('categories', category.value)
+            })
 
-            const ingredientsString = JSON.stringify(ingredients)
+            const ingredientNames = menuData.ingredients.map((ingredient) => ingredient.ingredient.value)
+            const ingredientAmounts = menuData.ingredients.map((ingredient) => ingredient.amount)
 
-            console.log(ingredientsString)
-            formData.append('ingredients', ingredientsString)
+            ingredientNames.forEach((ingredientName) => {
+                formData.append('IngredientsName', ingredientName)
+            })
+
+            ingredientAmounts.forEach((amount) => {
+                formData.append('IngredientsAmount', amount)
+            })
+
             formData.append('image', menuData.image)
 
             console.log(formData)
@@ -115,8 +122,10 @@ function MenuItemsCreate() {
                 },
                 body: formData,
             })
-            if (response.ok) {
+            if (response.status === 201) {
                 ToastNotification('success', 'Menu item created successfully')
+
+                return navigate('/admin/menuItems')
             } else {
                 ToastNotification('error', 'Failed to create menu item')
             }
