@@ -6,6 +6,7 @@ import toastNotification from '../notifications/ToastNotification.jsx'
 import MultipleContainers from '../elements/MultipleContainers.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUtensils } from '@fortawesome/free-solid-svg-icons'
+
 function ReceiveOrder() {
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
@@ -20,6 +21,7 @@ function ReceiveOrder() {
 
     useEffect(() => {
         if (!config) return
+
         async function fetchPaidOrders() {
             const response = await fetch(`${config.API_URL}/api/v1/Order/paid/food`, {
                 method: 'GET',
@@ -38,6 +40,7 @@ function ReceiveOrder() {
                 setOrders(null)
             }
         }
+
         fetchPaidOrders().then((r) => r)
     }, [config])
 
@@ -65,7 +68,7 @@ function ReceiveOrder() {
             <div className="title text-center text-2xl">
                 <FontAwesomeIcon icon={faUtensils} /> Kitchen
             </div>
-            <MultipleContainers orders={orders} />
+            <MultipleContainers orders={orders} isDrinks={false} />
         </>
     )
 }

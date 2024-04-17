@@ -3,9 +3,10 @@ import { startConnection, startListen, stopListen } from '../../services/OrderHu
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import notification from '../../assets/notification.mp3'
 import toastNotification from '../notifications/ToastNotification.jsx'
-import MultipleContainersDrinks from '../elements/MultipleContainersDrinks.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUtensils, faWineGlass } from '@fortawesome/free-solid-svg-icons'
+import { faWineGlass } from '@fortawesome/free-solid-svg-icons'
+import MultipleContainers from '../elements/MultipleContainers.jsx'
+
 function ReceiveOrder() {
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
@@ -20,6 +21,7 @@ function ReceiveOrder() {
 
     useEffect(() => {
         if (!config) return
+
         async function fetchPaidOrders() {
             const response = await fetch(`${config.API_URL}/api/v1/Order/paid/drinks`, {
                 method: 'GET',
@@ -38,6 +40,7 @@ function ReceiveOrder() {
                 setOrders(null)
             }
         }
+
         fetchPaidOrders().then((r) => r)
     }, [config])
 
@@ -65,7 +68,7 @@ function ReceiveOrder() {
             <div className="title text-center text-2xl">
                 <FontAwesomeIcon icon={faWineGlass} /> Bar
             </div>
-            <MultipleContainersDrinks orders={orders} />
+            <MultipleContainers orders={orders} isDrinks={true} />
         </>
     )
 }

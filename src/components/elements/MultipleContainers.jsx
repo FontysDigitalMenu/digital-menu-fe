@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import SortableItem from './SortableItem'
 
-const defaultCols = [
+const columns = [
     {
         id: 'Pending',
         title: 'Pending',
@@ -21,12 +21,10 @@ const defaultCols = [
     },
 ]
 
-function MultipleContainers({ orders }) {
+function MultipleContainers({ orders, isDrinks }) {
     const config = useContext(ConfigContext)
-    const [columns, setColumns] = useState(defaultCols)
     const columnsId = useMemo(() => columns.map((col) => col.id), [columns])
     const [tasks, setTasks] = useState([])
-    const [activeColumn, setActiveColumn] = useState(null)
     const [activeTask, setActiveTask] = useState(null)
 
     useEffect(() => {
@@ -44,6 +42,7 @@ function MultipleContainers({ orders }) {
             },
             body: JSON.stringify({
                 orderStatus: status,
+                isDrinks: isDrinks,
             }),
         })
 
@@ -57,7 +56,7 @@ function MultipleContainers({ orders }) {
         orders.forEach((order) => {
             newTasks.push({
                 id: order.id,
-                columnId: order.status,
+                columnId: isDrinks ? order.drinkStatus : order.foodStatus,
                 order: order,
             })
         })
