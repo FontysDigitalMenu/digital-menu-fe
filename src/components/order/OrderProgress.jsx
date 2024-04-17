@@ -58,7 +58,7 @@ function OrderProgress() {
     useEffect(() => {
         if (order === undefined || order === null) return
 
-        switch (order.status) {
+        switch (order.foodStatus) {
             case 'Pending':
                 setWaiterPosition('left-0')
                 setProcessingClass('w-0')
