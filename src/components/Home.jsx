@@ -107,7 +107,7 @@ function Home() {
 
     const mergeMenuItemsIntoExistingCategory = (existingCategoryIndex, fetchedCategory) => {
         const updatedCategories = [...categories]
-        updatedCategories[existingCategoryIndex].menuItems = [...updatedCategories[existingCategoryIndex].menuItemViewModels, ...fetchedCategory.menuItemViewModels]
+        updatedCategories[existingCategoryIndex].menuItems = [...updatedCategories[existingCategoryIndex].menuItems, ...fetchedCategory.menuItems]
         setCategories(updatedCategories)
     }
 
