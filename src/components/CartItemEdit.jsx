@@ -152,7 +152,7 @@ function CartItemEdit() {
             </div>
 
             <div className="bottom-box w-full pt-3 sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
-                <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center">
+                <div className="text-2xl w-full h-1/2 flex items-center justify-center">
                     <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600" onClick={handleCartItemSave}>
                         Save Menu Item
                     </button>

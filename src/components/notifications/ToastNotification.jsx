@@ -2,8 +2,8 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const ToastNotification = (type, message) => {
-    toast.dismiss();
-    
+    toast.dismiss()
+
     switch (type) {
         case 'info':
             toast.info(message)

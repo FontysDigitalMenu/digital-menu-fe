@@ -18,7 +18,9 @@ import MenuItemDetails from './components/MenuItemDetails.jsx'
 import CartItemEdit from './components/CartItemEdit.jsx'
 import AdminRoot from './components/AdminRoot.jsx'
 import Root from './components/Root.jsx'
-import ReceiveOrder from './ReceiveOrder.jsx'
+import ReceiveOrder from './components/kitchen/ReceiveOrder.jsx'
+import ReceiveOrderFood from './components/kitchen/ReceiveOrderFood.jsx'
+import ReceiveOrderDrinks from './components/kitchen/ReceiveOrderDrinks.jsx'
 import OrderProgress from './components/order/OrderProgress.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import MyOrders from './components/account/MyOrders.jsx'
@@ -90,6 +92,8 @@ function App() {
                         {/*KITCHEN*/}
                         <Route path={'/kitchen'} element={isAuthenticated ? <KitchenRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />}>
                             <Route path={'receive/order'} element={<ReceiveOrder />} />
+                            <Route path={'receive/order/food'} element={<ReceiveOrderFood />} />
+                            <Route path={'receive/order/drinks'} element={<ReceiveOrderDrinks />} />
                         </Route>
                     </Routes>
                 </ScrollToTop>
