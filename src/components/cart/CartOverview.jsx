@@ -169,7 +169,7 @@ function CartOverview() {
                                     currency: 'EUR',
                                 }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
                             </div>
-                            <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center">
+                            <div className="text-2xl w-full h-1/2 flex items-center justify-center">
                                 <button onClick={handleCheckout} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                                     Checkout Order
                                 </button>

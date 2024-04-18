@@ -47,29 +47,27 @@ function SortableItem({ task }) {
                     <p className="mb-2 font-bold">Order: {task.order.orderNumber}</p>
                     <ul className="list-none p-0">
                         {task.order.menuItems.map((item) => (
-                            <div key={item.id}>
-                                <li key={item.id} className="border border-black rounded mb-2">
-                                    <div className="flex justify-between items-center">
-                                        <span className="flex">
-                                            <div className="w-7 border-r-2 border-black flex justify-center">{item.quantity}</div>
-                                            <div className="pl-2 flex flex-col">
-                                                <div>{item.name}</div>
-                                                <div>
-                                                    {item.excludedIngredients.map((excludedIngredient) => {
-                                                        return (
-                                                            <div key={excludedIngredient.id} className="flex gap-2 pt-2">
-                                                                <span className="material-symbols-outlined text-red-600">close</span>
-                                                                <p>{excludedIngredient.name}</p>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </div>
-                                                <div>{item.note && <li>note: {item.note}</li>}</div>
+                            <li key={item.id} className="border border-black rounded mb-2">
+                                <div className="flex justify-between items-center">
+                                    <span className="flex">
+                                        <div className="w-7 border-r-2 border-black flex justify-center">{item.quantity}</div>
+                                        <div className="pl-2 flex flex-col">
+                                            <div>{item.name}</div>
+                                            <div>
+                                                {item.excludedIngredients.map((excludedIngredient) => {
+                                                    return (
+                                                        <div key={excludedIngredient.id} className="flex gap-2 pt-2">
+                                                            <span className="material-symbols-outlined text-red-600">close</span>
+                                                            <p>{excludedIngredient.name}</p>
+                                                        </div>
+                                                    )
+                                                })}
                                             </div>
-                                        </span>
-                                    </div>
-                                </li>
-                            </div>
+                                            <div>{item.note && <span>note: {item.note}</span>}</div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </li>
                         ))}
                     </ul>
                 </div>
