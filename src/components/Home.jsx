@@ -107,7 +107,7 @@ function Home() {
 
     const mergeMenuItemsIntoExistingCategory = (existingCategoryIndex, fetchedCategory) => {
         const updatedCategories = [...categories]
-        updatedCategories[existingCategoryIndex].menuItemViewModels = [...updatedCategories[existingCategoryIndex].menuItemViewModels, ...fetchedCategory.menuItemViewModels]
+        updatedCategories[existingCategoryIndex].menuItems = [...updatedCategories[existingCategoryIndex].menuItemViewModels, ...fetchedCategory.menuItemViewModels]
         setCategories(updatedCategories)
     }
 
@@ -133,7 +133,7 @@ function Home() {
                                 <h2 className="text-4xl font-semibold">{category.name}</h2>
                             </div>
                             <div className="mt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
-                                {category.menuItemViewModels.map((menuItem) => (
+                                {category.menuItems.map((menuItem) => (
                                     <div key={menuItem.id} className="flex flex-col justify-between bg-white shadow-lg rounded-lg p-4">
                                         <Link to={`/menu/${menuItem.id}`}>
                                             <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl} alt={menuItem.name} />
