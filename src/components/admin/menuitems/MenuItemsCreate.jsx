@@ -58,7 +58,7 @@ function MenuItemsCreate() {
         const updatedDivs = [...dynamicDivs]
         updatedDivs[index].ingredient = newValue
         setDynamicDivs(updatedDivs)
-        // Update menuData with the new ingredient
+
         const updatedMenuData = [...menuData.ingredients]
         updatedMenuData[index] = { ingredient: newValue, amount: updatedDivs[index].amount }
         setMenuData({ ...menuData, ingredients: updatedMenuData })
@@ -189,16 +189,19 @@ function MenuItemsCreate() {
                         {dynamicDivs.map((div, index) => (
                             <div key={index} className="flex justify-between gap-4 mb-2">
                                 <Select
-                                    name="categories"
+                                    name="ingredients"
                                     value={div.ingredient}
                                     onChange={(newValue) => handleIngredientChange(newValue, index)}
-                                    options={ingredients.map((ingredient) => ({
-                                        value: ingredient.name,
-                                        label: ingredient.name,
-                                    }))}
+                                    options={ingredients
+                                        .filter((ingredient) => !dynamicDivs.some((div) => div.ingredient.value === ingredient.name))
+                                        .map((ingredient) => ({
+                                            value: ingredient.name,
+                                            label: ingredient.name,
+                                        }))}
                                     className="w-full"
+                                    required
                                 />
-                                <input type="number" value={div.amount} onChange={(e) => handlePriceChange(e, index)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-20 focus:ring-red-500 focus:border-red-500 block" />
+                                <input required type="number" value={div.amount} onChange={(e) => handlePriceChange(e, index)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-20 focus:ring-red-500 focus:border-red-500 block" />
                                 <button type="button" onClick={() => handleDeleteDiv(index)}>
                                     <span className="material-symbols-outlined text-red-500 mt-1">delete</span>
                                 </button>
