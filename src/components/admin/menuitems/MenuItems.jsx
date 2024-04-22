@@ -1,23 +1,25 @@
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
-import Modal from "react-modal";
+// import Modal from "react-modal";
+import { Button, Modal } from 'flowbite-react'
 import DeleteMenuItem from './MenuItemsDelete.jsx'
+import { HiOutlineExclamationCircle } from 'react-icons/hi'
 
 function MenuItems() {
     const config = useContext(ConfigContext)
     const [menuItems, setMenuItems] = useState([])
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [id, setId] = useState(0);
-    const [closeCount, setCloseCount] = useState(0);
+    const [modalIsOpen, setIsOpen] = useState(false)
+    const [id, setId] = useState(0)
+    const [closeCount, setCloseCount] = useState(0)
     function openModal(id) {
-        setId(id);
-        setIsOpen(true);
+        setId(id)
+        setIsOpen(true)
     }
 
     function closeModal() {
-        setIsOpen(false);
-        setCloseCount((prev) => prev + 1);
+        setIsOpen(false)
+        setCloseCount((prev) => prev + 1)
     }
 
     useEffect(() => {
@@ -41,31 +43,10 @@ function MenuItems() {
 
     return (
         <div className="p-4 sm:ml-64">
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Delete Product Modal"
-                appElement={document.getElementById('root')}
-                style={{
-                    content: {
-                        position: 'absolute',
-                        top: '50%', /* Position the modal at 50% from the top */
-                        left: '50%', /* Position the modal at 50% from the left */
-                        transform: 'translate(-50%, -50%)', /* Center the modal horizontally and vertically */
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        border: '2px solid #ccc',
-                        borderRadius: '8px',
-                        padding: '20px',
-                        backgroundColor: '#fff',
-                    }
-
-                }}
-            >
-                <DeleteMenuItem closeModal={closeModal} id = {id}/>
+            <Modal show={modalIsOpen} size="md" onClose={() => closeModal()} popup>
+                <DeleteMenuItem closeModal={closeModal} id={id} />
             </Modal>
+
             <h1 className="text-4xl font-bold mb-10">MenuItems</h1>
 
             <div className="sm:flex w-full justify-between mb-4">
@@ -126,12 +107,16 @@ function MenuItems() {
                                     <img src={menuItem.imageUrl} alt={menuItem.name} className="h-16 w-16 object-cover" />
                                 </td>
                                 <td className="px-6 py-4">
-                   {/*                 <a href="#" className="m-1 font-medium text-blue-600 hover:underline">
+                                    {/*                 <a href="#" className="m-1 font-medium text-blue-600 hover:underline">
                                         Edit
                                     </a>*/}
-                                    <button onClick={() => {
-                                        openModal(menuItem.id)
-                                    }} className="text-red-600">Delete
+                                    <button
+                                        onClick={() => {
+                                            openModal(menuItem.id)
+                                        }}
+                                        className="text-red-600"
+                                    >
+                                        Delete
                                     </button>
                                 </td>
                             </tr>
