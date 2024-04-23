@@ -13,7 +13,7 @@ function MenuItemsDelete(props) {
             },
         })
 
-        if (response.status === 200) {
+        if (response.status === 204) {
             return await response.json()
         }
     }
