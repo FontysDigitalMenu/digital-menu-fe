@@ -48,7 +48,7 @@ function SplitOrder() {
 
     const handleCustomSplitValueChange = (index, e) => {
         const newCustomSplits = [...customSplits]
-        newCustomSplits[index].value = parseInt(e.target.value) || ''
+        newCustomSplits[index].amount = parseInt(e.target.value) || ''
         setCustomSplits(newCustomSplits)
     }
 
@@ -137,8 +137,8 @@ function SplitOrder() {
                                 <p className="text-left pt-4 font-style: italic">Custom splits</p>
                                 {customSplits.map((split, index) => (
                                     <div key={index} className="flex pt-2">
-                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
-                                        <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
+                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" placeholder="Value" defaultValue={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
+                                        <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" placeholder="Name" defaultValue={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
                                         <button className="bg-red-500 w-[10%] text-white p-2 rounded-lg ml-1" onClick={() => handleRemoveCustomSplit(index)}>
                                             -
                                         </button>
@@ -164,7 +164,7 @@ function SplitOrder() {
                         : '-'}
                 </div>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
-                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600" onClick={handleConfirmOrder}>
+                    <button onClick={handleConfirmOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                         Confirm
                     </button>
                 </div>
