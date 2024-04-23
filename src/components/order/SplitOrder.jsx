@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
@@ -9,13 +9,21 @@ function SplitOrder() {
     const [splitOption, setSplitOption] = useState('Even')
     const [splitAmount, setSplitAmount] = useState(1)
     const [customSplits, setCustomSplits] = useState([{ name: '', value: '' }])
+    const [cartItemCollection, setCartItemCollection] = useState()
+
+    const pricePerPerson = (cartItemCollection ? cartItemCollection.totalAmount / 100 : 0) / splitAmount
+
+    useEffect(() => {
+        if (!config) return
+        fetchCartItems()
+    }, [config])
 
     const handleSelectChange = (e) => {
         setSplitOption(e.target.value)
     }
 
     const handleSplitAmountChange = (e) => {
-        setSplitAmount(parseInt(e.target.value) || 1)
+        setSplitAmount(parseInt(e.target.value))
     }
 
     const handleAddCustomSplit = () => {
@@ -36,6 +44,23 @@ function SplitOrder() {
         const newCustomSplits = [...customSplits]
         newCustomSplits[index].value = parseInt(e.target.value) || ''
         setCustomSplits(newCustomSplits)
+    }
+
+    async function fetchCartItems() {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('deviceId')}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        })
+
+        if (response.status === 200) {
+            const data = await response.json()
+            setCartItemCollection(data)
+        } else if (response.status === 404) {
+            setCartItemCollection(null)
+        }
     }
 
     async function handleConfirmOrder() {
@@ -74,12 +99,18 @@ function SplitOrder() {
     }
 
     return (
-        <div className="relative flex flex-col justify-between">
+        <div className="relative flex flex-col justify-between min-h-screen">
             <div className="mt-6 w-full flex justify-center">
                 <div className="w-96 md:w-[500px]">
                     <div className="title-box text-left text-2xl font-bold w-full px-2">
                         <p>Split the bill</p>
-                        <p className="pt-1">Left to split: €30,00</p>
+                        <p className="pt-1">
+                            Left to split:{' '}
+                            {new Intl.NumberFormat('nl-NL', {
+                                style: 'currency',
+                                currency: 'EUR',
+                            }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
+                        </p>
                     </div>
                     <div className="text-box flex flex-col px-2">
                         <p className="text-left pt-5 pb-2 font-style: italic">Split option</p>
@@ -90,7 +121,7 @@ function SplitOrder() {
                         {splitOption === 'Even' ? (
                             <div>
                                 <p className="text-left pt-4 pb-2 font-style: italic">Number of splits</p>
-                                <input className="bg-gray-300 w-[20%] p-2 rounded-lg" type="number" min="0" value={splitAmount} onChange={handleSplitAmountChange} />
+                                <input className="bg-gray-300 w-[20%] p-2 rounded-lg" type="number" min="1" max="99" value={splitAmount} onChange={handleSplitAmountChange} />
                             </div>
                         ) : (
                             <div>
@@ -113,10 +144,17 @@ function SplitOrder() {
                 </div>
             </div>
 
-            <div className="text-2xl w-full h-1/2 flex items-center justify-center">
-                <button onClick={handleConfirmOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
-                    Confirm
-                </button>
+            <div className="bottom-box w-full sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
+                <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
+                    Price per person:{' '}
+                    {new Intl.NumberFormat('nl-NL', {
+                        style: 'currency',
+                        currency: 'EUR',
+                    }).format(pricePerPerson)}
+                </div>
+                <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
+                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">Confirm</button>
+                </div>
             </div>
         </div>
     )
