@@ -98,6 +98,27 @@ function OrderProgress() {
         setLoading(false)
     }
 
+    async function handlePaySplit(splitId) {
+        const response = await fetch(`${config.API_URL}/api/v1/split/pay`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                splitId: splitId,
+            }),
+        })
+
+        if (response.status === 200) {
+            const data = await response.json()
+            window.location.href = data.redirectUrl
+        } else if (response.status === 400) {
+        } else if (response.status === 404) {
+        } else if (response.status === 500) {
+        }
+    }
+
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
             {!loading && order && order.isPaymentSuccess === true && (
@@ -209,7 +230,24 @@ function OrderProgress() {
                             <div className="title-box text-5xl font-bold w-full px-2 mb-6">
                                 <p className="text-center">Waiting for all payments to complete</p>
                             </div>
-                            <div className={'flex justify-center'}>Please wait and refresh this page to check the payment status</div>
+                            <div>
+                                {order.splits.map((split) => {
+                                    return (
+                                        <div key={split.id} className={'flex justify-between'}>
+                                            <span>{split.name}</span>
+                                            <span>
+                                                {new Intl.NumberFormat('nl-NL', {
+                                                    style: 'currency',
+                                                    currency: 'EUR',
+                                                }).format(split.amount / 100)}
+                                            </span>
+                                            <button onClick={() => handlePaySplit(split.id)} className={'bg-red-600 text-white'}>
+                                                Pay
+                                            </button>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>
