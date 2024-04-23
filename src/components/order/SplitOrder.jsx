@@ -23,7 +23,13 @@ function SplitOrder() {
     }
 
     const handleSplitAmountChange = (e) => {
-        setSplitAmount(parseInt(e.target.value))
+        let value = parseInt(e.target.value)
+        if (!isNaN(value)) {
+            value = Math.min(Math.max(value, 1), 99)
+            setSplitAmount(value)
+        } else {
+            setSplitAmount(value)
+        }
     }
 
     const handleAddCustomSplit = () => {
@@ -121,7 +127,7 @@ function SplitOrder() {
                         {splitOption === 'Even' ? (
                             <div>
                                 <p className="text-left pt-4 pb-2 font-style: italic">Number of splits</p>
-                                <input className="bg-gray-300 w-[20%] p-2 rounded-lg" type="number" min="1" max="99" value={splitAmount} onChange={handleSplitAmountChange} />
+                                <input className="bg-gray-300 w-[15%] p-2 rounded-lg" type="number" min="1" max="99" maxLength={2} value={splitAmount} onChange={handleSplitAmountChange} />
                             </div>
                         ) : (
                             <div>
@@ -146,11 +152,13 @@ function SplitOrder() {
 
             <div className="bottom-box w-full sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                 <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
-                    Price per person:{' '}
-                    {new Intl.NumberFormat('nl-NL', {
-                        style: 'currency',
-                        currency: 'EUR',
-                    }).format(pricePerPerson)}
+                    Price per person: &nbsp;
+                    {pricePerPerson
+                        ? new Intl.NumberFormat('nl-NL', {
+                              style: 'currency',
+                              currency: 'EUR',
+                          }).format(pricePerPerson)
+                        : '-'}
                 </div>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
                     <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">Confirm</button>
