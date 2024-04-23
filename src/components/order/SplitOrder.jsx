@@ -8,7 +8,7 @@ function SplitOrder() {
     const navigate = useNavigate()
     const [splitOption, setSplitOption] = useState('Even')
     const [splitAmount, setSplitAmount] = useState(1)
-    const [customSplits, setCustomSplits] = useState([{ name: '', value: '' }])
+    const [customSplits, setCustomSplits] = useState([{ name: '', amount: '' }])
     const [cartItemCollection, setCartItemCollection] = useState()
 
     const pricePerPerson = (cartItemCollection ? cartItemCollection.totalAmount / 100 : 0) / splitAmount
@@ -33,7 +33,7 @@ function SplitOrder() {
     }
 
     const handleAddCustomSplit = () => {
-        setCustomSplits([...customSplits, { name: '', value: '' }])
+        setCustomSplits([...customSplits, { name: '', amount: '' }])
     }
 
     const handleRemoveCustomSplit = (indexToRemove) => {
@@ -77,7 +77,10 @@ function SplitOrder() {
                 Accept: 'application/json',
             },
             body: JSON.stringify({
-                splits: [{ name: 'Split 1', amount: 9000 }],
+                splits: customSplits.map((s) => ({
+                    amount: s.amount * 100,
+                    name: s.name,
+                })),
                 deviceId: localStorage.getItem('deviceId'),
                 tableId: localStorage.getItem('tableId'),
             }),
@@ -134,7 +137,7 @@ function SplitOrder() {
                                 <p className="text-left pt-4 font-style: italic">Custom splits</p>
                                 {customSplits.map((split, index) => (
                                     <div key={index} className="flex pt-2">
-                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" placeholder="Value" value={split.value} onChange={(e) => handleCustomSplitValueChange(index, e)} />
+                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
                                         <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
                                         <button className="bg-red-500 w-[10%] text-white p-2 rounded-lg ml-1" onClick={() => handleRemoveCustomSplit(index)}>
                                             -
@@ -161,7 +164,9 @@ function SplitOrder() {
                         : '-'}
                 </div>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
-                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">Confirm</button>
+                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600" onClick={handleConfirmOrder}>
+                        Confirm
+                    </button>
                 </div>
             </div>
         </div>
