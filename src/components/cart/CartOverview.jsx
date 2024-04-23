@@ -8,6 +8,7 @@ function CartOverview() {
     const config = useContext(ConfigContext)
     const [isLoading, setIsLoading] = useState(false)
     const [cartItemCollection, setCartItemCollection] = useState()
+    const [splits, setSplits] = useState([])
 
     useEffect(() => {
         if (!config) return
@@ -77,7 +78,7 @@ function CartOverview() {
         }
     }
 
-    async function handleCheckout() {
+    async function handleConfirmOrder() {
         const response = await fetch(`${config.API_URL}/api/v1/Order`, {
             method: 'POST',
             headers: {
@@ -85,6 +86,7 @@ function CartOverview() {
                 Accept: 'application/json',
             },
             body: JSON.stringify({
+                splits: [{ name: 'Split 1', amount: 9000 }],
                 deviceId: localStorage.getItem('deviceId'),
                 tableId: localStorage.getItem('tableId'),
             }),
@@ -92,14 +94,40 @@ function CartOverview() {
 
         if (response.status === 201) {
             const data = await response.json()
-            window.location.href = data.redirectUrl
+            setSplits(data.splits)
         } else if (response.status === 400) {
             const data = await response.json()
-            if (data.errors.TableId) {
+            if (data?.errors?.TableId) {
                 toast.error('Please scan the QR-Code on your table using your camera on your phone', {
                     autoClose: 8000,
                 })
+            } else {
+                console.log(data)
+                toast.error(data.message, {
+                    autoClose: 8000,
+                })
             }
+        } else if (response.status === 404) {
+        } else if (response.status === 500) {
+        }
+    }
+
+    async function handlePaySplit(splitId) {
+        const response = await fetch(`${config.API_URL}/api/v1/split/pay`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                splitId: splitId,
+            }),
+        })
+
+        if (response.status === 200) {
+            const data = await response.json()
+            window.location.href = data.redirectUrl
+        } else if (response.status === 400) {
         } else if (response.status === 404) {
         } else if (response.status === 500) {
         }
@@ -113,6 +141,17 @@ function CartOverview() {
                         <div className="title-box text-2xl font-bold w-full px-2">
                             <p className="text-left">Your Order</p>
                         </div>
+
+                        <div className={'bg-red-600 text-white'}>
+                            {splits.map((split) => {
+                                return (
+                                    <button key={split.id} onClick={() => handlePaySplit(split.id)}>
+                                        Pay
+                                    </button>
+                                )
+                            })}
+                        </div>
+
                         <div className="min-h-screen flex flex-col px-2">
                             {cartItemCollection &&
                                 cartItemCollection.cartItems.map((cartItem) => {
@@ -170,7 +209,7 @@ function CartOverview() {
                                 }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
                             </div>
                             <div className="text-2xl w-full h-1/2 flex items-center justify-center">
-                                <button onClick={handleCheckout} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                                <button onClick={handleConfirmOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                                     Checkout Order
                                 </button>
                             </div>
