@@ -27,6 +27,7 @@ import MyOrders from './components/account/MyOrders.jsx'
 import KitchenRoot from './components/KitchenRoot.jsx'
 import MenuItems from './components/admin/menuitems/MenuItems.jsx'
 import MenuItemsCreate from './components/admin/menuitems/MenuItemsCreate.jsx'
+import SplitOrder from './components/order/SplitOrder.jsx'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -77,6 +78,7 @@ function App() {
 
                         <Route path="/order" element={<Root />}>
                             <Route path="progress/:orderId" element={<OrderProgress />} />
+                            <Route path="split" element={<SplitOrder />} />
                         </Route>
 
                         {/*AUTH*/}
