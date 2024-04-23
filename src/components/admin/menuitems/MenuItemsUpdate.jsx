@@ -3,16 +3,18 @@ import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import CreatableSelect from 'react-select/creatable'
 import Select from 'react-select'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import CurrencyInput from 'react-currency-input-field'
 
-function MenuItemsCreate() {
+function MenuItemsUpdate() {
+    const { id } = useParams()
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
     const [categories, setCategories] = useState([])
     const [ingredients, setIngredients] = useState([])
     const [dynamicDivs, setDynamicDivs] = useState([{ ingredient: '', amount: '1' }])
     const [menuData, setMenuData] = useState({
+        id: 0,
         name: '',
         price: 0.0,
         description: '',
@@ -24,9 +26,61 @@ function MenuItemsCreate() {
 
     useEffect(() => {
         if (!config) return
+        fetchMenuItem().then((r) => r)
         fetchIngredients().then((r) => r)
         fetchCategories().then((r) => r)
     }, [config])
+
+    async function fetchMenuItem() {
+        const response = await fetch(`${config.API_URL}/api/v1/menuItem/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+            credentials: 'include',
+        })
+
+        const data = await response.json()
+
+        const optionCategories = (data?.categories || []).map((category) => ({
+            value: category.name,
+            label: category.name,
+        }))
+
+        const optionIngredients = (data?.ingredients || []).map((ingredient) => ({
+            value: ingredient.name,
+            label: ingredient.name,
+        }))
+
+        const optionIngredientsWithAmount = optionIngredients.map((optionIngredient) => ({
+            ingredient: optionIngredient,
+            amount: (data?.ingredients.find((ing) => ing.name === optionIngredient.value) || {}).pieces || 1,
+        }))
+
+        const updatedMenuItem = {
+            id: data.id,
+            name: data.name,
+            price: data.price / 100,
+            description: data.description,
+            categories: optionCategories,
+            ingredients: optionIngredientsWithAmount,
+            image: null,
+        }
+
+        if (optionIngredients != null) {
+            setDynamicDivs(
+                optionIngredients.map((ingredient) => ({
+                    ingredient: ingredient,
+                    amount: (data?.ingredients.find((ing) => ing.name === ingredient.value) || {}).pieces || 1,
+                }))
+            )
+        }
+
+        setImageUrl(data.imageUrl)
+        setMenuData(updatedMenuItem)
+    }
 
     async function fetchIngredients() {
         const response = await fetch(`${config.API_URL}/api/v1/ingredients`, {
@@ -95,9 +149,10 @@ function MenuItemsCreate() {
         setMenuData({ ...menuData, price: value })
     }
 
-    const handleCreateMenuItem = async () => {
+    const handleUpdateMenuItem = async () => {
         try {
             const formData = new FormData()
+            formData.append('id', menuData.id)
             formData.append('name', menuData.name)
             formData.append('price', menuData.price)
             formData.append('description', menuData.description)
@@ -105,6 +160,8 @@ function MenuItemsCreate() {
             menuData.categories.forEach((category) => {
                 formData.append('categories', category.value)
             })
+
+            console.log(menuData.ingredients)
 
             const ingredientNames = menuData.ingredients.map((ingredient) => ingredient.ingredient.value)
             const ingredientAmounts = menuData.ingredients.map((ingredient) => ingredient.amount)
@@ -122,27 +179,28 @@ function MenuItemsCreate() {
             console.log(formData)
 
             const response = await fetch(`${config.API_URL}/api/v1/menuItem`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
                 },
                 body: formData,
             })
-            if (response.status === 201) {
-                ToastNotification('success', 'Menu item created successfully')
+
+            if (response.status === 204) {
+                ToastNotification('success', 'Menu item updated successfully')
 
                 return navigate('/admin/menuItems')
             } else {
-                ToastNotification('error', 'Failed to create menu item')
+                ToastNotification('error', 'Failed to update menu item')
             }
         } catch (error) {
-            ToastNotification('error', 'Error creating menu item:', error)
+            ToastNotification('error', 'Error updating the menu item:', error)
         }
     }
 
     return (
         <div className="p-4 sm:ml-64">
-            <h1 className="text-4xl mb-10 font-bold">Create menu item</h1>
+            <h1 className="text-4xl mb-10 font-bold">Update menu item</h1>
 
             <form className="max-w-lg mx-auto">
                 <div className="mb-5">
@@ -250,8 +308,8 @@ function MenuItemsCreate() {
                 </div>
 
                 <div className="mb-5 flex w-full justify-end">
-                    <button type="button" onClick={handleCreateMenuItem} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
-                        Create menu item
+                    <button type="button" onClick={() => handleUpdateMenuItem()} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
+                        Update menu item
                     </button>
                 </div>
             </form>
@@ -259,4 +317,4 @@ function MenuItemsCreate() {
     )
 }
 
-export default MenuItemsCreate
+export default MenuItemsUpdate
