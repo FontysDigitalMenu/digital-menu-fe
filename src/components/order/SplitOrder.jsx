@@ -17,6 +17,10 @@ function SplitOrder() {
         setCustomSplits([...customSplits, { name: '', value: '' }])
     }
 
+    const handleRemoveCustomSplit = (indexToRemove) => {
+        setCustomSplits((prevCustomSplits) => prevCustomSplits.filter((_, index) => index !== indexToRemove))
+    }
+
     const handleCustomSplitNameChange = (index, e) => {
         const newCustomSplits = [...customSplits]
         newCustomSplits[index].name = e.target.value
@@ -53,8 +57,11 @@ function SplitOrder() {
                                 <p className="text-left pt-4 font-style: italic">Custom splits</p>
                                 {customSplits.map((split, index) => (
                                     <div key={index} className="flex pt-2">
-                                        <input className="bg-gray-300 w-[30%] p-2 rounded-lg mr-1" type="number" placeholder="Value" value={split.value} onChange={(e) => handleCustomSplitValueChange(index, e)} />
-                                        <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1" type="text" placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
+                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" placeholder="Value" value={split.value} onChange={(e) => handleCustomSplitValueChange(index, e)} />
+                                        <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
+                                        <button className="bg-red-500 w-[10%] text-white p-2 rounded-lg ml-1" onClick={() => handleRemoveCustomSplit(index)}>
+                                            -
+                                        </button>
                                     </div>
                                 ))}
                                 <button className="bg-green-500 w-[100%] text-white rounded-lg px-4 py-2 mt-2" onClick={handleAddCustomSplit}>
