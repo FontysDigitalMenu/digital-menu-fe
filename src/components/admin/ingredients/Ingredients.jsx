@@ -3,6 +3,7 @@ import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
 import { Button, Modal } from 'flowbite-react'
 import { Link } from 'react-router-dom'
+import IngredientsDelete from './IngredientsDelete.jsx'
 
 function Ingredients() {
     const config = useContext(ConfigContext)
@@ -42,7 +43,7 @@ function Ingredients() {
     return (
         <div className="p-4 sm:ml-64">
             <Modal show={modalIsOpen} size="md" onClose={() => closeModal()} popup>
-                {/*<DeleteMenuItem closeModal={closeModal} id={id} />*/}
+                <IngredientsDelete closeModal={closeModal} id={id} />
             </Modal>
 
             <h1 className="text-4xl font-bold mb-10">Ingredients</h1>
