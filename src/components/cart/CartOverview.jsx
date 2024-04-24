@@ -2,7 +2,6 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import ToastNotification from '../notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 function CartOverview() {
     const config = useContext(ConfigContext)
@@ -77,34 +76,6 @@ function CartOverview() {
         }
     }
 
-    async function handleCheckout() {
-        const response = await fetch(`${config.API_URL}/api/v1/Order`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            body: JSON.stringify({
-                deviceId: localStorage.getItem('deviceId'),
-                tableId: localStorage.getItem('tableId'),
-            }),
-        })
-
-        if (response.status === 201) {
-            const data = await response.json()
-            window.location.href = data.redirectUrl
-        } else if (response.status === 400) {
-            const data = await response.json()
-            if (data.errors.TableId) {
-                toast.error('Please scan the QR-Code on your table using your camera on your phone', {
-                    autoClose: 8000,
-                })
-            }
-        } else if (response.status === 404) {
-        } else if (response.status === 500) {
-        }
-    }
-
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
             <div>
@@ -170,9 +141,9 @@ function CartOverview() {
                                 }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
                             </div>
                             <div className="text-2xl w-full h-1/2 flex items-center justify-center">
-                                <button onClick={handleCheckout} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
-                                    Checkout Order
-                                </button>
+                                <Link to={'/order/split'} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                                    Split Order Bill
+                                </Link>
                             </div>
                         </div>
                     </div>
