@@ -29,6 +29,7 @@ import SplitOrder from './components/order/SplitOrder.jsx'
 import MenuItemsUpdate from './components/admin/menuitems/MenuItemsUpdate.jsx'
 import Ingredients from './components/admin/ingredients/Ingredients.jsx'
 import IngredientsCreate from './components/admin/ingredients/IngredientsCreate.jsx'
+import IngredientsUpdate from './components/admin/ingredients/IngredientsUpdate.jsx'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -95,6 +96,7 @@ function App() {
 
                             <Route path={'ingredients'} element={<Ingredients />} />
                             <Route path={'ingredients/create'} element={<IngredientsCreate />} />
+                            <Route path={'ingredients/:id/edit'} element={<IngredientsUpdate />} />
                         </Route>
 
                         {/*KITCHEN*/}
