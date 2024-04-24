@@ -2,12 +2,12 @@ import React, { useContext, useState } from 'react'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 
-function MenuItemsDelete(props) {
+function IngredientsDelete(props) {
     const config = useContext(ConfigContext)
 
-    async function tryDeleteMenuItem() {
+    async function tryDeleteIngredient() {
         try {
-            const response = await fetch(`${config.API_URL}/api/v1/menuItem/${props.id}`, {
+            const response = await fetch(`${config.API_URL}/api/v1/ingredients/${props.id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
@@ -15,14 +15,14 @@ function MenuItemsDelete(props) {
             })
 
             if (response.status === 204) {
-                ToastNotification('success', 'MenuItem successfully deleted')
+                ToastNotification('success', 'Ingredient successfully deleted')
                 props.closeModal()
             } else {
-                ToastNotification('error', 'Failed to delete menu item')
+                ToastNotification('error', 'Failed to delete ingredient')
             }
         } catch (error) {
             console.error(error)
-            ToastNotification('error', 'Failed to delete menu item')
+            ToastNotification('error', 'Failed to delete ingredient')
         }
     }
 
@@ -37,7 +37,7 @@ function MenuItemsDelete(props) {
             <svg className="text-gray-400 w-11 h-11 mb-3.5 mx-auto" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd"></path>
             </svg>
-            <p className="mb-4 text-gray-500">Are you sure you want to delete this menu item?</p>
+            <p className="mb-4 text-gray-500">Are you sure you want to delete this ingredient?</p>
             <div className="flex justify-center items-center space-x-4">
                 <button
                     onClick={() => props.closeModal()}
@@ -47,7 +47,7 @@ function MenuItemsDelete(props) {
                 >
                     No, cancel
                 </button>
-                <button onClick={() => tryDeleteMenuItem()} type="submit" className="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300">
+                <button onClick={() => tryDeleteIngredient()} type="submit" className="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300">
                     Yes, I'm sure
                 </button>
             </div>
@@ -55,4 +55,4 @@ function MenuItemsDelete(props) {
     )
 }
 
-export default MenuItemsDelete
+export default IngredientsDelete
