@@ -10,7 +10,6 @@ function OrderProgress() {
     const { orderId } = useParams()
     const [order, setOrder] = useState()
     const [loading, setLoading] = useState(true)
-    const [paymentStatusText, setPaymentStatusText] = useState('')
     const [waiterPosition, setWaiterPosition] = useState('')
     const [processingClass, setProcessingClass] = useState('')
     const [completedClass, setCompletedClass] = useState('')
@@ -75,27 +74,6 @@ function OrderProgress() {
                 setCompletedClass('w-full')
                 break
         }
-
-        switch (order.paymentStatus) {
-            case 'Pending':
-                setPaymentStatusText('Processing payment')
-                break
-            case 'Paid':
-                setPaymentStatusText('Thank you for your order!')
-                break
-            case 'Canceled':
-                setPaymentStatusText('Payment canceled')
-                break
-            case 'Refund':
-                setPaymentStatusText('Payment refunded')
-                break
-            case 'Expired':
-                setPaymentStatusText('Payment expired')
-                break
-            default:
-                setPaymentStatusText('Unknown payment error')
-                break
-        }
     }, [order])
 
     async function fetchOrder(orderId) {
@@ -120,14 +98,35 @@ function OrderProgress() {
         setLoading(false)
     }
 
+    async function handlePaySplit(splitId) {
+        const response = await fetch(`${config.API_URL}/api/v1/split/pay`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                splitId: splitId,
+            }),
+        })
+
+        if (response.status === 200) {
+            const data = await response.json()
+            window.location.href = data.redirectUrl
+        } else if (response.status === 400) {
+        } else if (response.status === 404) {
+        } else if (response.status === 500) {
+        }
+    }
+
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
-            {!loading && order && order.paymentStatus === 'Paid' && (
+            {!loading && order && order.isPaymentSuccess === true && (
                 <div>
                     <div className="mt-6 w-full flex justify-center">
                         <div className="w-[420px]">
                             <div className="title-box text-6xl font-bold w-full px-2 mb-6">
-                                <p className="text-center">{paymentStatusText}</p>
+                                <p className="text-center">Thank you for your order!</p>
                             </div>
                             <div className={`relative h-20`}>
                                 <img className={`w-20 absolute ${waiterPosition} duration-1000 transition-all`} src={waiter} alt="waiter" />
@@ -224,30 +223,30 @@ function OrderProgress() {
                 </div>
             )}
 
-            {!loading && order && order.paymentStatus === 'Pending' && (
+            {!loading && order && order.isPaymentSuccess === false && (
                 <div>
                     <div className="mt-6 w-full flex justify-center">
                         <div className="w-96 md:w-[500px]">
-                            <div className="title-box text-6xl font-bold w-full px-2 mb-6">
-                                <p className="text-center">{paymentStatusText}</p>
+                            <div className="title-box text-5xl font-bold w-full px-2 mb-6">
+                                <p className="text-center">Waiting for all payments to complete</p>
                             </div>
-                            <div className={'flex justify-center'}>Please wait and refresh this page to check the payment status</div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {!loading && order && order.paymentStatus === 'Canceled' && (
-                <div>
-                    <div className="mt-6 w-full flex justify-center">
-                        <div className="w-96 md:w-[500px]">
-                            <div className="title-box text-6xl font-bold w-full px-2 mb-6">
-                                <p className="text-center">{paymentStatusText}</p>
-                            </div>
-                            <div className={'flex justify-center'}>
-                                <Link to={'/cart'} className={'flex items-center py-2 text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600'}>
-                                    Please try again
-                                </Link>
+                            <div>
+                                {order.splits.map((split) => {
+                                    return (
+                                        <div key={split.id} className={'flex justify-between'}>
+                                            <span>{split.name}</span>
+                                            <span>
+                                                {new Intl.NumberFormat('nl-NL', {
+                                                    style: 'currency',
+                                                    currency: 'EUR',
+                                                }).format(split.amount / 100)}
+                                            </span>
+                                            <button onClick={() => handlePaySplit(split.id)} className={'bg-red-600 text-white'}>
+                                                Pay
+                                            </button>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
                     </div>

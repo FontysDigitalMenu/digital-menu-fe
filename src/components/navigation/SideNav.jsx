@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LogoutButton from './LogoutButton.jsx'
 import NavBarItem from './NavBarItem.jsx'
@@ -48,9 +48,10 @@ function SideNav({ setIsAuthenticated }) {
             <aside id="default-sidebar" ref={sidebarRef} className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`} aria-label="Sidebar">
                 <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-red-500">
                     <ul className="space-y-2 font-medium text-lg" onClick={closeSidebar}>
-                        <NavBarItem href={'/admin'} icon={'home'} text={'Home'} />
+                        <NavBarItem href={'/'} icon={'home'} text={'Home'} />
                         <NavBarItem href={'/admin/tables'} icon={'table_restaurant'} text={'Tables'} />
                         <NavBarItem href={'/admin/menuItems'} icon={'restaurant_menu'} text={'MenuItems'} />
+                        <hr />
                         <NavBarItem href={'/kitchen/receive/order'} icon={'orders'} text={'Complete orders'} />
                         <NavBarItem href={'/kitchen/receive/order/food'} icon={'restaurant'} text={'Food orders'} />
                         <NavBarItem href={'/kitchen/receive/order/drinks'} icon={'wine_bar'} text={'Drinks orders'} />

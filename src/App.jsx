@@ -2,9 +2,7 @@ import './App.css'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Home from './components/Home.jsx'
 import Login from './components/authentication/Login.jsx'
-import Orders from './components/staff/Orders.jsx'
 import { useContext, useEffect, useState } from 'react'
-import Dashboard from './components/admin/Dashboard.jsx'
 import AuthService from './services/AuthService.jsx'
 import Tables from './components/admin/tables/Tables'
 import ScannedTable from './components/tables/ScannedTable'
@@ -27,6 +25,7 @@ import MyOrders from './components/account/MyOrders.jsx'
 import KitchenRoot from './components/KitchenRoot.jsx'
 import MenuItems from './components/admin/menuitems/MenuItems.jsx'
 import MenuItemsCreate from './components/admin/menuitems/MenuItemsCreate.jsx'
+import SplitOrder from './components/order/SplitOrder.jsx'
 import MenuItemsUpdate from './components/admin/menuitems/MenuItemsUpdate.jsx'
 
 function App() {
@@ -72,20 +71,17 @@ function App() {
                             <Route path="account/orders" element={<MyOrders />} />
                         </Route>
 
-                        <Route path="/staff">
-                            <Route path="orders" element={<Orders />} />
-                        </Route>
-
                         <Route path="/order" element={<Root />}>
                             <Route path="progress/:orderId" element={<OrderProgress />} />
+                            <Route path="split" element={<SplitOrder />} />
                         </Route>
 
                         {/*AUTH*/}
                         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
 
                         {/*ADMIN*/}
-                        <Route path={'/admin'} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />}>
-                            <Route path={''} element={<Dashboard />} />
+                        <Route path={'/admin'} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login?intended=admin" />}>
+                            <Route path={''} element={<Tables />} />
                             <Route path={'tables'} element={<Tables />} />
                             <Route path={'tables/create'} element={<TablesCreate />} />
                             <Route path={'tables/:id/edit'} element={<TablesEdit />} />
@@ -97,10 +93,12 @@ function App() {
                         </Route>
 
                         {/*KITCHEN*/}
-                        <Route path={'/kitchen'} element={isAuthenticated ? <KitchenRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />}>
+                        <Route path={'/kitchen'} element={isAuthenticated ? <KitchenRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login?intended=kitchen" />}>
+                            <Route path={''} element={<Navigate to={'/kitchen/receive/order/food'} />} />
                             <Route path={'receive/order'} element={<ReceiveOrder />} />
                             <Route path={'receive/order/food'} element={<ReceiveOrderFood />} />
                             <Route path={'receive/order/drinks'} element={<ReceiveOrderDrinks />} />
+                            <Route path={'waiter'} />
                         </Route>
                     </Routes>
                 </ScrollToTop>
