@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthService from '../../services/AuthService.jsx'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
@@ -8,6 +8,10 @@ function Login({ setIsAuthenticated }) {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const intended = urlParams.get('intended') ?? 'admin'
 
     const sendLoginRequest = async () => {
         try {
@@ -37,7 +41,7 @@ function Login({ setIsAuthenticated }) {
 
             setIsAuthenticated(true)
 
-            navigate('/admin')
+            navigate(`/${intended}`)
         } catch (error) {
             console.error('Error during login:', error)
             navigate('/login')
