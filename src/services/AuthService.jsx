@@ -24,17 +24,7 @@ const AuthService = {
                 return false
             }
 
-            const data = await response.json()
-
-            if (data.includes('Admin')) {
-                console.log('User successfully logged in')
-                this.isAuthenticated = true
-                return true
-            } else {
-                console.error('User does not have permission')
-                this.isAuthenticated = false
-                return false
-            }
+            return true
         } catch (error) {
             console.error('Error during login:', error)
             this.isAuthenticated = false

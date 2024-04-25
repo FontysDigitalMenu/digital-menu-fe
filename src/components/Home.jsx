@@ -107,7 +107,7 @@ function Home() {
 
     const mergeMenuItemsIntoExistingCategory = (existingCategoryIndex, fetchedCategory) => {
         const updatedCategories = [...categories]
-        updatedCategories[existingCategoryIndex].menuItemViewModels = [...updatedCategories[existingCategoryIndex].menuItemViewModels, ...fetchedCategory.menuItemViewModels]
+        updatedCategories[existingCategoryIndex].menuItems = [...updatedCategories[existingCategoryIndex].menuItems, ...fetchedCategory.menuItems]
         setCategories(updatedCategories)
     }
 
@@ -133,7 +133,7 @@ function Home() {
                                 <h2 className="text-4xl font-semibold">{category.name}</h2>
                             </div>
                             <div className="mt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
-                                {category.menuItemViewModels.map((menuItem) => (
+                                {category.menuItems.map((menuItem) => (
                                     <div key={menuItem.id} className="flex flex-col justify-between bg-white shadow-lg rounded-lg p-4">
                                         <Link to={`/menu/${menuItem.id}`}>
                                             <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl} alt={menuItem.name} />
@@ -161,7 +161,7 @@ function Home() {
             </div>
 
             <div className="bottom-box w-full sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
-                <div className="checkout-btn text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
+                <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
                     <Link to="/cart" className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                         View order
                     </Link>

@@ -38,7 +38,7 @@ function ColumnContainer({ column, tasks, deleteTask, updateTask }) {
         <div
             ref={setNodeRef}
             style={style}
-            className="bg-gray-200 w-[300px] md:w-1/3 min-h-[500px] rounded-lg
+            className="bg-gray-200 w-[300px] md:w-1/2 min-h-[500px] rounded-lg
     flex flex-col"
         >
             <div
