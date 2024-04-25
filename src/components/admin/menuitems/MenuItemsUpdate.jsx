@@ -62,7 +62,7 @@ function MenuItemsUpdate() {
         const updatedMenuItem = {
             id: data.id,
             name: data.name,
-            price: data.price / 100,
+            price: (data.price / 100).toFixed(2).replace('.', ','),
             description: data.description,
             categories: optionCategories,
             ingredients: optionIngredientsWithAmount,
@@ -216,10 +216,13 @@ function MenuItemsUpdate() {
                     <CurrencyInput
                         id="price"
                         name="price"
+                        decimalSeparator=","
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
                         intlConfig={{ locale: 'nl-NL', currency: 'EUR' }}
+                        defaultValue={menuData.price}
                         value={menuData.price}
                         decimalsLimit={2}
+                        fixedDecimalLength={2}
                         onValueChange={handlePriceChange}
                     />
                 </div>
