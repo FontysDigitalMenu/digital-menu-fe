@@ -79,7 +79,7 @@ function Home() {
             },
             body: JSON.stringify({
                 menuItemId: id,
-                deviceId: localStorage.getItem('deviceId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 

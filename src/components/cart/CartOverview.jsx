@@ -2,15 +2,22 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import ToastNotification from '../notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 function CartOverview() {
     const config = useContext(ConfigContext)
-    const [isLoading, setIsLoading] = useState(false)
     const [cartItemCollection, setCartItemCollection] = useState()
+    const [isHost, setIsHost] = useState(false)
 
     useEffect(() => {
         if (!config) return
+        if (localStorage.getItem('tableSessionId') === null) {
+            toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                autoClose: 8000,
+            })
+        }
         fetchCartItems().then((r) => r)
+        fetchIsSessionHost().then((r) => r)
     }, [config])
 
     useLayoutEffect(() => {
@@ -18,21 +25,28 @@ function CartOverview() {
     }, [])
 
     async function fetchCartItems() {
-        setIsLoading(true)
-        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('deviceId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
         })
-        setIsLoading(false)
 
         if (response.status === 200) {
             const data = await response.json()
             setCartItemCollection(data)
         } else if (response.status === 404) {
             setCartItemCollection(null)
+        }
+    }
+
+    async function fetchIsSessionHost() {
+        const response = await fetch(`${config.API_URL}/api/v1/table/sessionId/${localStorage.getItem('tableSessionId')}`)
+
+        if (response.status === 200) {
+            const data = await response.json()
+            setIsHost(data.hostId === localStorage.getItem('deviceId'))
         }
     }
 
@@ -45,7 +59,7 @@ function CartOverview() {
             },
             body: JSON.stringify({
                 cartItemId: id,
-                deviceId: localStorage.getItem('deviceId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 
@@ -65,7 +79,7 @@ function CartOverview() {
             },
             body: JSON.stringify({
                 cartItemId: id,
-                deviceId: localStorage.getItem('deviceId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 
@@ -141,9 +155,13 @@ function CartOverview() {
                                 }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
                             </div>
                             <div className="text-2xl w-full h-1/2 flex items-center justify-center">
-                                <Link to={'/order/split'} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
-                                    Split Order Bill
-                                </Link>
+                                {isHost ? (
+                                    <Link to={'/order/split'} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-fit px-8 bg-red-500 hover:bg-red-600">
+                                        Split Order Bill
+                                    </Link>
+                                ) : (
+                                    <Link className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-fit px-8 bg-red-500 hover:bg-red-600">Wait for host to split bill</Link>
+                                )}
                             </div>
                         </div>
                     </div>

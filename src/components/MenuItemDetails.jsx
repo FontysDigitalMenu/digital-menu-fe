@@ -45,7 +45,7 @@ function MenuItemDetails() {
                 },
                 body: JSON.stringify({
                     menuItemId: id,
-                    deviceId: localStorage.getItem('deviceId'),
+                    tableSessionId: localStorage.getItem('tableSessionId'),
                     note: document.getElementById('note').value === '' ? undefined : document.getElementById('note').value,
                     excludedIngredients: selectedIngredients.map((ingredient) => ingredient.name),
                 }),

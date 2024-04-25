@@ -53,7 +53,7 @@ function SplitOrder() {
     }
 
     async function fetchCartItems() {
-        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('deviceId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ function SplitOrder() {
                     name: s.name,
                 })),
                 deviceId: localStorage.getItem('deviceId'),
-                tableId: localStorage.getItem('tableId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 
@@ -93,6 +93,7 @@ function SplitOrder() {
         } else if (response.status === 400) {
             const data = await response.json()
             if (data?.errors?.TableId) {
+                //TODO: tableId or tableSessionId???
                 toast.error('Please scan the QR-Code on your table using your camera on your phone', {
                     autoClose: 8000,
                 })
