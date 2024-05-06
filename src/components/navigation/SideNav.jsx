@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LogoutButton from './LogoutButton.jsx'
 import NavBarItem from './NavBarItem.jsx'
@@ -50,8 +50,9 @@ function SideNav({ setIsAuthenticated }) {
                     <ul className="space-y-2 font-medium text-lg" onClick={closeSidebar}>
                         <NavBarItem href={'/admin'} icon={'home'} text={'Home'} />
                         <NavBarItem href={'/admin/tables'} icon={'table_restaurant'} text={'Tables'} />
+                        <NavBarItem href={'/admin/menuItems'} icon={'restaurant_menu'} text={'MenuItems'} />
                         <NavBarItem href={'/kitchen/receive/order'} icon={'orders'} text={'Complete orders'} />
-                        <NavBarItem href={'/kitchen/receive/order/food'} icon={'restaurant_menu'} text={'Food orders'} />
+                        <NavBarItem href={'/kitchen/receive/order/food'} icon={'restaurant'} text={'Food orders'} />
                         <NavBarItem href={'/kitchen/receive/order/drinks'} icon={'wine_bar'} text={'Drinks orders'} />
                     </ul>
                     <ul className="space-y-2 font-medium text-lg">

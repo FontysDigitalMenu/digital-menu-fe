@@ -180,7 +180,7 @@ function SplitOrder() {
                     </div>
                 )}
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
-                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600" onClick={handleConfirmOrder}>
+                    <button onClick={handleConfirmOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
                         Confirm
                     </button>
                 </div>

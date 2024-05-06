@@ -25,6 +25,8 @@ import OrderProgress from './components/order/OrderProgress.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import MyOrders from './components/account/MyOrders.jsx'
 import KitchenRoot from './components/KitchenRoot.jsx'
+import MenuItems from './components/admin/menuitems/MenuItems.jsx'
+import MenuItemsCreate from './components/admin/menuitems/MenuItemsCreate.jsx'
 import SplitOrder from './components/order/SplitOrder.jsx'
 
 function App() {
@@ -89,6 +91,9 @@ function App() {
                             <Route path={'tables/create'} element={<TablesCreate />} />
                             <Route path={'tables/:id/edit'} element={<TablesEdit />} />
                             <Route path={'receiveOrder'} element={<ReceiveOrder />} />
+
+                            <Route path={'menuItems'} element={<MenuItems />} />
+                            <Route path={'menuItems/create'} element={<MenuItemsCreate />} />
                         </Route>
 
                         {/*KITCHEN*/}
