@@ -11,7 +11,12 @@ function SplitOrder() {
     const [customSplits, setCustomSplits] = useState([{ name: '', amount: '' }])
     const [cartItemCollection, setCartItemCollection] = useState()
 
-    const pricePerPerson = (cartItemCollection ? cartItemCollection.totalAmount / 100 : 0) / splitAmount
+    const totalPrice = cartItemCollection ? cartItemCollection.totalAmount / 100 : 0
+    const pricePerPerson = totalPrice / splitAmount
+
+    const totalCustomSplitsAmount = customSplits.reduce((total, split) => {
+        return total + (split.amount || 0)
+    }, 0)
 
     useEffect(() => {
         if (!config) return
@@ -48,7 +53,7 @@ function SplitOrder() {
 
     const handleCustomSplitValueChange = (index, e) => {
         const newCustomSplits = [...customSplits]
-        newCustomSplits[index].value = parseInt(e.target.value) || ''
+        newCustomSplits[index].amount = parseInt(e.target.value) || ''
         setCustomSplits(newCustomSplits)
     }
 
@@ -114,11 +119,11 @@ function SplitOrder() {
                     <div className="title-box text-left text-2xl font-bold w-full px-2">
                         <p>Split the bill</p>
                         <p className="pt-1">
-                            Left to split:{' '}
+                            Total price:{' '}
                             {new Intl.NumberFormat('nl-NL', {
                                 style: 'currency',
                                 currency: 'EUR',
-                            }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
+                            }).format(totalPrice)}
                         </p>
                     </div>
                     <div className="text-box flex flex-col px-2">
@@ -136,8 +141,9 @@ function SplitOrder() {
                             <div>
                                 <p className="text-left pt-4 font-style: italic">Custom splits</p>
                                 {customSplits.map((split, index) => (
-                                    <div key={index} className="flex pt-2">
-                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
+                                    <div key={index} className="flex pt-2 items-center">
+                                        <p className="mr-1">€</p>
+                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" min="0" max={totalPrice} placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
                                         <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
                                         <button className="bg-red-500 w-[10%] text-white p-2 rounded-lg ml-1" onClick={() => handleRemoveCustomSplit(index)}>
                                             -
@@ -154,15 +160,25 @@ function SplitOrder() {
             </div>
 
             <div className="bottom-box w-full sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
-                <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
-                    Price per person: &nbsp;
-                    {pricePerPerson
-                        ? new Intl.NumberFormat('nl-NL', {
-                              style: 'currency',
-                              currency: 'EUR',
-                          }).format(pricePerPerson)
-                        : '-'}
-                </div>
+                {splitOption === 'Even' ? (
+                    <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
+                        Price per person: &nbsp;
+                        {pricePerPerson
+                            ? new Intl.NumberFormat('nl-NL', {
+                                  style: 'currency',
+                                  currency: 'EUR',
+                              }).format(pricePerPerson)
+                            : '-'}
+                    </div>
+                ) : (
+                    <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
+                        Left to split: &nbsp;
+                        {new Intl.NumberFormat('nl-NL', {
+                            style: 'currency',
+                            currency: 'EUR',
+                        }).format(totalPrice - totalCustomSplitsAmount)}
+                    </div>
+                )}
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
                     <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600" onClick={handleConfirmOrder}>
                         Confirm
