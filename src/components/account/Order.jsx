@@ -5,31 +5,12 @@ function Order({ order }) {
     let paymentStatusClass = ''
     let paymentStatusText = ''
 
-    switch (order.paymentStatus) {
-        case 'Pending':
-            paymentStatusClass = 'bg-yellow-300 text-yellow-900'
-            paymentStatusText = 'Pending payment'
-            break
-        case 'Paid':
-            paymentStatusClass = 'bg-green-300 text-green-900'
-            paymentStatusText = 'Paid'
-            break
-        case 'Canceled':
-            paymentStatusClass = 'bg-red-300 text-red-900'
-            paymentStatusText = 'Payment canceled'
-            break
-        case 'Refund':
-            paymentStatusClass = 'bg-purple-300 text-purple-900'
-            paymentStatusText = 'Payment refunded'
-            break
-        case 'Expired':
-            paymentStatusClass = 'bg-orange-300 text-orange-900'
-            paymentStatusText = 'Payment expired'
-            break
-        default:
-            paymentStatusClass = 'bg-gray-300 text-gray-900'
-            paymentStatusText = 'Unknown'
-            break
+    if (order.isPaymentSuccess) {
+        paymentStatusClass = 'bg-green-300 text-green-900'
+        paymentStatusText = 'Paid'
+    } else {
+        paymentStatusClass = 'bg-yellow-300 text-yellow-900'
+        paymentStatusText = 'Waiting for payment(s)'
     }
 
     return (

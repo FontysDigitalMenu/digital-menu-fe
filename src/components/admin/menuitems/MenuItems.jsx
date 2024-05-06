@@ -5,6 +5,7 @@ import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
 import { Button, Modal } from 'flowbite-react'
 import DeleteMenuItem from './MenuItemsDelete.jsx'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
+import { Link } from 'react-router-dom'
 
 function MenuItems() {
     const config = useContext(ConfigContext)
@@ -90,9 +91,9 @@ function MenuItems() {
                             <th scope="col" className="px-6 py-3">
                                 Image
                             </th>
-                            {/*<th scope="col" className="px-6 py-3">*/}
-                            {/*    Action*/}
-                            {/*</th>*/}
+                            <th scope="col" className="px-6 py-3">
+                                Action
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,9 +108,9 @@ function MenuItems() {
                                     <img src={menuItem.imageUrl} alt={menuItem.name} className="h-16 w-16 object-cover" />
                                 </td>
                                 <td className="px-6 py-4">
-                                    {/*                 <a href="#" className="m-1 font-medium text-blue-600 hover:underline">
+                                    <Link to={`/admin/menuItems/${menuItem.id}/edit`} className="m-1 font-medium text-blue-600 hover:underline">
                                         Edit
-                                    </a>*/}
+                                    </Link>
                                     <button
                                         onClick={() => {
                                             openModal(menuItem.id)

@@ -53,7 +53,7 @@ function SplitOrder() {
 
     const handleCustomSplitValueChange = (index, e) => {
         const newCustomSplits = [...customSplits]
-        newCustomSplits[index].amount = parseInt(e.target.value) || ''
+        newCustomSplits[index].amount = parseInt(e.target.value * 100) || ''
         setCustomSplits(newCustomSplits)
     }
 
@@ -83,7 +83,7 @@ function SplitOrder() {
             },
             body: JSON.stringify({
                 splits: customSplits.map((s) => ({
-                    amount: s.amount * 100,
+                    amount: s.amount,
                     name: s.name,
                 })),
                 deviceId: localStorage.getItem('deviceId'),

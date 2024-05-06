@@ -241,9 +241,14 @@ function OrderProgress() {
                                                     currency: 'EUR',
                                                 }).format(split.amount / 100)}
                                             </span>
-                                            <button onClick={() => handlePaySplit(split.id)} className={'bg-red-600 text-white'}>
-                                                Pay
-                                            </button>
+
+                                            {split.paymentStatus !== 'Paid' ? (
+                                                <button onClick={() => handlePaySplit(split.id)} className={'bg-red-600 text-white'}>
+                                                    Pay
+                                                </button>
+                                            ) : (
+                                                <span className={'bg-green-600 text-white'}>Paid</span>
+                                            )}
                                         </div>
                                     )
                                 })}
