@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import ToastNotification from '../notifications/ToastNotification.jsx'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 
 function SplitOrder() {
@@ -10,6 +11,7 @@ function SplitOrder() {
     const [splitAmount, setSplitAmount] = useState(1)
     const [customSplits, setCustomSplits] = useState([{ name: '', amount: '' }])
     const [cartItemCollection, setCartItemCollection] = useState()
+    const [nameError, setNameError] = useState(true)
 
     const totalPrice = cartItemCollection ? cartItemCollection.totalAmount / 100 : 0
     const pricePerPerson = totalPrice / splitAmount
@@ -49,6 +51,11 @@ function SplitOrder() {
         const newCustomSplits = [...customSplits]
         newCustomSplits[index].name = e.target.value
         setCustomSplits(newCustomSplits)
+        if (customSplits.some((split) => split.name === '')) {
+            setNameError(true)
+        } else {
+            setNameError(false)
+        }
     }
 
     const handleCustomSplitValueChange = (index, e) => {
@@ -95,6 +102,10 @@ function SplitOrder() {
             }),
         })
 
+        if (nameError === true) {
+            ToastNotification('error', 'Please fill in the name field(s)')
+            return
+        }
         if (response.status === 201) {
             const data = await response.json()
             console.log(data)
