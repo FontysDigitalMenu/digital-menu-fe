@@ -37,6 +37,10 @@ function SplitOrder() {
         } else {
             setSplitAmount(value)
         }
+
+        if (splitOption === 'Even') {
+            SetEvenlySplitOrder()
+        }
     }
 
     const handleAddCustomSplit = () => {
@@ -85,24 +89,55 @@ function SplitOrder() {
         }
     }
 
+    const SetEvenlySplitOrder = () => {
+        const pricePerPersonString = pricePerPerson.toFixed(2)
+        const newCustomSplits = []
+
+        for (let i = 0; i < splitAmount - 1; i++) {
+            newCustomSplits.push({ name: `Person ${i + 1}`, amount: pricePerPersonString })
+        }
+
+        const lastPersonAmount = (totalPrice - pricePerPerson.toFixed(2) * (splitAmount - 1)).toFixed(2)
+        newCustomSplits.push({ name: `Person ${splitAmount}`, amount: lastPersonAmount })
+
+        return newCustomSplits
+    }
+
     async function handleConfirmOrder() {
+        let newCustomSplits
+
+        if (splitOption === 'Even') {
+            newCustomSplits = SetEvenlySplitOrder()
+            console.log(newCustomSplits)
+        }
+
+        const requestBody = {
+            deviceId: localStorage.getItem('deviceId'),
+            tableId: localStorage.getItem('tableId'),
+        }
+
+        if (splitOption === 'Even') {
+            requestBody.splits = newCustomSplits.map((s) => ({
+                amount: s.amount * 100,
+                name: s.name,
+            }))
+        } else {
+            requestBody.splits = customSplits.map((s) => ({
+                amount: s.amount * 100,
+                name: s.name,
+            }))
+        }
+
         const response = await fetch(`${config.API_URL}/api/v1/Order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
-            body: JSON.stringify({
-                splits: customSplits.map((s) => ({
-                    amount: s.amount * 100,
-                    name: s.name,
-                })),
-                deviceId: localStorage.getItem('deviceId'),
-                tableId: localStorage.getItem('tableId'),
-            }),
+            body: JSON.stringify(requestBody),
         })
 
-        if (nameError === true) {
+        if (nameError === true && splitOption === 'Custom') {
             ToastNotification('error', 'Please fill in the name field(s)')
             return
         }
