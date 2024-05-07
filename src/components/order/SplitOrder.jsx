@@ -53,7 +53,7 @@ function SplitOrder() {
 
     const handleCustomSplitValueChange = (index, e) => {
         const newCustomSplits = [...customSplits]
-        newCustomSplits[index].amount = parseInt(e.target.value * 100) || ''
+        newCustomSplits[index].amount = parseFloat(e.target.value)
         setCustomSplits(newCustomSplits)
     }
 
@@ -144,7 +144,7 @@ function SplitOrder() {
                                     <div key={index} className="flex pt-2 items-center">
                                         <p className="mr-1">€</p>
                                         <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" min="0" max={totalPrice} placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
-                                        <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
+                                        <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" maxLength={20} placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
                                         <button className="bg-red-500 w-[10%] text-white p-2 rounded-lg ml-1" onClick={() => handleRemoveCustomSplit(index)}>
                                             -
                                         </button>
@@ -180,7 +180,11 @@ function SplitOrder() {
                     </div>
                 )}
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
-                    <button onClick={handleConfirmOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                    <button
+                        onClick={handleConfirmOrder}
+                        className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600 ${splitOption !== 'Even' && totalCustomSplitsAmount !== totalPrice ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={splitOption !== 'Even' && totalCustomSplitsAmount !== totalPrice}
+                    >
                         Confirm
                     </button>
                 </div>
