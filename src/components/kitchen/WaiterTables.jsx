@@ -1,24 +1,19 @@
-import {useContext, useEffect, useState} from "react";
-import ConfigContext from "../../provider/ConfigProvider.jsx";
-import {Link} from "react-router-dom";
-import notification from "react-notifications/lib/Notification.js";
-import ToastNotification from "../notifications/ToastNotification.jsx";
-import IngredientsDelete from "../admin/ingredients/IngredientsDelete.jsx";
-"use client";
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+
+import {useContext, useEffect, useState} from "react";
+import ConfigContext from "../../provider/ConfigProvider.jsx";
+import ToastNotification from "../notifications/ToastNotification.jsx";
 
 function WaiterTables() {
     const [modalIsOpen, setIsOpen] = useState(false)
     const [tableId, setTableId] = useState(0)
-    const [closeCount, setCloseCount] = useState(0)
     function openModal(id) {
         setTableId(id)
         setIsOpen(true)
     }
     function closeModal() {
         setIsOpen(false)
-        setCloseCount((prev) => prev + 1)
     }
     const config = useContext(ConfigContext)
     const [tables, setTables] = useState([])
@@ -73,17 +68,23 @@ function WaiterTables() {
                 <Modal.Header />
                 <Modal.Body>
                     <div className="text-center">
-                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 " />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500">
                             Are you sure you want to reset this table?
                         </h3>
-                        <div className="flex justify-center gap-4">
-                            <Button color="failure" onClick={() => resetSession()}>
+                        <div className="flex justify-center gap-4 ">
+                            <button
+                                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                                onClick={resetSession}
+                            >
                                 {"Yes, I'm sure"}
-                            </Button>
-                            <Button color="gray" onClick={() => closeModal()}>
+                            </button>
+                            <button
+                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+                                onClick={closeModal}
+                            >
                                 No, cancel
-                            </Button>
+                            </button>
                         </div>
                     </div>
                 </Modal.Body>
@@ -91,7 +92,7 @@ function WaiterTables() {
             {tables.map((table, index) => (
                 <div key={index} className="border border-gray-500 px-2 py-1 rounded w-36 m-1">
                     <div className="flex justify-between ">
-                    <div className="mr-4">{table.name}</div>
+                        <div className="mr-4">{table.name}</div>
                         <button onClick={() => openModal(table.id)} className="flex items-center justify-end">
                             <span className="material-symbols-outlined text-red-500">
                                 history
