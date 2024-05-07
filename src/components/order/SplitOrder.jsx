@@ -53,8 +53,12 @@ function SplitOrder() {
 
     const handleCustomSplitValueChange = (index, e) => {
         const newCustomSplits = [...customSplits]
-        newCustomSplits[index].amount = parseFloat(e.target.value)
-        setCustomSplits(newCustomSplits)
+        const value = e.target.value
+        const decimalCount = (value.split('.')[1] || '').length
+        if (decimalCount <= 2) {
+            newCustomSplits[index].amount = parseFloat(e.target.value)
+            setCustomSplits(newCustomSplits)
+        }
     }
 
     async function fetchCartItems() {
@@ -83,7 +87,7 @@ function SplitOrder() {
             },
             body: JSON.stringify({
                 splits: customSplits.map((s) => ({
-                    amount: s.amount,
+                    amount: s.amount * 100,
                     name: s.name,
                 })),
                 deviceId: localStorage.getItem('deviceId'),
@@ -143,8 +147,8 @@ function SplitOrder() {
                                 {customSplits.map((split, index) => (
                                     <div key={index} className="flex pt-2 items-center">
                                         <p className="mr-1">€</p>
-                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" min="0" max={totalPrice} placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
-                                        <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" maxLength={20} placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
+                                        <input required min="0.01" step="0.01" className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" max={totalPrice} placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
+                                        <input required className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" maxLength={20} placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
                                         <button className="bg-red-500 w-[10%] text-white p-2 rounded-lg ml-1" onClick={() => handleRemoveCustomSplit(index)}>
                                             -
                                         </button>
