@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import ToastNotification from '../notifications/ToastNotification.jsx'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 
 function SplitOrder() {
@@ -10,8 +11,14 @@ function SplitOrder() {
     const [splitAmount, setSplitAmount] = useState(1)
     const [customSplits, setCustomSplits] = useState([{ name: '', amount: '' }])
     const [cartItemCollection, setCartItemCollection] = useState()
+    const [nameError, setNameError] = useState(true)
 
-    const pricePerPerson = (cartItemCollection ? cartItemCollection.totalAmount / 100 : 0) / splitAmount
+    const totalPrice = cartItemCollection ? cartItemCollection.totalAmount / 100 : 0
+    const pricePerPerson = totalPrice / splitAmount
+
+    const totalCustomSplitsAmount = customSplits.reduce((total, split) => {
+        return total + (split.amount || 0)
+    }, 0)
 
     useEffect(() => {
         if (!config) return
@@ -30,6 +37,10 @@ function SplitOrder() {
         } else {
             setSplitAmount(value)
         }
+
+        if (splitOption === 'Even') {
+            SetEvenlySplitOrder()
+        }
     }
 
     const handleAddCustomSplit = () => {
@@ -44,12 +55,21 @@ function SplitOrder() {
         const newCustomSplits = [...customSplits]
         newCustomSplits[index].name = e.target.value
         setCustomSplits(newCustomSplits)
+        if (customSplits.some((split) => split.name === '')) {
+            setNameError(true)
+        } else {
+            setNameError(false)
+        }
     }
 
     const handleCustomSplitValueChange = (index, e) => {
         const newCustomSplits = [...customSplits]
-        newCustomSplits[index].amount = parseInt(e.target.value * 100) || ''
-        setCustomSplits(newCustomSplits)
+        const value = e.target.value
+        const decimalCount = (value.split('.')[1] || '').length
+        if (decimalCount <= 2) {
+            newCustomSplits[index].amount = parseFloat(e.target.value)
+            setCustomSplits(newCustomSplits)
+        }
     }
 
     async function fetchCartItems() {
@@ -69,23 +89,58 @@ function SplitOrder() {
         }
     }
 
+    const SetEvenlySplitOrder = () => {
+        const pricePerPersonString = pricePerPerson.toFixed(2)
+        const newCustomSplits = []
+
+        for (let i = 0; i < splitAmount - 1; i++) {
+            newCustomSplits.push({ name: `Person ${i + 1}`, amount: pricePerPersonString })
+        }
+
+        const lastPersonAmount = (totalPrice - pricePerPerson.toFixed(2) * (splitAmount - 1)).toFixed(2)
+        newCustomSplits.push({ name: `Person ${splitAmount}`, amount: lastPersonAmount })
+
+        return newCustomSplits
+    }
+
     async function handleConfirmOrder() {
+        let newCustomSplits
+
+        if (splitOption === 'Even') {
+            newCustomSplits = SetEvenlySplitOrder()
+            console.log(newCustomSplits)
+        }
+
+        const requestBody = {
+            deviceId: localStorage.getItem('deviceId'),
+            tableId: localStorage.getItem('tableId'),
+        }
+
+        if (splitOption === 'Even') {
+            requestBody.splits = newCustomSplits.map((s) => ({
+                amount: s.amount * 100,
+                name: s.name,
+            }))
+        } else {
+            requestBody.splits = customSplits.map((s) => ({
+                amount: s.amount * 100,
+                name: s.name,
+            }))
+        }
+
         const response = await fetch(`${config.API_URL}/api/v1/Order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
-            body: JSON.stringify({
-                splits: customSplits.map((s) => ({
-                    amount: s.amount,
-                    name: s.name,
-                })),
-                deviceId: localStorage.getItem('deviceId'),
-                tableId: localStorage.getItem('tableId'),
-            }),
+            body: JSON.stringify(requestBody),
         })
 
+        if (nameError === true && splitOption === 'Custom') {
+            ToastNotification('error', 'Please fill in the name field(s)')
+            return
+        }
         if (response.status === 201) {
             const data = await response.json()
             console.log(data)
@@ -114,11 +169,11 @@ function SplitOrder() {
                     <div className="title-box text-left text-2xl font-bold w-full px-2">
                         <p>Split the bill</p>
                         <p className="pt-1">
-                            Left to split:{' '}
+                            Total price:{' '}
                             {new Intl.NumberFormat('nl-NL', {
                                 style: 'currency',
                                 currency: 'EUR',
-                            }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
+                            }).format(totalPrice)}
                         </p>
                     </div>
                     <div className="text-box flex flex-col px-2">
@@ -136,9 +191,10 @@ function SplitOrder() {
                             <div>
                                 <p className="text-left pt-4 font-style: italic">Custom splits</p>
                                 {customSplits.map((split, index) => (
-                                    <div key={index} className="flex pt-2">
-                                        <input className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" placeholder="Value" defaultValue={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
-                                        <input className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" placeholder="Name" defaultValue={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
+                                    <div key={index} className="flex pt-2 items-center">
+                                        <p className="mr-1">€</p>
+                                        <input required min="0.01" step="0.01" className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" max={totalPrice} placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
+                                        <input required className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" maxLength={20} placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
                                         <button className="bg-red-500 w-[10%] text-white p-2 rounded-lg ml-1" onClick={() => handleRemoveCustomSplit(index)}>
                                             -
                                         </button>
@@ -154,17 +210,31 @@ function SplitOrder() {
             </div>
 
             <div className="bottom-box w-full sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
-                <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
-                    Price per person: &nbsp;
-                    {pricePerPerson
-                        ? new Intl.NumberFormat('nl-NL', {
-                              style: 'currency',
-                              currency: 'EUR',
-                          }).format(pricePerPerson)
-                        : '-'}
-                </div>
+                {splitOption === 'Even' ? (
+                    <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
+                        Price per person: &nbsp;
+                        {pricePerPerson
+                            ? new Intl.NumberFormat('nl-NL', {
+                                  style: 'currency',
+                                  currency: 'EUR',
+                              }).format(pricePerPerson)
+                            : '-'}
+                    </div>
+                ) : (
+                    <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
+                        Left to split: &nbsp;
+                        {new Intl.NumberFormat('nl-NL', {
+                            style: 'currency',
+                            currency: 'EUR',
+                        }).format(totalPrice - totalCustomSplitsAmount)}
+                    </div>
+                )}
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
-                    <button onClick={handleConfirmOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                    <button
+                        onClick={handleConfirmOrder}
+                        className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600 ${splitOption !== 'Even' && totalCustomSplitsAmount !== totalPrice ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={splitOption !== 'Even' && totalCustomSplitsAmount !== totalPrice}
+                    >
                         Confirm
                     </button>
                 </div>

@@ -54,7 +54,7 @@ function SideNav({ setIsAuthenticated }) {
                         <NavBarItem href={'/admin/ingredients'} icon={'grocery'} text={'Ingredients'} />
                         <hr />
                         <NavBarItem href={'/kitchen/receive/order'} icon={'orders'} text={'Complete orders'} />
-                        <NavBarItem href={'/kitchen/receive/order/foods'} icon={'restaurant'} text={'Food orders'} />
+                        <NavBarItem href={'/kitchen/receive/order/food'} icon={'restaurant'} text={'Food orders'} />
                         <NavBarItem href={'/kitchen/receive/order/drinks'} icon={'wine_bar'} text={'Drinks orders'} />
                     </ul>
                     <ul className="space-y-2 font-medium text-lg">

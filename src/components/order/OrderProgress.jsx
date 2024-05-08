@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import waiter from '../../assets/waiter.jpg'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import notification from '../../assets/progress-notification.mp3'
+import paymentNotification from '../../assets/payment-noti.mp3'
+import { toast } from 'react-toastify'
 
 function OrderProgress() {
     const config = useContext(ConfigContext)
@@ -15,7 +17,7 @@ function OrderProgress() {
     const [completedClass, setCompletedClass] = useState('')
     const [connection, setConnection] = useState()
     const [remainingAmount, setRemainingAmount] = useState(0)
-    const [paymentsTimer, setPaymentsTimer] = useState()
+    const [paymentsTimer, setPaymentsTimer] = useState(0)
 
     useEffect(() => {
         if (!config) return
@@ -24,8 +26,13 @@ function OrderProgress() {
         setConnection(newConnection)
 
         const timer = setTimeout(() => {
-            alert('Payment timer has expired')
+            const audio = new Audio(paymentNotification)
+            audio.play()
+            toast('Not everyone has payed yet', {
+                type: 'info',
+            })
         }, 5 * 1000)
+        setPaymentsTimer(timer)
     }, [config])
 
     useEffect(() => {
@@ -52,6 +59,7 @@ function OrderProgress() {
 
         connection.on('ReceiveOrderUpdate', (order) => {
             setOrder(order)
+            clearTimeout(paymentsTimer)
             const audio = new Audio(notification)
             audio.play()
         })
@@ -95,6 +103,9 @@ function OrderProgress() {
         if (response.status === 200) {
             const data = await response.json()
             setOrder(data)
+            if (data.isPaymentSuccess === true) {
+                clearTimeout(paymentsTimer)
+            }
 
             const groupName = `order-${data.id}`
             await connection.invoke('AddToOrderGroup', { groupName })
