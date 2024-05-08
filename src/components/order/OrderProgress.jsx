@@ -13,14 +13,19 @@ function OrderProgress() {
     const [waiterPosition, setWaiterPosition] = useState('')
     const [processingClass, setProcessingClass] = useState('')
     const [completedClass, setCompletedClass] = useState('')
-
     const [connection, setConnection] = useState()
+    const [remainingAmount, setRemainingAmount] = useState(0)
+    const [paymentsTimer, setPaymentsTimer] = useState()
 
     useEffect(() => {
         if (!config) return
 
         const newConnection = new HubConnectionBuilder().withUrl(`${config.API_URL}/api/orderHub`, {}).configureLogging(LogLevel.Critical).withAutomaticReconnect().build()
         setConnection(newConnection)
+
+        const timer = setTimeout(() => {
+            alert('Payment timer has expired')
+        }, 5 * 1000)
     }, [config])
 
     useEffect(() => {
@@ -74,6 +79,8 @@ function OrderProgress() {
                 setCompletedClass('w-full')
                 break
         }
+
+        AmountToBePaid()
     }, [order])
 
     async function fetchOrder(orderId) {
@@ -117,6 +124,18 @@ function OrderProgress() {
         } else if (response.status === 404) {
         } else if (response.status === 500) {
         }
+    }
+
+    function AmountToBePaid() {
+        let remainingAmount = 0
+
+        order.splits.forEach((split) => {
+            if (split.paymentStatus !== 'Paid') {
+                remainingAmount += split.amount
+            }
+        })
+
+        setRemainingAmount(remainingAmount)
     }
 
     return (
@@ -230,28 +249,47 @@ function OrderProgress() {
                             <div className="title-box text-5xl font-bold w-full px-2 mb-6">
                                 <p className="text-center">Waiting for all payments to complete</p>
                             </div>
-                            <div>
+                            <div className={'flex pt-10 px-1 md:px-0'}>
+                                <span className="text-xl font-medium w-[20%]">Amount</span>
+                                <div className="text-xl font-medium w-[60%]">
+                                    <div className="flex w-full justify-center">Name</div>
+                                </div>
+                                <span className={'text-white text-xl rounded-md px-4 py-1 w-[20%]'}></span>
+                            </div>
+                            <div className="pt-6">
                                 {order.splits.map((split) => {
                                     return (
-                                        <div key={split.id} className={'flex justify-between'}>
-                                            <span>{split.name}</span>
-                                            <span>
-                                                {new Intl.NumberFormat('nl-NL', {
-                                                    style: 'currency',
-                                                    currency: 'EUR',
-                                                }).format(split.amount / 100)}
-                                            </span>
-
+                                        <div key={split.id} className="flex pt-2 px-1 md:px-0">
+                                            <div className="bg-gray-300 md:w-[20%] p-2 rounded-lg mr-1 w-20">
+                                                <p className="text-xl">
+                                                    {new Intl.NumberFormat('nl-NL', {
+                                                        style: 'currency',
+                                                        currency: 'EUR',
+                                                    }).format(split.amount / 100)}
+                                                </p>
+                                            </div>
+                                            <div className="bg-gray-300 w-[60%] p-2 rounded-lg ml-1 mr-1">
+                                                <p className="text-xl w-32 sm:w-48 md:w-72 truncate">{split.name}</p>
+                                            </div>
                                             {split.paymentStatus !== 'Paid' ? (
-                                                <button onClick={() => handlePaySplit(split.id)} className={'bg-red-600 text-white'}>
+                                                <button onClick={() => handlePaySplit(split.id)} className={'ml-1 bg-red-600 hover:bg-red-500 text-white w-20 text-xl rounded-md'}>
                                                     Pay
                                                 </button>
                                             ) : (
-                                                <span className={'bg-green-600 text-white'}>Paid</span>
+                                                <span className={'ml-1 bg-green-600 text-white text-xl rounded-md w-20 py-2 text-center'}>Paid</span>
                                             )}
                                         </div>
                                     )
                                 })}
+                            </div>
+                            <div className="pt-10">
+                                <p className="text-3xl font-bold flex w-full justify-center text-center">
+                                    Left to pay:{' '}
+                                    {new Intl.NumberFormat('nl-NL', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                    }).format(remainingAmount / 100)}
+                                </p>
                             </div>
                         </div>
                     </div>
