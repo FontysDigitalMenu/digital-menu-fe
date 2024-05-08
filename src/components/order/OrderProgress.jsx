@@ -15,12 +15,17 @@ function OrderProgress() {
     const [completedClass, setCompletedClass] = useState('')
     const [connection, setConnection] = useState()
     const [remainingAmount, setRemainingAmount] = useState(0)
+    const [paymentsTimer, setPaymentsTimer] = useState()
 
     useEffect(() => {
         if (!config) return
 
         const newConnection = new HubConnectionBuilder().withUrl(`${config.API_URL}/api/orderHub`, {}).configureLogging(LogLevel.Critical).withAutomaticReconnect().build()
         setConnection(newConnection)
+
+        const timer = setTimeout(() => {
+            alert('Payment timer has expired')
+        }, 5 * 1000)
     }, [config])
 
     useEffect(() => {
