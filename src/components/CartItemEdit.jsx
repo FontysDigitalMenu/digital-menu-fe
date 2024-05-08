@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState, useRef } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
-import Nav from './navigation/Nav.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import ToastNotification from './notifications/ToastNotification.jsx'
 
@@ -17,9 +16,9 @@ function CartItemEdit() {
     }, [config])
 
     async function fetchMenuItem() {
-        const deviceId = localStorage.getItem('deviceId')
+        const tableSessionId = localStorage.getItem('tableSessionId')
 
-        const response = await fetch(`${config.API_URL}/api/v1/CartItem?cartItemId=${id}&deviceId=${deviceId}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem?cartItemId=${id}&tableSessionId=${tableSessionId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +48,7 @@ function CartItemEdit() {
                 },
                 body: JSON.stringify({
                     cartItemId: id,
-                    deviceId: localStorage.getItem('deviceId'),
+                    tableSessionId: localStorage.getItem('tableSessionId'),
                     note: document.getElementById('note').value === '' ? undefined : document.getElementById('note').value,
                     excludedIngredients: selectedIngredients.map((ingredient) => ingredient.name),
                 }),

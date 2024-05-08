@@ -10,7 +10,7 @@ function StaffNav() {
             </div>
             <div className="sm:w-[85%] h-full sm:gap-7 flex text-lg items-center w-[60%] justify-center sm:justify-normal gap-2">
                 <div></div>
-                <Link to="/kitchen/receive/order/foods">Kitchen</Link>
+                <Link to="/kitchen/receive/order/food">Kitchen</Link>
                 <Link to="/kitchen/receive/order/drinks">Bar</Link>
                 <Link to="/kitchen/waiter">Waiters</Link>
                 <Link to="/kitchen/waiter/tables">Tables</Link>

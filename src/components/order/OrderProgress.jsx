@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import waiter from '../../assets/waiter.jpg'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import notification from '../../assets/progress-notification.mp3'
+import paymentNotification from '../../assets/payment-noti.mp3'
+import { toast } from 'react-toastify'
 
 function OrderProgress() {
     const config = useContext(ConfigContext)
@@ -15,12 +17,22 @@ function OrderProgress() {
     const [completedClass, setCompletedClass] = useState('')
     const [connection, setConnection] = useState()
     const [remainingAmount, setRemainingAmount] = useState(0)
+    const [paymentsTimer, setPaymentsTimer] = useState(0)
 
     useEffect(() => {
         if (!config) return
 
         const newConnection = new HubConnectionBuilder().withUrl(`${config.API_URL}/api/orderHub`, {}).configureLogging(LogLevel.Critical).withAutomaticReconnect().build()
         setConnection(newConnection)
+
+        const timer = setTimeout(() => {
+            const audio = new Audio(paymentNotification)
+            audio.play()
+            toast('Not everyone has payed yet', {
+                type: 'info',
+            })
+        }, 5 * 1000)
+        setPaymentsTimer(timer)
     }, [config])
 
     useEffect(() => {
@@ -47,6 +59,7 @@ function OrderProgress() {
 
         connection.on('ReceiveOrderUpdate', (order) => {
             setOrder(order)
+            clearTimeout(paymentsTimer)
             const audio = new Audio(notification)
             audio.play()
         })
@@ -79,7 +92,7 @@ function OrderProgress() {
     }, [order])
 
     async function fetchOrder(orderId) {
-        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}/${localStorage.getItem('deviceId')}/${localStorage.getItem('tableId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -90,9 +103,12 @@ function OrderProgress() {
         if (response.status === 200) {
             const data = await response.json()
             setOrder(data)
+            if (data.isPaymentSuccess === true) {
+                clearTimeout(paymentsTimer)
+            }
 
             const groupName = `order-${data.id}`
-            await connection.invoke('AddToOrderGroup', { groupName })
+            await connection.invoke('AddToGroup', { groupName })
         } else if (response.status === 404) {
             setOrder(null)
         }

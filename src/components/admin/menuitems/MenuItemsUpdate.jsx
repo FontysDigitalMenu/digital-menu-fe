@@ -161,8 +161,6 @@ function MenuItemsUpdate() {
                 formData.append('categories', category.value)
             })
 
-            console.log(menuData.ingredients)
-
             const ingredientNames = menuData.ingredients.map((ingredient) => ingredient.ingredient.value)
             const ingredientAmounts = menuData.ingredients.map((ingredient) => ingredient.amount)
 
@@ -175,8 +173,6 @@ function MenuItemsUpdate() {
             })
 
             formData.append('image', menuData.image)
-
-            console.log(formData)
 
             const response = await fetch(`${config.API_URL}/api/v1/menuItem`, {
                 method: 'PUT',

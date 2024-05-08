@@ -2,31 +2,64 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import ToastNotification from '../notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
+import { toast } from 'react-toastify'
 
 function CartOverview() {
     const config = useContext(ConfigContext)
-    const [isLoading, setIsLoading] = useState(false)
     const [cartItemCollection, setCartItemCollection] = useState()
+    const [connection, setConnection] = useState()
 
     useEffect(() => {
         if (!config) return
         fetchCartItems().then((r) => r)
+
+        const newConnection = new HubConnectionBuilder().withUrl(`${config.API_URL}/api/orderHub`, {}).configureLogging(LogLevel.Critical).withAutomaticReconnect().build()
+        setConnection(newConnection)
     }, [config])
+
+    useEffect(() => {
+        if (!connection) return
+
+        startConnection()
+
+        return () => {
+            if (!connection) return
+
+            connection
+                .stop()
+                .then(() => {
+                    console.log('Connection stopped')
+                })
+                .catch((error) => {
+                    console.log('Connection stopped Error: ' + error)
+                })
+        }
+    }, [connection])
 
     useLayoutEffect(() => {
         window.scrollTo(0, 0)
     }, [])
 
+    async function startConnection() {
+        await connection.start()
+
+        const groupName = `cart-${localStorage.getItem('tableSessionId')}`
+        await connection.invoke('AddToGroup', { groupName })
+
+        connection.on('ReceiveCartUpdate', (cartItemCollection) => {
+            setCartItemCollection(cartItemCollection)
+        })
+    }
+
     async function fetchCartItems() {
-        setIsLoading(true)
-        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('deviceId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
         })
-        setIsLoading(false)
 
         if (response.status === 200) {
             const data = await response.json()
@@ -45,7 +78,7 @@ function CartOverview() {
             },
             body: JSON.stringify({
                 cartItemId: id,
-                deviceId: localStorage.getItem('deviceId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 
@@ -65,7 +98,7 @@ function CartOverview() {
             },
             body: JSON.stringify({
                 cartItemId: id,
-                deviceId: localStorage.getItem('deviceId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 
@@ -76,15 +109,83 @@ function CartOverview() {
         }
     }
 
+    async function checkoutOrder() {
+        const response = await fetch(`${config.API_URL}/api/v1/Order`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                tableSessionId: localStorage.getItem('tableSessionId'),
+                splits: [
+                    {
+                        amount: cartItemCollection.totalAmount,
+                        name: 'Person 1',
+                    },
+                ],
+            }),
+        })
+
+        if (response.status === 201) {
+            const data = await response.json()
+            await handlePaySplit(data.splits[0].id)
+        } else if (response.status === 400) {
+            const data = await response.json()
+            console.log(data)
+            if (data?.errors?.SessionId) {
+                toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                    autoClose: 8000,
+                })
+            } else {
+                toast.error(data.message, {
+                    autoClose: 8000,
+                })
+            }
+        }
+    }
+
+    async function handlePaySplit(splitId) {
+        const response = await fetch(`${config.API_URL}/api/v1/split/pay`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                splitId: splitId,
+            }),
+        })
+
+        if (response.status === 200) {
+            const data = await response.json()
+            window.location.href = data.redirectUrl
+        } else if (response.status === 400) {
+        } else if (response.status === 404) {
+        } else if (response.status === 500) {
+        }
+    }
+
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
             <div>
                 <div className="mt-6 w-full flex justify-center">
                     <div className="w-96 md:w-[500px]">
+                        {cartItemCollection && cartItemCollection.anyUnpaidOrders && (
+                            <div>
+                                <p className="text-center text-xl">!!! There are unpaid orders !!!</p>
+                                <Link to="/account/orders" className="w-fit mx-auto block text-blue-500 underline">
+                                    See the unpaid orders here
+                                </Link>
+                                <br />
+                            </div>
+                        )}
+
                         <div className="title-box text-2xl font-bold w-full px-2">
                             <p className="text-left">Your Order</p>
                         </div>
                         <div className="min-h-screen flex flex-col px-2">
+                            {!cartItemCollection && <p className="text-center">No items in your order</p>}
                             {cartItemCollection &&
                                 cartItemCollection.cartItems.map((cartItem) => {
                                     return (
@@ -140,8 +241,12 @@ function CartOverview() {
                                     currency: 'EUR',
                                 }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
                             </div>
-                            <div className="text-2xl w-full h-1/2 flex items-center justify-center">
-                                <Link to={'/order/split'} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                            <div className="text-2xl w-full h-1/2 flex items-center flex-col justify-center">
+                                <button onClick={checkoutOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                                    Checkout Order
+                                </button>
+                                <span>--- OR ---</span>
+                                <Link to={'/order/split'} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-800 hover:bg-red-600">
                                     Split Order Bill
                                 </Link>
                             </div>

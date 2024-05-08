@@ -2,6 +2,7 @@ import { useContext, useEffect, useState, useRef, useLayoutEffect } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
 import ToastNotification from './notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 function Home() {
     const config = useContext(ConfigContext)
@@ -71,6 +72,12 @@ function Home() {
     }
 
     const handleAddToOrder = async (id) => {
+        if (!localStorage.getItem('tableSessionId')) {
+            toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                autoClose: 8000,
+            })
+            return
+        }
         const response = await fetch(`${config.API_URL}/api/v1/CartItem`, {
             method: 'POST',
             headers: {
@@ -79,12 +86,16 @@ function Home() {
             },
             body: JSON.stringify({
                 menuItemId: id,
-                deviceId: localStorage.getItem('deviceId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 
         if (response.status === 204) {
             ToastNotification('success', 'Added item to order')
+        } else if (response.status === 404) {
+            toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                autoClose: 8000,
+            })
         } else {
             ToastNotification('error', 'Error while adding item to order')
         }

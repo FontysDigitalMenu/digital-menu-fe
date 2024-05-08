@@ -28,7 +28,6 @@ function MultipleContainers({ orders, isDrinks }) {
     const [activeTask, setActiveTask] = useState(null)
 
     useEffect(() => {
-        console.log(orders)
         transformOrder(orders)
     }, [orders])
 
