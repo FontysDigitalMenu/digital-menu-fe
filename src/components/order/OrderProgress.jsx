@@ -92,7 +92,7 @@ function OrderProgress() {
     }, [order])
 
     async function fetchOrder(orderId) {
-        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}/${localStorage.getItem('deviceId')}/${localStorage.getItem('tableId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}/${localStorage.getItem('deviceId')}/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ function OrderProgress() {
             }
 
             const groupName = `order-${data.id}`
-            await connection.invoke('AddToOrderGroup', { groupName })
+            await connection.invoke('AddToGroup', { groupName })
         } else if (response.status === 404) {
             setOrder(null)
         }

@@ -119,8 +119,6 @@ function MenuItemsCreate() {
 
             formData.append('image', menuData.image)
 
-            console.log(formData)
-
             const response = await fetch(`${config.API_URL}/api/v1/menuItem`, {
                 method: 'POST',
                 headers: {

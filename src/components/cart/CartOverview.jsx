@@ -2,31 +2,63 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import ToastNotification from '../notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
 function CartOverview() {
     const config = useContext(ConfigContext)
-    const [isLoading, setIsLoading] = useState(false)
     const [cartItemCollection, setCartItemCollection] = useState()
+    const [connection, setConnection] = useState()
 
     useEffect(() => {
         if (!config) return
         fetchCartItems().then((r) => r)
+
+        const newConnection = new HubConnectionBuilder().withUrl(`${config.API_URL}/api/orderHub`, {}).configureLogging(LogLevel.Critical).withAutomaticReconnect().build()
+        setConnection(newConnection)
     }, [config])
+
+    useEffect(() => {
+        if (!connection) return
+
+        startConnection()
+
+        return () => {
+            if (!connection) return
+
+            connection
+                .stop()
+                .then(() => {
+                    console.log('Connection stopped')
+                })
+                .catch((error) => {
+                    console.log('Connection stopped Error: ' + error)
+                })
+        }
+    }, [connection])
 
     useLayoutEffect(() => {
         window.scrollTo(0, 0)
     }, [])
 
+    async function startConnection() {
+        await connection.start()
+
+        const groupName = `cart-${localStorage.getItem('tableSessionId')}`
+        await connection.invoke('AddToGroup', { groupName })
+
+        connection.on('ReceiveCartUpdate', (cartItemCollection) => {
+            setCartItemCollection(cartItemCollection)
+        })
+    }
+
     async function fetchCartItems() {
-        setIsLoading(true)
-        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('deviceId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
         })
-        setIsLoading(false)
 
         if (response.status === 200) {
             const data = await response.json()
@@ -45,7 +77,7 @@ function CartOverview() {
             },
             body: JSON.stringify({
                 cartItemId: id,
-                deviceId: localStorage.getItem('deviceId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 
@@ -65,7 +97,7 @@ function CartOverview() {
             },
             body: JSON.stringify({
                 cartItemId: id,
-                deviceId: localStorage.getItem('deviceId'),
+                tableSessionId: localStorage.getItem('tableSessionId'),
             }),
         })
 
@@ -85,6 +117,7 @@ function CartOverview() {
                             <p className="text-left">Your Order</p>
                         </div>
                         <div className="min-h-screen flex flex-col px-2">
+                            {!cartItemCollection && <p className="text-center">No items in your order</p>}
                             {cartItemCollection &&
                                 cartItemCollection.cartItems.map((cartItem) => {
                                     return (

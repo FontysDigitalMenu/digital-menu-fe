@@ -108,12 +108,11 @@ function SplitOrder() {
 
         if (splitOption === 'Even') {
             newCustomSplits = SetEvenlySplitOrder()
-            console.log(newCustomSplits)
         }
 
         const requestBody = {
             deviceId: localStorage.getItem('deviceId'),
-            tableId: localStorage.getItem('tableId'),
+            tableId: localStorage.getItem('tableSessionId'),
         }
 
         if (splitOption === 'Even') {
@@ -143,16 +142,14 @@ function SplitOrder() {
         }
         if (response.status === 201) {
             const data = await response.json()
-            console.log(data)
             return navigate(`/order/progress/${data.id}`)
         } else if (response.status === 400) {
             const data = await response.json()
-            if (data?.errors?.TableId) {
+            if (data?.errors?.SessionId) {
                 toast.error('Please scan the QR-Code on your table using your camera on your phone', {
                     autoClose: 8000,
                 })
             } else {
-                console.log(data)
                 toast.error(data.message, {
                     autoClose: 8000,
                 })

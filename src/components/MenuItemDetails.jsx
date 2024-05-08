@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState, useRef } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import ToastNotification from './notifications/ToastNotification.jsx'
+import { toast } from 'react-toastify'
 
 function MenuItemDetails() {
     const { id } = useParams()
@@ -32,6 +33,13 @@ function MenuItemDetails() {
     }
 
     async function addToOrder() {
+        if (!localStorage.getItem('tableSessionId')) {
+            toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                autoClose: 8000,
+            })
+            return
+        }
+
         try {
             const selectedIngredients = menuItem.ingredients.filter((ingredient) => {
                 const checkbox = document.getElementById(`ingredient-${ingredient.id}`)
@@ -45,7 +53,7 @@ function MenuItemDetails() {
                 },
                 body: JSON.stringify({
                     menuItemId: id,
-                    deviceId: localStorage.getItem('deviceId'),
+                    tableSessionId: localStorage.getItem('tableSessionId'),
                     note: document.getElementById('note').value === '' ? undefined : document.getElementById('note').value,
                     excludedIngredients: selectedIngredients.map((ingredient) => ingredient.name),
                 }),
@@ -54,6 +62,10 @@ function MenuItemDetails() {
             if (response.status === 204) {
                 ToastNotification('success', 'Added item to order')
                 navigate('/')
+            } else if (response.status === 404) {
+                toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                    autoClose: 8000,
+                })
             } else {
                 ToastNotification('error', 'Failed to add menu item')
             }

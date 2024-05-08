@@ -12,7 +12,6 @@ function ReceiveOrder() {
     const [orders, setOrders] = useState([])
 
     function handleReceivedOrder(order) {
-        console.log(order)
         const audio = new Audio(notification)
         audio.play()
         toastNotification('success', 'Received order')
@@ -33,7 +32,6 @@ function ReceiveOrder() {
 
             if (response.status === 200) {
                 const data = await response.json()
-                console.log(data)
                 setOrders(data)
             } else if (response.status === 404) {
                 setOrders(null)

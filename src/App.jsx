@@ -30,7 +30,7 @@ import MenuItemsUpdate from './components/admin/menuitems/MenuItemsUpdate.jsx'
 import Ingredients from './components/admin/ingredients/Ingredients.jsx'
 import IngredientsCreate from './components/admin/ingredients/IngredientsCreate.jsx'
 import IngredientsUpdate from './components/admin/ingredients/IngredientsUpdate.jsx'
-import WaiterTables from "./components/kitchen/WaiterTables.jsx";
+import WaiterTables from './components/kitchen/WaiterTables.jsx'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -41,7 +41,7 @@ function App() {
 
         if (config.DEVICE_ID !== null || config.TABLE_ID !== null) {
             localStorage.setItem('deviceId', config.DEVICE_ID)
-            localStorage.setItem('tableId', config.TABLE_ID)
+            localStorage.setItem('tableSessionId', config.TABLE_ID)
             return
         }
 

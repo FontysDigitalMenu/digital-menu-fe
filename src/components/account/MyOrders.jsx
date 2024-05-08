@@ -13,7 +13,7 @@ function MyOrders() {
     }, [config])
 
     async function fetchOrders() {
-        const response = await fetch(`${config.API_URL}/api/v1/order/${localStorage.getItem('tableId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/order/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
