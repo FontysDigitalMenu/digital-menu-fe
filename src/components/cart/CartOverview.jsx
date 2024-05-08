@@ -113,6 +113,16 @@ function CartOverview() {
             <div>
                 <div className="mt-6 w-full flex justify-center">
                     <div className="w-96 md:w-[500px]">
+                        {cartItemCollection && cartItemCollection.anyUnpaidOrders && (
+                            <div>
+                                <p className="text-center text-xl">!!! There are unpaid orders !!!</p>
+                                <Link to="/account/orders" className="w-fit mx-auto block text-blue-500 underline">
+                                    See the unpaid orders here
+                                </Link>
+                                <br />
+                            </div>
+                        )}
+
                         <div className="title-box text-2xl font-bold w-full px-2">
                             <p className="text-left">Your Order</p>
                         </div>

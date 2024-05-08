@@ -92,7 +92,7 @@ function OrderProgress() {
     }, [order])
 
     async function fetchOrder(orderId) {
-        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}/${localStorage.getItem('deviceId')}/${localStorage.getItem('tableSessionId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

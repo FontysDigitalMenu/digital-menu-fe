@@ -39,7 +39,7 @@ function SplitOrder() {
         }
 
         if (splitOption === 'Even') {
-            SetEvenlySplitOrder()
+            setEvenlySplitOrder()
         }
     }
 
@@ -73,7 +73,7 @@ function SplitOrder() {
     }
 
     async function fetchCartItems() {
-        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('deviceId')}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/CartItem/${localStorage.getItem('tableSessionId')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ function SplitOrder() {
         }
     }
 
-    const SetEvenlySplitOrder = () => {
+    const setEvenlySplitOrder = () => {
         const pricePerPersonString = pricePerPerson.toFixed(2)
         const newCustomSplits = []
 
@@ -107,12 +107,11 @@ function SplitOrder() {
         let newCustomSplits
 
         if (splitOption === 'Even') {
-            newCustomSplits = SetEvenlySplitOrder()
+            newCustomSplits = setEvenlySplitOrder()
         }
 
         const requestBody = {
-            deviceId: localStorage.getItem('deviceId'),
-            tableId: localStorage.getItem('tableSessionId'),
+            tableSessionId: localStorage.getItem('tableSessionId'),
         }
 
         if (splitOption === 'Even') {
