@@ -132,7 +132,6 @@ function CartOverview() {
             await handlePaySplit(data.splits[0].id)
         } else if (response.status === 400) {
             const data = await response.json()
-            console.log(data)
             if (data?.errors?.SessionId) {
                 toast.error('Please scan the QR-Code on your table using your camera on your phone', {
                     autoClose: 8000,
