@@ -15,6 +15,12 @@ export function startListen(callback) {
     })
 }
 
+export async function addToGroup(groupName){
+    await connection.invoke('AddToGroup', { groupName }).then(() => {
+        console.log("added to group", groupName)
+    })
+}
+
 export function stopListen() {
     connection.off('ReceiveOrder')
 }
