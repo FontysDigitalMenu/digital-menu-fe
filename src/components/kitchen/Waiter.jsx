@@ -66,32 +66,33 @@ function Waiter() {
                         {orders.map((item) => (
                             <div key={item.id}>
                                 <p className="mb-2 font-bold">Order: {item.orderNumber}</p>
+                                <ul className="list-none p-0">
+                                    <li className="border border-black rounded mb-2">
+                                        <div className="flex justify-between items-center">
+                                            <span className="flex">
+                                                {item.menuItems.map((menuItem) => (
+                                                    <div key={menuItem.id}>
+                                                        <div className="w-7 border-r-2 border-black flex justify-center">{menuItem.quantity}</div>
+                                                        <div className="pl-2 flex flex-col">
+                                                            <div>{menuItem.name}</div>
+                                                            <div>
+                                                                {menuItem.excludedIngredients.map((excludedIngredient) => (
+                                                                    <div key={excludedIngredient.id} className="flex gap-2 pt-2">
+                                                                        <span className="material-symbols-outlined text-red-600">close</span>
+                                                                        <p>{excludedIngredient.name}</p>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                            <div>{menuItem.note && <span>note: {menuItem.note}</span>}</div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         ))}
-                        <ul className="list-none p-0">
-                            <li key="{item.id}" className="border border-black rounded mb-2">
-                                <div className="flex justify-between items-center">
-                                    <span className="flex">
-                                        <div className="w-7 border-r-2 border-black flex justify-center">{/*item.quantity*/}2</div>
-                                        <div className="pl-2 flex flex-col">
-                                            <div>{/* item.name */}Friet</div>
-                                            <div>
-                                                {/* {item.excludedIngredients.map((excludedIngredient) => {
-                        return (
-                          <div key={excludedIngredient.id} className="flex gap-2 pt-2">
-                            <span className="material-symbols-outlined text-red-600">close</span>
-                            <p>{excludedIngredient.name}</p>
-                          </div>
-                        )
-                      })} */}
-                                            </div>
-                                            <div>{/*item.note && <span>note: {item.note}</span>*/}Note: Geen zout</div>
-                                        </div>
-                                    </span>
-                                </div>
-                            </li>
-                            {/* ))} */}
-                        </ul>
                     </div>
                     <div className="w-[20%] flex justify-center items-center h-auto">
                         <FontAwesomeIcon icon={faCircleCheck} className="w-10 h-10" />
