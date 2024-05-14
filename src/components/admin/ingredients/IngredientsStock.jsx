@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
-import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
-import { Button, Modal } from 'flowbite-react'
-import { Link } from 'react-router-dom'
+import { Modal } from 'flowbite-react'
 import IngredientsDelete from './IngredientsDelete.jsx'
+import { startConnectionForIngredients, startListenForIngredients, stopListenForIngredients } from '../../../services/IngredientHubConnection.jsx'
 
-function Ingredients() {
+function IngredientsStock() {
     const config = useContext(ConfigContext)
     const [ingredients, setIngredients] = useState([])
     const [modalIsOpen, setIsOpen] = useState(false)
@@ -37,7 +36,32 @@ function Ingredients() {
         })
 
         const data = await response.json()
+        data.sort((a, b) => a.stock - b.stock)
         setIngredients(data)
+    }
+
+    useEffect(() => {
+        if (!config) return
+
+        const connect = async () => {
+            try {
+                console.log('Trying to connect to hub...')
+                await startConnectionForIngredients(config.API_URL)
+                console.log('SignalR Connected!')
+                startListenForIngredients(handleReceivedIngredients)
+            } catch (error) {
+                console.error('Error starting SignalR connection:', error)
+            }
+        }
+        connect().catch(console.error)
+        return () => {
+            stopListenForIngredients()
+        }
+    }, [config])
+
+    function handleReceivedIngredients(ingredients) {
+        ingredients.sort((a, b) => a.stock - b.stock)
+        setIngredients(ingredients)
     }
 
     return (
@@ -46,16 +70,7 @@ function Ingredients() {
                 <IngredientsDelete closeModal={closeModal} id={id} />
             </Modal>
 
-            <h1 className="text-4xl font-bold mb-10">Ingredients</h1>
-
-            <div className="sm:flex w-full justify-between mb-4">
-                <div className="pt-2">
-                    <ButtonCreateNew text={'Stock'} navigateUrl={'/admin/ingredients/stock'} />
-                </div>
-                <div className="pt-2">
-                    <ButtonCreateNew text={'Create new'} navigateUrl={'/admin/ingredients/create'} />
-                </div>
-            </div>
+            <h1 className="text-4xl font-bold mb-10">Ingredients sorted by stock</h1>
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -70,9 +85,6 @@ function Ingredients() {
                             <th scope="col" className="px-6 py-3">
                                 Stock
                             </th>
-                            <th scope="col" className="px-6 py-3">
-                                Action
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,19 +95,6 @@ function Ingredients() {
                                 </th>
                                 <td className="px-6 py-4">{ingredient.name}</td>
                                 <td className="px-6 py-4">{ingredient.stock}</td>
-                                <td className="px-6 py-4">
-                                    <Link to={`/admin/ingredients/${ingredient.id}/edit`} className="m-1 font-medium text-blue-600 hover:underline">
-                                        Edit
-                                    </Link>
-                                    <button
-                                        onClick={() => {
-                                            openModal(ingredient.id)
-                                        }}
-                                        className="text-red-600"
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -105,4 +104,4 @@ function Ingredients() {
     )
 }
 
-export default Ingredients
+export default IngredientsStock
