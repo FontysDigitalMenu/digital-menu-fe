@@ -63,9 +63,12 @@ function Waiter() {
             <div className="w-[93%]">
                 <div className="w-[30%] flex border-black border-2 p-2 rounded-xl">
                     <div aria-disabled className="my-auto text-black w-[80%] overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
-                        <p className="mb-2 font-bold">Order: {orders.orderNumber}</p>
+                        {orders.map((item) => (
+                            <div key={item.id}>
+                                <p className="mb-2 font-bold">Order: {item.orderNumber}</p>
+                            </div>
+                        ))}
                         <ul className="list-none p-0">
-                            {/* {task.order.menuItems.map((item) => ( */}
                             <li key="{item.id}" className="border border-black rounded mb-2">
                                 <div className="flex justify-between items-center">
                                     <span className="flex">
