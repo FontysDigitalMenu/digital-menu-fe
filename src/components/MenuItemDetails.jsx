@@ -3,12 +3,14 @@ import ConfigContext from '../provider/ConfigProvider.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import ToastNotification from './notifications/ToastNotification.jsx'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 function MenuItemDetails() {
     const { id } = useParams()
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
     const [menuItem, setMenuItem] = useState(null)
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (config) {
@@ -21,6 +23,7 @@ function MenuItemDetails() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
             },
         })
 
@@ -50,6 +53,7 @@ function MenuItemDetails() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
                 },
                 body: JSON.stringify({
                     menuItemId: id,
@@ -89,7 +93,7 @@ function MenuItemDetails() {
                             >
                                 <div className="flex gap-2 pt-1">
                                     <span className="material-symbols-outlined">arrow_back</span>
-                                    <p className="text-lg font-medium">Back</p>
+                                    <p className="text-lg font-medium">{t('Back')}</p>
                                 </div>
                             </button>
                         </div>
@@ -108,13 +112,13 @@ function MenuItemDetails() {
 
                                                 <hr className="border border-gray-600 sm:mx-auto rounded-lg" />
 
-                                                <p className="pt-5 font-bold">Description</p>
+                                                <p className="pt-5 font-bold">{t('Description')}</p>
 
                                                 <p className="pt-2 whitespace">{menuItem.description}</p>
 
                                                 {menuItem.ingredients.length !== 0 && (
                                                     <div>
-                                                        <p className="pt-5 font-bold">Ingredients</p>
+                                                        <p className="pt-5 font-bold">{t('Ingredients')}</p>
 
                                                         <div className="pt-4">
                                                             {menuItem.ingredients.map((ingredient) => (
@@ -131,10 +135,10 @@ function MenuItemDetails() {
                                                     </div>
                                                 )}
 
-                                                <p className="pt-5 font-bold">Note</p>
+                                                <p className="pt-5 font-bold">{t('Note')}</p>
 
                                                 <form className="w-full pt-2">
-                                                    <textarea id="note" rows="4" className="block min-h-32 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500" placeholder="Leave a note..."></textarea>
+                                                    <textarea id="note" rows="4" className="block min-h-32 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500" placeholder={t('Leave a note') + '...'}></textarea>
                                                 </form>
                                             </div>
                                         </div>
@@ -151,7 +155,7 @@ function MenuItemDetails() {
             <div className="bottom-box w-full pt-3 sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center">
                     <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600" onClick={addToOrder}>
-                        Add To Order
+                        {t('Add to order')}
                     </button>
                 </div>
             </div>

@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState, useRef, useLayoutEffect } from 'react'
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
 import ToastNotification from './notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 function Home() {
     const config = useContext(ConfigContext)
@@ -11,6 +12,7 @@ function Home() {
     const [loading, setLoading] = useState(false)
     const observer = useRef()
     const isFirstRun = useRef(true)
+    const { t } = useTranslation()
 
     useLayoutEffect(() => {
         window.scrollTo(0, 0)
@@ -54,7 +56,11 @@ function Home() {
     const fetchCategories = async () => {
         setLoading(true)
         try {
-            const response = await fetch(`${config.API_URL}/api/v1/MenuItem/GetCategories?lastId=${lastId}&amount=6`)
+            const response = await fetch(`${config.API_URL}/api/v1/MenuItem/GetCategories?lastId=${lastId}&amount=6`, {
+                headers: {
+                    'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
+                },
+            })
 
             if (!response.ok) {
                 console.error('Failed to fetch categories')
@@ -83,6 +89,7 @@ function Home() {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
             },
             body: JSON.stringify({
                 menuItemId: id,
@@ -159,7 +166,7 @@ function Home() {
                                             </div>
                                         </Link>
                                         <button onClick={() => handleAddToOrder(menuItem.id)} className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            Add to order
+                                            {t('Add to order')}
                                         </button>
                                     </div>
                                 ))}
@@ -170,11 +177,10 @@ function Home() {
                     <div id="bottom-of-page" style={{ height: '1px' }}></div>
                 </div>
             </div>
-
             <div className="bottom-box w-full sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
                     <Link to="/cart" className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
-                        View order
+                        {t('View order')}
                     </Link>
                 </div>
             </div>
