@@ -32,6 +32,7 @@ import IngredientsCreate from './components/admin/ingredients/IngredientsCreate.
 import IngredientsUpdate from './components/admin/ingredients/IngredientsUpdate.jsx'
 import WaiterTables from './components/kitchen/WaiterTables.jsx'
 import IngredientsStock from './components/admin/ingredients/IngredientsStock.jsx'
+import { setLocale } from 'yup'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -61,6 +62,19 @@ function App() {
             }
         }
     }, [config])
+
+    setLocale({
+        mixed: {
+            required: JSON.stringify({ key: 'validation.required', propertyName: '${label}' }),
+        },
+        string: {
+            max: JSON.stringify({ key: 'validation.max_length', propertyName: '${label}', maxLength: '${max}' }),
+            email: JSON.stringify({ key: 'validation.email', propertyName: '${label}' }),
+        },
+        number: {
+            min: JSON.stringify({ key: 'validation.number_min', propertyName: '${label}', minValue: '${min}' }),
+        },
+    })
 
     return (
         <>
