@@ -19,7 +19,7 @@ function Waiter() {
         if (!config) return
 
         async function fetchCompletedOrders() {
-            const response = await fetch(`${config.API_URL}/api/v1/order/completed`, {
+            const response = await fetch(`${config.API_URL}/api/v1/order/completed/drinks`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
