@@ -80,16 +80,9 @@ function Waiter() {
         }
     }, [config])
 
-    if(orders.length <= 0) {
-        return (
-            <div className='h-full w-full flex justify-center items-center'>
-                <div className=''>
-                    No Orders
-                </div>
-            </div>
-        )
-    }
-    else {
+    if (orders.length <= 0) {
+        return <div className="title text-center text-2xl">No orders ready for serving</div>
+    } else {
         return (
             <div className="flex justify-center mt-4">
                 <div className="w-[93%]">
