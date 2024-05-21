@@ -4,9 +4,11 @@ import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
 import { Button, Modal } from 'flowbite-react'
 import { Link } from 'react-router-dom'
 import IngredientsDelete from './IngredientsDelete.jsx'
+import { useTranslation } from 'react-i18next'
 
 function Ingredients() {
     const config = useContext(ConfigContext)
+    const { t } = useTranslation()
     const [ingredients, setIngredients] = useState([])
     const [modalIsOpen, setIsOpen] = useState(false)
     const [id, setId] = useState(0)
@@ -46,14 +48,14 @@ function Ingredients() {
                 <IngredientsDelete closeModal={closeModal} id={id} />
             </Modal>
 
-            <h1 className="text-4xl font-bold mb-10">Ingredients</h1>
+            <h1 className="text-4xl font-bold mb-10">{t('Ingredients')}</h1>
 
             <div className="sm:flex w-full justify-between mb-4">
                 <div className="pt-2">
-                    <ButtonCreateNew text={'Stock'} navigateUrl={'/admin/ingredients/stock'} />
+                    <ButtonCreateNew text={t('Stock')} navigateUrl={'/admin/ingredients/stock'} />
                 </div>
                 <div className="pt-2">
-                    <ButtonCreateNew text={'Create new'} navigateUrl={'/admin/ingredients/create'} />
+                    <ButtonCreateNew text={t('Create new')} navigateUrl={'/admin/ingredients/create'} />
                 </div>
             </div>
 
@@ -65,13 +67,13 @@ function Ingredients() {
                                 Id
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Name
+                                {t('Name')}
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Stock
+                                {t('Stock')}
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Action
+                                {t('Actions')}
                             </th>
                         </tr>
                     </thead>
@@ -85,7 +87,7 @@ function Ingredients() {
                                 <td className="px-6 py-4">{ingredient.stock}</td>
                                 <td className="px-6 py-4">
                                     <Link to={`/admin/ingredients/${ingredient.id}/edit`} className="m-1 font-medium text-blue-600 hover:underline">
-                                        Edit
+                                        {t('Edit')}
                                     </Link>
                                     <button
                                         onClick={() => {
@@ -93,7 +95,7 @@ function Ingredients() {
                                         }}
                                         className="text-red-600"
                                     >
-                                        Delete
+                                        {t('Delete')}
                                     </button>
                                 </td>
                             </tr>

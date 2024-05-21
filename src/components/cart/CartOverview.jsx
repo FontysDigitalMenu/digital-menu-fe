@@ -4,11 +4,13 @@ import ToastNotification from '../notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 function CartOverview() {
     const config = useContext(ConfigContext)
     const [cartItemCollection, setCartItemCollection] = useState()
     const [connection, setConnection] = useState()
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (!config) return
@@ -181,10 +183,10 @@ function CartOverview() {
                         )}
 
                         <div className="title-box text-2xl font-bold w-full px-2">
-                            <p className="text-left">Your Order</p>
+                            <p className="text-left">{t('Your Order')}</p>
                         </div>
                         <div className="min-h-screen flex flex-col px-2">
-                            {!cartItemCollection && <p className="text-center">No items in your order</p>}
+                            {!cartItemCollection && <p className="text-center">{t('No items in your order')}</p>}
                             {cartItemCollection &&
                                 cartItemCollection.cartItems.map((cartItem) => {
                                     return (
@@ -224,7 +226,7 @@ function CartOverview() {
                                             <div className="px-3 pb-3 pt-4 flex justify-between w-full">
                                                 {cartItem.note && <p>{cartItem.note}</p>}
                                                 <Link to={`/cartItem/edit/${cartItem.id}`} className="w-full">
-                                                    <p className="text-blue-500 flex justify-end">View details</p>
+                                                    <p className="text-blue-500 flex justify-end">{t('View details')}</p>
                                                 </Link>
                                             </div>
                                         </div>
@@ -234,7 +236,7 @@ function CartOverview() {
 
                         <div className="bottom-box w-full pt-3 sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                             <div className="total-box h-1/2 flex items-center justify-center text-2xl font-bold">
-                                Your Total: &nbsp;
+                                {t('Your Total')}: &nbsp;
                                 {new Intl.NumberFormat('nl-NL', {
                                     style: 'currency',
                                     currency: 'EUR',
@@ -242,11 +244,11 @@ function CartOverview() {
                             </div>
                             <div className="text-2xl w-full h-1/2 flex items-center flex-col justify-center">
                                 <button onClick={checkoutOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
-                                    Checkout Order
+                                    {t('Checkout Order')}
                                 </button>
-                                <span>--- OR ---</span>
+                                <span>--- {t('OR')} ---</span>
                                 <Link to={'/order/split'} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-800 hover:bg-red-600">
-                                    Split Order Bill
+                                    {t('Split Order Bill')}
                                 </Link>
                             </div>
                         </div>

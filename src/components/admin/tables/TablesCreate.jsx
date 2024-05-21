@@ -5,9 +5,11 @@ import ToastNotification from '../../notifications/ToastNotification.jsx'
 import ButtonCancel from '../../elements/ButtonCancel.jsx'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import AuthService from '../../../services/AuthService.jsx'
+import { useTranslation } from 'react-i18next'
 
 function TablesCreate() {
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const [tableForm, setTableForm] = useState({
         name: '',
@@ -48,12 +50,12 @@ function TablesCreate() {
             <div className="p-4 sm:ml-64">
                 <form onSubmit={submitTable} className={'flex flex-col gap-y-2'}>
                     <div>
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="name">{t('Name')}</label>
                         <input type="text" id="name" name="name" required onChange={handleFormChange} className={'input'} />
                     </div>
                     <div className={'flex gap-x-1'}>
-                        <ButtonCancel text={'Cancel'} navigateUrl={'/admin/tables'} />
-                        <ButtonSubmit text={'Create'} />
+                        <ButtonCancel text={t('Cancel')} navigateUrl={'/admin/tables'} />
+                        <ButtonSubmit text={t('Create')} />
                     </div>
                 </form>
             </div>
