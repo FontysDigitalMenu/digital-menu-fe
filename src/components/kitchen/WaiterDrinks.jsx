@@ -3,6 +3,7 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider'
 import { startConnection, startListen, stopListen } from '../../services/OrderHubConnection'
+import ToastNotification from '../notifications/ToastNotification'
 
 function Waiter() {
     const config = useContext(ConfigContext)
@@ -13,6 +14,27 @@ function Waiter() {
         audio.play()
         toastNotification('success', 'New completed order')
         setOrders((prevOrders) => [...prevOrders, order])
+    }
+
+    async function updateOrderStatus(orderId) {
+        const response = await fetch(`${config.API_URL}/api/v1/Order/${orderId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+            body: JSON.stringify({
+                orderStatus: 'Done',
+                isDrinks: true,
+            }),
+        })
+
+        if (response.status === 204) {
+            console.log('Updated')
+            setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId))
+            ToastNotification('success', 'Order removed')
+        }
     }
 
     useEffect(() => {
@@ -94,7 +116,9 @@ function Waiter() {
                             </div>
                         </div>
                         <div className="w-[20%] flex justify-center items-center h-auto">
-                            <FontAwesomeIcon icon={faCircleCheck} className="w-10 h-10" />
+                            <button onClick={() => updateOrderStatus(item.id)}>
+                                <FontAwesomeIcon icon={faCircleCheck} className="w-10 h-10" />
+                            </button>
                         </div>
                     </div>
                 ))}
