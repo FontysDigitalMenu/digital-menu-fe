@@ -107,7 +107,7 @@ function App() {
                             <Route path={''} element={<Navigate to={'/kitchen/receive/order/food'} />} />
                             {/*<Route path={'receive/order'} element={<ReceiveOrder />} />*/}
                             <Route path={'receive/order/food'} element={<ReceiveOrderFood />} />
-                            <Route path={'receive/order/drinks'} element={<ReceiveOrderDrinks />} />
+                            <Route path={'receive/order/drinks/:orderNumber?'} element={<ReceiveOrderDrinks />} />
                             <Route path={'waiter'} />
                             <Route path={'waiter/tables'} element={<WaiterTables />} />
                         </Route>
