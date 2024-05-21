@@ -57,6 +57,7 @@ function MultipleContainers({ orders, isDrinks }) {
                 id: order.id,
                 columnId: isDrinks ? order.drinkStatus : order.foodStatus,
                 order: order,
+                isDrinks: isDrinks,
             })
         })
         setTasks(newTasks)

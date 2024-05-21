@@ -10,11 +10,26 @@ export function startConnection(backendUrl) {
 
 export function startListen(callback) {
     connection.on('ReceiveOrder', (order) => {
-        console.log('Received order:', order)
         callback(order)
+    })
+}
+
+export async function addToGroup(groupName){
+    await connection.invoke('AddToGroup', { groupName }).then(() => {
+        console.log("added to group", groupName)
     })
 }
 
 export function stopListen() {
     connection.off('ReceiveOrder')
+}
+
+export function startListenDrinks(callback) {
+    connection.on('ReceiveOrderDrinksUpdate', (order) => {
+        callback(order)
+    })
+}
+
+export function stopListenDrinks() {
+    connection.off('ReceiveOrderDrinksUpdate')
 }

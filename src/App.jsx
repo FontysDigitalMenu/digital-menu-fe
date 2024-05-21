@@ -33,6 +33,8 @@ import IngredientsUpdate from './components/admin/ingredients/IngredientsUpdate.
 import WaiterTables from './components/kitchen/WaiterTables.jsx'
 import WaiterFood from './components/kitchen/WaiterFood.jsx'
 import WaiterDrinks from './components/kitchen/WaiterDrinks.jsx'
+import IngredientsStock from './components/admin/ingredients/IngredientsStock.jsx'
+import { setLocale } from 'yup'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -62,6 +64,19 @@ function App() {
             }
         }
     }, [config])
+
+    setLocale({
+        mixed: {
+            required: JSON.stringify({ key: 'validation.required', propertyName: '${label}' }),
+        },
+        string: {
+            max: JSON.stringify({ key: 'validation.max_length', propertyName: '${label}', maxLength: '${max}' }),
+            email: JSON.stringify({ key: 'validation.email', propertyName: '${label}' }),
+        },
+        number: {
+            min: JSON.stringify({ key: 'validation.number_min', propertyName: '${label}', minValue: '${min}' }),
+        },
+    })
 
     return (
         <>
@@ -100,16 +115,22 @@ function App() {
                             <Route path={'ingredients'} element={<Ingredients />} />
                             <Route path={'ingredients/create'} element={<IngredientsCreate />} />
                             <Route path={'ingredients/:id/edit'} element={<IngredientsUpdate />} />
+                            <Route path={'ingredients/stock'} element={<IngredientsStock />} />
                         </Route>
 
                         {/*KITCHEN*/}
                         <Route path={'/kitchen'} element={isAuthenticated ? <KitchenRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login?intended=kitchen" />}>
                             <Route path={''} element={<Navigate to={'/kitchen/receive/order/food'} />} />
-                            <Route path={'receive/order'} element={<ReceiveOrder />} />
+                            {/*<Route path={'receive/order'} element={<ReceiveOrder />} />*/}
                             <Route path={'receive/order/food'} element={<ReceiveOrderFood />} />
+
                             <Route path={'receive/order/drinks'} element={<ReceiveOrderDrinks />} />
                             <Route path={'waiter/food'} element={<WaiterFood />} />
                             <Route path={'waiter/drinks'} element={<WaiterDrinks />} />
+                              
+                            <Route path={'receive/order/drinks/:orderNumber?'} element={<ReceiveOrderDrinks />} />
+                            <Route path={'waiter'} />
+
                             <Route path={'waiter/tables'} element={<WaiterTables />} />
                         </Route>
                     </Routes>
