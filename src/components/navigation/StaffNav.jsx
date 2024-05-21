@@ -12,7 +12,8 @@ function StaffNav() {
                 <div></div>
                 <Link to="/kitchen/receive/order/food">Kitchen</Link>
                 <Link to="/kitchen/receive/order/drinks">Bar</Link>
-                <Link to="/kitchen/waiter">Waiters</Link>
+                <Link to="/kitchen/waiter/food">Waiters food</Link>
+                <Link to="/kitchen/waiter/drinks">Waiters drinks</Link>
                 <Link to="/kitchen/waiter/tables">Tables</Link>
             </div>
         </div>
