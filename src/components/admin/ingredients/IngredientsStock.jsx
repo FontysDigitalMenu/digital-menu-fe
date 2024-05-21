@@ -3,9 +3,11 @@ import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import { Modal } from 'flowbite-react'
 import IngredientsDelete from './IngredientsDelete.jsx'
 import { startConnectionForIngredients, startListenForIngredients, stopListenForIngredients } from '../../../services/IngredientHubConnection.jsx'
+import { useTranslation } from 'react-i18next'
 
 function IngredientsStock() {
     const config = useContext(ConfigContext)
+    const { t } = useTranslation()
     const [ingredients, setIngredients] = useState([])
     const [modalIsOpen, setIsOpen] = useState(false)
     const [id, setId] = useState(0)
@@ -70,7 +72,7 @@ function IngredientsStock() {
                 <IngredientsDelete closeModal={closeModal} id={id} />
             </Modal>
 
-            <h1 className="text-4xl font-bold mb-10">Ingredients sorted by stock</h1>
+            <h1 className="text-4xl font-bold mb-10">{t('Ingredients sorted by stock')}</h1>
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -80,10 +82,10 @@ function IngredientsStock() {
                                 Id
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Name
+                                {t('Name')}
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Stock
+                                {t('Stock')}
                             </th>
                         </tr>
                     </thead>

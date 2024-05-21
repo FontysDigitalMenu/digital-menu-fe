@@ -2,9 +2,11 @@ import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthService from '../../services/AuthService.jsx'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
+import { useTranslation } from 'react-i18next'
 
 function Login({ setIsAuthenticated }) {
     const config = useContext(ConfigContext)
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -61,11 +63,11 @@ function Login({ setIsAuthenticated }) {
                 </a>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Sign in to your account</h1>
+                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">{t('Sign in to your account')}</h1>
                         <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">
-                                    Email
+                                    {t('Email')}
                                 </label>
                                 <input
                                     type="email"
@@ -80,7 +82,7 @@ function Login({ setIsAuthenticated }) {
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
-                                    Password
+                                    {t('Password')}
                                 </label>
                                 <input
                                     type="password"
@@ -94,7 +96,7 @@ function Login({ setIsAuthenticated }) {
                                 />
                             </div>
                             <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                Sign in
+                                {t('Sign in')}
                             </button>
                         </form>
                     </div>

@@ -5,9 +5,11 @@ import ToastNotification from '../../notifications/ToastNotification.jsx'
 import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import AuthService from '../../../services/AuthService.jsx'
+import { useTranslation } from 'react-i18next'
 
 function Tables() {
     const config = useContext(ConfigContext)
+    const { t } = useTranslation()
     const [tables, setTables] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
@@ -56,15 +58,15 @@ function Tables() {
     return (
         <>
             <div className="p-4 sm:ml-64">
-                <ButtonCreateNew text={'Create new'} navigateUrl={'/admin/tables/create'} />
-                <h1>Tables</h1>
+                <ButtonCreateNew text={t('Create new')} navigateUrl={'/admin/tables/create'} />
+                <h1>{t('Tables')}</h1>
                 {isLoading && <Spinner />}
                 <table>
                     <thead>
                         <tr>
-                            <th>name</th>
-                            <th>qrcode</th>
-                            <th>actions</th>
+                            <th>{t('name')}</th>
+                            <th>{t('qrcode')}</th>
+                            <th>{t('actions')}</th>
                         </tr>
                     </thead>
                     <tbody>

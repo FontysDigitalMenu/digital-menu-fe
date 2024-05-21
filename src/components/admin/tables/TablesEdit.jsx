@@ -4,10 +4,12 @@ import ToastNotification from '../../notifications/ToastNotification.jsx'
 import ButtonCancel from '../../elements/ButtonCancel.jsx'
 import ButtonSubmit from '../../elements/ButtonSubmit.jsx'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
+import { useTranslation } from 'react-i18next'
 
 function TablesEdit() {
     const { id } = useParams()
     const config = useContext(ConfigContext)
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [tableForm, setTableForm] = useState({
         name: '',
@@ -74,12 +76,12 @@ function TablesEdit() {
             <div className="p-4 sm:ml-64">
                 <form onSubmit={submitTable} className={'flex flex-col gap-y-2'}>
                     <div>
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="name">{t('Name')}</label>
                         <input type="text" id="name" name="name" defaultValue={tableForm.name} required onChange={handleFormChange} className={'input'} />
                     </div>
                     <div className={'flex gap-x-1'}>
-                        <ButtonCancel text={'Cancel'} navigateUrl={'/admin/tables'}></ButtonCancel>
-                        <ButtonSubmit text={'Update'}></ButtonSubmit>
+                        <ButtonCancel text={t('Cancel')} navigateUrl={'/admin/tables'}></ButtonCancel>
+                        <ButtonSubmit text={t('Update')}></ButtonSubmit>
                     </div>
                 </form>
             </div>
