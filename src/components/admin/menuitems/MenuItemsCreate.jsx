@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import CreatableSelect from 'react-select/creatable'
 import Select from 'react-select'
@@ -15,6 +15,7 @@ function MenuItemsCreate() {
     const [ingredients, setIngredients] = useState([])
     const [dynamicDivs, setDynamicDivs] = useState([{ ingredient: '', amount: '1' }])
     const [menuData, setMenuData] = useState({
+        formLanguage: 'en',
         name: '',
         price: 0.0,
         description: '',
@@ -100,6 +101,7 @@ function MenuItemsCreate() {
     const handleCreateMenuItem = async () => {
         try {
             const formData = new FormData()
+            formData.append('formLanguage', menuData.formLanguage)
             formData.append('name', menuData.name)
             formData.append('price', menuData.price)
             formData.append('description', menuData.description)
@@ -145,6 +147,32 @@ function MenuItemsCreate() {
             <h1 className="text-4xl mb-10 font-bold">{t('Create menu item')}</h1>
 
             <form className="max-w-lg mx-auto">
+                <div className="mb-5">
+                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
+                        {t('Form language')}
+                    </label>
+                    <Select
+                        name="form language"
+                        defaultValue={{ value: 'en', label: 'en' }}
+                        onChange={(e) => setMenuData({ ...menuData, formLanguage: e.value })}
+                        options={[
+                            {
+                                value: 'en',
+                                label: 'en',
+                            },
+                            {
+                                value: 'nl',
+                                label: 'nl',
+                            },
+                            {
+                                value: 'de',
+                                label: 'de',
+                            },
+                        ]}
+                        className="w-full"
+                        required
+                    />
+                </div>
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         {t('Name')}

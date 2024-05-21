@@ -6,8 +6,10 @@ import toastNotification from '../notifications/ToastNotification.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWineGlass } from '@fortawesome/free-solid-svg-icons'
 import MultipleContainers from '../elements/MultipleContainers.jsx'
+import { useTranslation } from 'react-i18next'
 
 function ReceiveOrder() {
+    const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
 
@@ -38,7 +40,7 @@ function ReceiveOrder() {
                 console.log('SignalR Connected!')
                 startListen(handleReceivedOrder)
                 startListenDrinks(handleReceiveOrderDrinksUpdate)
-                await addToGroup("Drinks")
+                await addToGroup('Drinks')
             } catch (error) {
                 console.error('Error starting SignalR connection:', error)
             }
@@ -70,7 +72,7 @@ function ReceiveOrder() {
     return (
         <>
             <div className="title text-center text-2xl">
-                <FontAwesomeIcon icon={faWineGlass} /> Bar
+                <FontAwesomeIcon icon={faWineGlass} /> {t('Bar')}
             </div>
             <MultipleContainers orders={orders} isDrinks={true} />
         </>

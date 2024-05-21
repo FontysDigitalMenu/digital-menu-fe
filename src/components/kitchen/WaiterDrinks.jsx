@@ -4,8 +4,12 @@ import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider'
 import { startConnection, startListen, stopListen } from '../../services/OrderHubConnection'
 import ToastNotification from '../notifications/ToastNotification'
+import notification from 'react-notifications/lib/Notification.js'
+import toastNotification from '../notifications/ToastNotification'
+import { useTranslation } from 'react-i18next'
 
 function Waiter() {
+    const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
 
@@ -81,7 +85,7 @@ function Waiter() {
     }, [config])
 
     if (orders.length <= 0) {
-        return <div className="title text-center text-2xl">No orders ready for serving</div>
+        return <div className="title text-center text-2xl">{t('No orders ready for serving')}</div>
     } else {
         return (
             <div className="flex justify-center mt-4">
@@ -90,7 +94,9 @@ function Waiter() {
                         <div key={item.id} className="w-[30%] mb-3 flex border-black border-2 p-2 rounded-xl">
                             <div aria-disabled className="my-auto text-black w-[80%] overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
                                 <div>
-                                    <p className="mb-2 font-bold">Order: {item.orderNumber}</p>
+                                    <p className="mb-2 font-bold">
+                                        {t('Order')}: {item.orderNumber}
+                                    </p>
                                     <ul className="list-none p-0">
                                         {item.menuItems.map((menuItem) => (
                                             <li key={menuItem.id} className="border border-black rounded mb-2">

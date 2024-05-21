@@ -5,6 +5,7 @@ function LangSwitcher({ ...props }) {
     const languages = {
         en: { nativeName: 'English' },
         nl: { nativeName: 'Nederlands' },
+        de: { nativeName: 'Deutsch' },
     }
 
     return (

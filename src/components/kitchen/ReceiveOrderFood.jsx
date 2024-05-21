@@ -6,8 +6,10 @@ import toastNotification from '../notifications/ToastNotification.jsx'
 import MultipleContainers from '../elements/MultipleContainers.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUtensils } from '@fortawesome/free-solid-svg-icons'
+import { useTranslation } from 'react-i18next'
 
 function ReceiveOrder() {
+    const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
 
@@ -71,7 +73,7 @@ function ReceiveOrder() {
     return (
         <>
             <div className="title text-center text-2xl">
-                <FontAwesomeIcon icon={faUtensils} /> Kitchen
+                <FontAwesomeIcon icon={faUtensils} /> {t('Kitchen')}
             </div>
             <MultipleContainers orders={orders} isDrinks={false} />
         </>

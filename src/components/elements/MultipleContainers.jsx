@@ -5,24 +5,25 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates } from '@dnd-ki
 import { createPortal } from 'react-dom'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import SortableItem from './SortableItem'
-
-const columns = [
-    {
-        id: 'Pending',
-        title: 'Pending',
-    },
-    {
-        id: 'Processing',
-        title: 'Processing',
-    },
-    {
-        id: 'Completed',
-        title: 'Completed',
-    },
-]
+import { useTranslation } from 'react-i18next'
 
 function MultipleContainers({ orders, isDrinks }) {
+    const { t } = useTranslation()
     const config = useContext(ConfigContext)
+    const columns = [
+        {
+            id: 'Pending',
+            title: t('Pending'),
+        },
+        {
+            id: 'Processing',
+            title: t('Processing'),
+        },
+        {
+            id: 'Completed',
+            title: t('Completed'),
+        },
+    ]
     const columnsId = useMemo(() => columns.map((col) => col.id), [columns])
     const [tasks, setTasks] = useState([])
     const [activeTask, setActiveTask] = useState(null)

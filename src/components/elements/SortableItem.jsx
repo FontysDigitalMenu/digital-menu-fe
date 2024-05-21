@@ -3,8 +3,10 @@ import { useSortable } from '@dnd-kit/sortable'
 import { faWineGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 function SortableItem({ task }) {
+    const { t } = useTranslation()
     const [mouseIsOver, setMouseIsOver] = useState(false)
     const { orderNumber } = useParams()
 
@@ -39,7 +41,9 @@ function SortableItem({ task }) {
         >
             <div aria-disabled className={`my-auto text-black w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap`}>
                 <div className={'flex justify-between'}>
-                    <p className="mb-2 font-bold">Order: {task.order.orderNumber}</p>
+                    <p className="mb-2 font-bold">
+                        {t('Order')}: {task.order.orderNumber}
+                    </p>
                     {!task.isDrinks && task.order.drinkStatus !== 'None' && (
                         <Link to={'/kitchen/receive/order/drinks/' + task.order.orderNumber} className={`text-xl ${drinkStatusColor}`}>
                             <FontAwesomeIcon icon={faWineGlass} />
