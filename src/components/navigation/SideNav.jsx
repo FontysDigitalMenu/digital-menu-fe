@@ -53,7 +53,7 @@ function SideNav({ setIsAuthenticated }) {
                         <NavBarItem href={'/admin/menuItems'} icon={'restaurant_menu'} text={'MenuItems'} />
                         <NavBarItem href={'/admin/ingredients'} icon={'grocery'} text={'Ingredients'} />
                         <hr />
-                        <NavBarItem href={'/kitchen/receive/order'} icon={'orders'} text={'Complete orders'} />
+                        {/*<NavBarItem href={'/kitchen/receive/order'} icon={'orders'} text={'Complete orders'} />*/}
                         <NavBarItem href={'/kitchen/receive/order/food'} icon={'restaurant'} text={'Food orders'} />
                         <NavBarItem href={'/kitchen/receive/order/drinks'} icon={'wine_bar'} text={'Drinks orders'} />
                     </ul>

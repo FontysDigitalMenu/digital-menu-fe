@@ -31,6 +31,7 @@ import Ingredients from './components/admin/ingredients/Ingredients.jsx'
 import IngredientsCreate from './components/admin/ingredients/IngredientsCreate.jsx'
 import IngredientsUpdate from './components/admin/ingredients/IngredientsUpdate.jsx'
 import WaiterTables from './components/kitchen/WaiterTables.jsx'
+import IngredientsStock from './components/admin/ingredients/IngredientsStock.jsx'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -98,12 +99,13 @@ function App() {
                             <Route path={'ingredients'} element={<Ingredients />} />
                             <Route path={'ingredients/create'} element={<IngredientsCreate />} />
                             <Route path={'ingredients/:id/edit'} element={<IngredientsUpdate />} />
+                            <Route path={'ingredients/stock'} element={<IngredientsStock />} />
                         </Route>
 
                         {/*KITCHEN*/}
                         <Route path={'/kitchen'} element={isAuthenticated ? <KitchenRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login?intended=kitchen" />}>
                             <Route path={''} element={<Navigate to={'/kitchen/receive/order/food'} />} />
-                            <Route path={'receive/order'} element={<ReceiveOrder />} />
+                            {/*<Route path={'receive/order'} element={<ReceiveOrder />} />*/}
                             <Route path={'receive/order/food'} element={<ReceiveOrderFood />} />
                             <Route path={'receive/order/drinks/:orderNumber?'} element={<ReceiveOrderDrinks />} />
                             <Route path={'waiter'} />

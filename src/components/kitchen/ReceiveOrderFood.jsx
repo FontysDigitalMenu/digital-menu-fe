@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { startConnection, startListen, startListenDrinks, stopListen, stopListenDrinks } from '../../services/OrderHubConnection.jsx'
+import { addToGroup, startConnection, startListen, startListenDrinks, stopListen, stopListenDrinks } from '../../services/OrderHubConnection.jsx'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import notification from '../../assets/notification.mp3'
 import toastNotification from '../notifications/ToastNotification.jsx'
@@ -38,6 +38,7 @@ function ReceiveOrder() {
                 console.log('SignalR Connected!')
                 startListen(handleReceivedOrder)
                 startListenDrinks(handleReceiveOrderDrinksUpdate)
+                await addToGroup('Food')
             } catch (error) {
                 console.error('Error starting SignalR connection:', error)
             }

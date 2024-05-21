@@ -158,7 +158,11 @@ function Home() {
                                                 </p>
                                             </div>
                                         </Link>
-                                        <button onClick={() => handleAddToOrder(menuItem.id)} className="w-full mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        <button
+                                            onClick={() => handleAddToOrder(menuItem.id)}
+                                            className={`w-full mt-2 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center ${menuItem.isActive ? 'bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500' : 'bg-gray-400 cursor-not-allowed'}`}
+                                            disabled={!menuItem.isActive}
+                                        >
                                             Add to order
                                         </button>
                                     </div>
