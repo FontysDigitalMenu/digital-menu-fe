@@ -17,14 +17,14 @@ function IngredientsDelete(props) {
             })
 
             if (response.status === 204) {
-                ToastNotification('success', 'Ingredient successfully deleted')
+                ToastNotification('success', t('Ingredient successfully deleted'))
                 props.closeModal()
             } else {
-                ToastNotification('error', 'Failed to delete ingredient')
+                ToastNotification('error', t('Failed to delete ingredient'))
             }
         } catch (error) {
             console.error(error)
-            ToastNotification('error', 'Failed to delete ingredient')
+            ToastNotification('error', t('Failed to delete ingredient'))
         }
     }
 

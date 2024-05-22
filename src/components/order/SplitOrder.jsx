@@ -3,8 +3,10 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import ToastNotification from '../notifications/ToastNotification.jsx'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
+import { useTranslation } from 'react-i18next'
 
 function SplitOrder() {
+    const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const navigate = useNavigate()
     const [splitOption, setSplitOption] = useState('Even')
@@ -136,7 +138,7 @@ function SplitOrder() {
         })
 
         if (nameError === true && splitOption === 'Custom') {
-            ToastNotification('error', 'Please fill in the name field(s)')
+            ToastNotification('error', t('Please fill in the name field(s)'))
             return
         }
         if (response.status === 201) {
@@ -145,7 +147,7 @@ function SplitOrder() {
         } else if (response.status === 400) {
             const data = await response.json()
             if (data?.errors?.SessionId) {
-                toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                toast.error(t('Please scan the QR-Code on your table using your camera on your phone'), {
                     autoClose: 8000,
                 })
             } else {

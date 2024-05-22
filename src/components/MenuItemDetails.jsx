@@ -37,7 +37,7 @@ function MenuItemDetails() {
 
     async function addToOrder() {
         if (!localStorage.getItem('tableSessionId')) {
-            toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+            toast.error(t('Please scan the QR-Code on your table using your camera on your phone'), {
                 autoClose: 8000,
             })
             return
@@ -64,17 +64,17 @@ function MenuItemDetails() {
             })
 
             if (response.status === 204) {
-                ToastNotification('success', 'Added item to order')
+                ToastNotification('success', t('Added item to order'))
                 navigate('/')
             } else if (response.status === 404) {
-                toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                toast.error(t('Please scan the QR-Code on your table using your camera on your phone'), {
                     autoClose: 8000,
                 })
             } else {
-                ToastNotification('error', 'Failed to add menu item')
+                ToastNotification('error', t('Failed to add menu item'))
             }
         } catch (error) {
-            ToastNotification('error', 'Error adding menu item')
+            ToastNotification('error', t('Error adding menu item'))
         }
     }
 

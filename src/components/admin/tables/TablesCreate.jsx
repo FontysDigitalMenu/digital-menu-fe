@@ -36,7 +36,7 @@ function TablesCreate() {
         })
 
         if (response.status === 201) {
-            ToastNotification('success', 'Created successfully')
+            ToastNotification('success', t('Created successfully'))
 
             return navigate('/admin/tables')
         } else if (response.status === 401) {

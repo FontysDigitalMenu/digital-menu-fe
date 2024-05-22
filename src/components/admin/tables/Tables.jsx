@@ -48,7 +48,7 @@ function Tables() {
 
         if (response.status === 204) {
             fetchQrCode().then((r) => r)
-            ToastNotification('success', 'Deleted successfully')
+            ToastNotification('success', t('Deleted successfully'))
         } else if (response.status === 401) {
             await AuthService.refreshAccessToken()
             await submitDelete(id)

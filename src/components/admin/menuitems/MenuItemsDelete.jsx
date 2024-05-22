@@ -17,14 +17,14 @@ function MenuItemsDelete(props) {
             })
 
             if (response.status === 204) {
-                ToastNotification('success', 'MenuItem successfully deleted')
+                ToastNotification('success', t('MenuItem successfully deleted'))
                 props.closeModal()
             } else {
-                ToastNotification('error', 'Failed to delete menu item')
+                ToastNotification('error', t('Failed to delete menu item'))
             }
         } catch (error) {
             console.error(error)
-            ToastNotification('error', 'Failed to delete menu item')
+            ToastNotification('error', t('Failed to delete menu item'))
         }
     }
 

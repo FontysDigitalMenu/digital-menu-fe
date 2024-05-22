@@ -63,7 +63,7 @@ function TablesEdit() {
         })
 
         if (response.status === 204) {
-            ToastNotification('success', 'Updated successfully')
+            ToastNotification('success', t('Updated successfully'))
             return navigate('/admin/tables')
         } else if (response.status === 401) {
             // await auth.refresh();
