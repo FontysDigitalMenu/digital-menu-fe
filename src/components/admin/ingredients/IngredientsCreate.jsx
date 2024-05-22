@@ -68,6 +68,10 @@ function IngredientsCreate() {
                                 value: 'de',
                                 label: 'de',
                             },
+                            {
+                                value: 'ko',
+                                label: 'ko',
+                            },
                         ]}
                         className="w-full"
                         required
