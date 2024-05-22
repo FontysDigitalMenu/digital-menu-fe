@@ -119,5 +119,14 @@
   "Failed to reset table": "Resetten van tafel mislukt",
   "Successfully deleted": "Succesvol verwijderd",
   "Failed to delete": "Verwijderen mislukt",
-  "Is reservable": "Is reserveerbaar"
+  "Is reservable": "Is reserveerbaar",
+  "Reservation": "Reservering",
+  "Choose a date": "Kies een datum",
+  "Choose a time": "Kies een tijd",
+  "Reserve": "Reserveer",
+  "Reservation was placed successfully": "Reservering is succesvol geplaatst",
+  "Failed to make a reservation": "Reservering maken mislukt",
+  "Error occurred while making a reservation": "Fout opgetreden bij het maken van een reservering",
+  "Reservation successful": "Reservering succesvol",
+  "Your reservation has been confirmed. You will receive an email shortly with the details.": "Je reservering is bevestigd. Je ontvangt binnenkort een e-mail met de details."
 }

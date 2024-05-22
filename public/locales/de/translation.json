@@ -119,5 +119,14 @@
   "Failed to reset table": "Fehler beim Zurücksetzen des Tisches",
   "Successfully deleted": "Erfolgreich gelöscht",
   "Failed to delete": "Fehler beim Löschen",
-  "Is reservable": "Ist reservierbar"
+  "Is reservable": "Ist reservierbar",
+  "Reservation": "Reservierung",
+  "Choose a date": "Wählen Sie ein Datum",
+  "Choose a time": "Wählen Sie eine Zeit",
+  "Reserve": "Reservieren",
+  "Reservation was placed successfully": "Reservierung wurde erfolgreich platziert",
+  "Failed to make a reservation": "Fehler bei der Reservierung",
+  "Error occurred while making a reservation": "Fehler bei der Reservierung",
+  "Reservation successful": "Reservierung erfolgreich",
+  "Your reservation has been confirmed. You will receive an email shortly with the details.": "Ihre Reservierung wurde bestätigt. Sie erhalten in Kürze eine E-Mail mit den Details."
 }

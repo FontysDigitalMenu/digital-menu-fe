@@ -119,5 +119,14 @@
   "Failed to reset table": "Failed to reset table",
   "Successfully deleted": "Successfully deleted",
   "Failed to delete": "Failed to delete",
-  "Is reservable": "Is reservable"
+  "Is reservable": "Is reservable",
+  "Reservation": "Reservation",
+  "Choose a date": "Choose a date",
+  "Choose a time": "Choose a time",
+  "Reserve": "Reserve",
+  "Reservation was placed successfully": "Reservation was placed successfully",
+  "Failed to make a reservation": "Failed to make a reservation",
+  "Error occurred while making a reservation": "Error occurred while making a reservation",
+  "Reservation successful": "Reservation successful",
+  "Your reservation has been confirmed. You will receive an email shortly with the details.": "Your reservation has been confirmed. You will receive an email shortly with the details."
 }
