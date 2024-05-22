@@ -116,5 +116,8 @@
   "Order removed": "Order removed",
   "Reset table successfully": "Reset table successfully",
   "Table not found": "Table not found",
-  "Failed to reset table": "Failed to reset table"
+  "Failed to reset table": "Failed to reset table",
+  "Successfully deleted": "Successfully deleted",
+  "Failed to delete": "Failed to delete",
+  "Is reservable": "Is reservable"
 }

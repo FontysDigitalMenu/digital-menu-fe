@@ -116,5 +116,8 @@
   "Order removed": "Bestelling verwijderd",
   "Reset table successfully": "Tafel succesvol gereset",
   "Table not found": "Tafel niet gevonden",
-  "Failed to reset table": "Resetten van tafel mislukt"
+  "Failed to reset table": "Resetten van tafel mislukt",
+  "Successfully deleted": "Succesvol verwijderd",
+  "Failed to delete": "Verwijderen mislukt",
+  "Is reservable": "Is reserveerbaar"
 }

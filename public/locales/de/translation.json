@@ -116,5 +116,8 @@
   "Order removed": "Bestellung entfernt",
   "Reset table successfully": "Tisch erfolgreich zurückgesetzt",
   "Table not found": "Tisch nicht gefunden",
-  "Failed to reset table": "Fehler beim Zurücksetzen des Tisches"
+  "Failed to reset table": "Fehler beim Zurücksetzen des Tisches",
+  "Successfully deleted": "Erfolgreich gelöscht",
+  "Failed to delete": "Fehler beim Löschen",
+  "Is reservable": "Ist reservierbar"
 }
