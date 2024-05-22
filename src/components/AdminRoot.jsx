@@ -3,8 +3,10 @@ import SideNav from './navigation/SideNav.jsx'
 import { useContext, useEffect } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 function AdminRoot({ setIsAuthenticated }) {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
 
@@ -25,7 +27,7 @@ function AdminRoot({ setIsAuthenticated }) {
         if (response.status === 200) {
             const roles = await response.json()
             if (!roles.includes('Admin')) {
-                toast('You do not have permission to access this page', {
+                toast(t('You do not have permission to access this page'), {
                     type: 'error',
                 })
                 return navigate('/login?intended=admin')

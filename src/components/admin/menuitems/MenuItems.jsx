@@ -6,9 +6,11 @@ import { Button, Modal } from 'flowbite-react'
 import DeleteMenuItem from './MenuItemsDelete.jsx'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 function MenuItems() {
     const config = useContext(ConfigContext)
+    const { t } = useTranslation()
     const [menuItems, setMenuItems] = useState([])
     const [modalIsOpen, setIsOpen] = useState(false)
     const [id, setId] = useState(0)
@@ -48,7 +50,7 @@ function MenuItems() {
                 <DeleteMenuItem closeModal={closeModal} id={id} />
             </Modal>
 
-            <h1 className="text-4xl font-bold mb-10">MenuItems</h1>
+            <h1 className="text-4xl font-bold mb-10">{t('MenuItems')}</h1>
 
             <div className="sm:flex w-full justify-between mb-4">
                 {/*<div className="w-96">*/}
@@ -71,7 +73,7 @@ function MenuItems() {
                 {/*</div>*/}
 
                 <div className="pt-2">
-                    <ButtonCreateNew text={'Create new'} navigateUrl={'/admin/menuItems/create'} />
+                    <ButtonCreateNew text={t('Create new')} navigateUrl={'/admin/menuItems/create'} />
                 </div>
             </div>
 
@@ -83,16 +85,16 @@ function MenuItems() {
                                 Id
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Name
+                                {t('Name')}
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Price
+                                {t('Price')}
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Image
+                                {t('Image')}
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Action
+                                {t('Actions')}
                             </th>
                         </tr>
                     </thead>
@@ -109,7 +111,7 @@ function MenuItems() {
                                 </td>
                                 <td className="px-6 py-4">
                                     <Link to={`/admin/menuItems/${menuItem.id}/edit`} className="m-1 font-medium text-blue-600 hover:underline">
-                                        Edit
+                                        {t('Edit')}
                                     </Link>
                                     <button
                                         onClick={() => {
@@ -117,7 +119,7 @@ function MenuItems() {
                                         }}
                                         className="text-red-600"
                                     >
-                                        Delete
+                                        {t('Delete')}
                                     </button>
                                 </td>
                             </tr>

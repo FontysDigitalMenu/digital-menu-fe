@@ -6,9 +6,11 @@ import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import notification from '../../assets/progress-notification.mp3'
 import paymentNotification from '../../assets/payment-noti.mp3'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 function OrderProgress() {
     const config = useContext(ConfigContext)
+    const { t } = useTranslation()
     const { orderId } = useParams()
     const [order, setOrder] = useState()
     const [loading, setLoading] = useState(true)
@@ -28,7 +30,7 @@ function OrderProgress() {
         const timer = setTimeout(() => {
             const audio = new Audio(paymentNotification)
             audio.play()
-            toast('Not everyone has payed yet', {
+            toast(t('Not everyone has payed yet'), {
                 type: 'info',
             })
         }, 5 * 1000)
@@ -156,7 +158,7 @@ function OrderProgress() {
                     <div className="mt-6 w-full flex justify-center">
                         <div className="w-[420px]">
                             <div className="title-box text-6xl font-bold w-full px-2 mb-6">
-                                <p className="text-center">Thank you for your order!</p>
+                                <p className="text-center">{t('Thank you for your order!')}</p>
                             </div>
                             <div className={`relative h-20`}>
                                 <img className={`w-20 absolute ${waiterPosition} duration-1000 transition-all`} src={waiter} alt="waiter" />
@@ -164,7 +166,7 @@ function OrderProgress() {
 
                             <div className={'relative text-white'}>
                                 <div className="flex absolute w-full z-30">
-                                    <div className="rounded-l-lg h-[40px] w-[30%] bg-green-500 flex justify-end items-center pr-3">Received</div>
+                                    <div className="rounded-l-lg h-[40px] w-[30%] bg-green-500 flex justify-end items-center pr-3">{t('Received')}</div>
                                     <div
                                         className="w-0 h-0
                                       border-t-[20px] border-t-transparent
@@ -175,7 +177,7 @@ function OrderProgress() {
                                 </div>
 
                                 <div className="flex absolute w-full z-20">
-                                    <div className={`rounded-l-lg h-[40px] ${processingClass} transition-all duration-1000 bg-green-600 flex justify-end items-center pr-3`}>Processing</div>
+                                    <div className={`rounded-l-lg h-[40px] ${processingClass} transition-all duration-1000 bg-green-600 flex justify-end items-center pr-3`}>{t('Processing')}</div>
                                     <div
                                         className="w-0 h-0
                                           border-t-[20px] border-t-transparent
@@ -186,22 +188,24 @@ function OrderProgress() {
                                 </div>
 
                                 <div className="flex absolute w-full z-10">
-                                    <div className={`rounded-l-lg h-[40px] ${completedClass} transition-all duration-1000 bg-green-700 flex justify-end items-center rounded pr-3`}>Done</div>
+                                    <div className={`rounded-l-lg h-[40px] ${completedClass} transition-all duration-1000 bg-green-700 flex justify-end items-center rounded pr-3`}>{t('Done')}</div>
                                 </div>
                             </div>
 
                             <div className="total-box text-2xl font-bold w-full px-2 mt-8 mb-4 pt-4">
-                                Total: &nbsp;
+                                {t('Total')}: &nbsp;
                                 {new Intl.NumberFormat('nl-NL', {
                                     style: 'currency',
                                     currency: 'EUR',
                                 }).format(order ? order.totalAmount / 100 : 0)}
                             </div>
                             <div className="title-box text-2xl font-bold w-full px-2 mt-4 mb-4">
-                                <p className="text-left">Order Number: {order.orderNumber}</p>
+                                <p className="text-left">
+                                    {t('Order Number')}: {order.orderNumber}
+                                </p>
                             </div>
                             <div className="title-box text-2xl font-bold w-full px-2 mt-4">
-                                <p className="text-left">Overview</p>
+                                <p className="text-left">{t('Overview')}</p>
                             </div>
                             <div className="flex flex-col px-2">
                                 {order &&
@@ -237,7 +241,7 @@ function OrderProgress() {
                                                     {menuItem.excludedIngredients.map((excludedIngredient) => {
                                                         return (
                                                             <div key={excludedIngredient.id} className="flex gap-2 pt-2">
-                                                                <span className="material-symbols-outlined text-red-600">close</span>
+                                                                <span className="material-symbols-outlined text-red-600">{t('close')}</span>
                                                                 <p>{excludedIngredient.name}</p>
                                                             </div>
                                                         )
@@ -258,12 +262,12 @@ function OrderProgress() {
                     <div className="mt-6 w-full flex justify-center">
                         <div className="w-96 md:w-[500px]">
                             <div className="title-box text-5xl font-bold w-full px-2 mb-6">
-                                <p className="text-center">Waiting for all payments to complete</p>
+                                <p className="text-center">{t('Waiting for all payments to complete')}</p>
                             </div>
                             <div className={'flex pt-10 px-1 md:px-0'}>
-                                <span className="text-xl font-medium w-[20%]">Amount</span>
+                                <span className="text-xl font-medium w-[20%]">{t('Amount')}</span>
                                 <div className="text-xl font-medium w-[60%]">
-                                    <div className="flex w-full justify-center">Name</div>
+                                    <div className="flex w-full justify-center">{t('Name')}</div>
                                 </div>
                                 <span className={'text-white text-xl rounded-md px-4 py-1 w-[20%]'}></span>
                             </div>
@@ -283,11 +287,11 @@ function OrderProgress() {
                                                 <p className="text-xl w-32 sm:w-48 md:w-72 truncate">{split.name}</p>
                                             </div>
                                             {split.paymentStatus !== 'Paid' ? (
-                                                <button onClick={() => handlePaySplit(split.id)} className={'ml-1 bg-red-600 hover:bg-red-500 text-white w-20 text-xl rounded-md'}>
-                                                    Pay
+                                                <button onClick={() => handlePaySplit(split.id)} className={'ml-1 bg-red-600 hover:bg-red-500 text-white w-24 text-xl rounded-md'}>
+                                                    {t('Pay')}
                                                 </button>
                                             ) : (
-                                                <span className={'ml-1 bg-green-600 text-white text-xl rounded-md w-20 py-2 text-center'}>Paid</span>
+                                                <span className={'ml-1 bg-green-600 text-white text-xl rounded-md w-20 py-2 text-center'}>{t('Paid')}</span>
                                             )}
                                         </div>
                                     )
@@ -295,7 +299,7 @@ function OrderProgress() {
                             </div>
                             <div className="pt-10">
                                 <p className="text-3xl font-bold flex w-full justify-center text-center">
-                                    Left to pay:{' '}
+                                    {t('Left to pay')}:{' '}
                                     {new Intl.NumberFormat('nl-NL', {
                                         style: 'currency',
                                         currency: 'EUR',
@@ -312,7 +316,7 @@ function OrderProgress() {
                     <div>
                         <p className="text-8xl font-bold flex justify-center">404</p>
 
-                        <p className="text-4xl font-bold flex justify-center pt-2">Page not found!</p>
+                        <p className="text-4xl font-bold flex justify-center pt-2">{t('Page not found!')}</p>
                     </div>
                 </div>
             )}

@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import Order from './Order.jsx'
+import { useTranslation } from 'react-i18next'
 
 function MyOrders() {
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (config) {
@@ -31,7 +33,7 @@ function MyOrders() {
     return (
         <div className="relative flex flex-col justify-between min-h-screen">
             <div className="min-h-screen flex flex-col bg-gray-50 px-5">
-                <h1 className={'text-3xl mt-4'}>Order history</h1>
+                <h1 className={'text-3xl mt-4'}>{t('Order history')}</h1>
                 <div className={'flex flex-col gap-y-8'}>{orders && orders.map((order) => <Order key={order.id} order={order} />)}</div>
             </div>
         </div>

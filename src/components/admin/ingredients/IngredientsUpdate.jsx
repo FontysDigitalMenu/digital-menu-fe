@@ -2,14 +2,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import Select from 'react-select'
 
 function IngredientsUpdate() {
     const { id } = useParams()
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const [ingredient, setIngredient] = useState({
         name: '',
         stock: 0,
+        formLanguage: 'en',
     })
 
     useEffect(() => {
@@ -49,6 +53,7 @@ function IngredientsUpdate() {
                 body: JSON.stringify({
                     name: ingredient.name,
                     stock: ingredient.stock,
+                    formLanguage: ingredient.formLanguage,
                 }),
             })
 
@@ -66,18 +71,44 @@ function IngredientsUpdate() {
 
     return (
         <div className="p-4 sm:ml-64">
-            <h1 className="text-4xl mb-10 font-bold">Update ingredient</h1>
+            <h1 className="text-4xl mb-10 font-bold">{t('Update ingredient')}</h1>
 
             <form className="max-w-lg mx-auto">
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
-                        Name
+                        {t('Form language')}
+                    </label>
+                    <Select
+                        name="form language"
+                        defaultValue={{ value: 'en', label: 'en' }}
+                        onChange={(e) => setIngredient({ ...ingredient, formLanguage: e.value })}
+                        options={[
+                            {
+                                value: 'en',
+                                label: 'en',
+                            },
+                            {
+                                value: 'nl',
+                                label: 'nl',
+                            },
+                            {
+                                value: 'de',
+                                label: 'de',
+                            },
+                        ]}
+                        className="w-full"
+                        required
+                    />
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
+                        {t('Name')}
                     </label>
                     <input type="text" id="name" className="block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-red-500 focus:border-red-500" required value={ingredient.name} onChange={(e) => setIngredient({ ...ingredient, name: e.target.value })} />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="stock" className="block mb-2 text-sm font-medium text-gray-900">
-                        Stock
+                        {t('Stock')}
                     </label>
                     <input
                         type="number"
@@ -91,7 +122,7 @@ function IngredientsUpdate() {
 
                 <div className="mb-5 flex w-full justify-end">
                     <button type="button" onClick={handleUpdateIngredient} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
-                        Update ingredient
+                        {t('Update ingredient')}
                     </button>
                 </div>
             </form>

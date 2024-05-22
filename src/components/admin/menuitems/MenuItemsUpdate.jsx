@@ -1,19 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import CreatableSelect from 'react-select/creatable'
 import Select from 'react-select'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import CurrencyInput from 'react-currency-input-field'
+import { useTranslation } from 'react-i18next'
 
 function MenuItemsUpdate() {
     const { id } = useParams()
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const [categories, setCategories] = useState([])
     const [ingredients, setIngredients] = useState([])
     const [dynamicDivs, setDynamicDivs] = useState([{ ingredient: '', amount: '1' }])
     const [menuData, setMenuData] = useState({
+        formLanguage: 'en',
         id: 0,
         name: '',
         price: 0.0,
@@ -79,7 +82,7 @@ function MenuItemsUpdate() {
         }
 
         setImageUrl(data.imageUrl)
-        setMenuData(updatedMenuItem)
+        setMenuData({ ...updatedMenuItem, formLanguage: 'en' })
     }
 
     async function fetchIngredients() {
@@ -152,6 +155,7 @@ function MenuItemsUpdate() {
     const handleUpdateMenuItem = async () => {
         try {
             const formData = new FormData()
+            formData.append('formLanguage', menuData.formLanguage)
             formData.append('id', menuData.id)
             formData.append('name', menuData.name)
             formData.append('price', menuData.price)
@@ -196,18 +200,44 @@ function MenuItemsUpdate() {
 
     return (
         <div className="p-4 sm:ml-64">
-            <h1 className="text-4xl mb-10 font-bold">Update menu item</h1>
+            <h1 className="text-4xl mb-10 font-bold">{t('Update menu item')}</h1>
 
             <form className="max-w-lg mx-auto">
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
-                        Name
+                        {t('Form language')}
+                    </label>
+                    <Select
+                        name="form language"
+                        defaultValue={{ value: 'en', label: 'en' }}
+                        onChange={(e) => setMenuData({ ...menuData, formLanguage: e.value })}
+                        options={[
+                            {
+                                value: 'en',
+                                label: 'en',
+                            },
+                            {
+                                value: 'nl',
+                                label: 'nl',
+                            },
+                            {
+                                value: 'de',
+                                label: 'de',
+                            },
+                        ]}
+                        className="w-full"
+                        required
+                    />
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
+                        {t('Name')}
                     </label>
                     <input type="text" id="name" className="block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-red-500 focus:border-red-500" required value={menuData.name} onChange={(e) => setMenuData({ ...menuData, name: e.target.value })} />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900">
-                        Price
+                        {t('Price')}
                     </label>
                     <CurrencyInput
                         id="price"
@@ -224,7 +254,7 @@ function MenuItemsUpdate() {
                 </div>
                 <div className="mb-5">
                     <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900">
-                        Description
+                        {t('Description')}
                     </label>
                     <textarea
                         id="message"
@@ -236,8 +266,8 @@ function MenuItemsUpdate() {
                     ></textarea>
                 </div>
                 <div className="mb-5">
-                    <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="image">
-                        Categories
+                    <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="categories">
+                        {t('Categories')}
                     </label>
                     <CreatableSelect
                         isMulti
@@ -252,8 +282,8 @@ function MenuItemsUpdate() {
                 </div>
 
                 <div className="mb-5">
-                    <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="image">
-                        Ingredients
+                    <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="ingredients">
+                        {t('Ingredients')}
                     </label>
 
                     <div>
@@ -281,7 +311,7 @@ function MenuItemsUpdate() {
 
                         <div className="w-full flex justify-end">
                             <button type="button" onClick={handleAddDiv} className="bg-green-500 border border-green-500 text-white rounded px-4 py-2">
-                                Add More
+                                {t('Add More')}
                             </button>
                         </div>
                     </div>
@@ -289,7 +319,7 @@ function MenuItemsUpdate() {
 
                 <div className="mb-5">
                     <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="image">
-                        Upload image
+                        {t('Upload image')}
                     </label>
                     <input
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
@@ -308,7 +338,7 @@ function MenuItemsUpdate() {
 
                 <div className="mb-5 flex w-full justify-end">
                     <button type="button" onClick={() => handleUpdateMenuItem()} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
-                        Update menu item
+                        {t('Update menu item')}
                     </button>
                 </div>
             </form>
