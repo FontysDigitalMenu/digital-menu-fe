@@ -1,10 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
-// import Modal from "react-modal";
-import { Button, Modal } from 'flowbite-react'
+import { Modal } from 'flowbite-react'
 import DeleteMenuItem from './MenuItemsDelete.jsx'
-import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 

@@ -57,13 +57,13 @@ function CartItemEdit() {
             })
 
             if (response.status === 204) {
-                ToastNotification('success', 'Saved cart item')
+                ToastNotification('success', t('Saved cart item'))
                 navigate('/cart')
             } else {
-                ToastNotification('error', 'Failed to save cart item')
+                ToastNotification('error', t('Failed to save cart item'))
             }
         } catch (error) {
-            ToastNotification('error', 'Error while saving the cart item')
+            ToastNotification('error', t('Error while saving the cart item'))
         }
     }
 

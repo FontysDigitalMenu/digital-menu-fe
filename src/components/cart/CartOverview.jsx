@@ -87,7 +87,7 @@ function CartOverview() {
         if (response.status === 204) {
             await fetchCartItems()
         } else {
-            ToastNotification('error', 'Error while adding item to order')
+            ToastNotification('error', t('Error while adding item to order'))
         }
     }
 
@@ -107,7 +107,7 @@ function CartOverview() {
         if (response.status === 204) {
             await fetchCartItems()
         } else {
-            ToastNotification('error', 'Error while removing item from order')
+            ToastNotification('error', t('Error while removing item from order'))
         }
     }
 
@@ -135,7 +135,7 @@ function CartOverview() {
         } else if (response.status === 400) {
             const data = await response.json()
             if (data?.errors?.SessionId) {
-                toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+                toast.error(t('Please scan the QR-Code on your table using your camera on your phone'), {
                     autoClose: 8000,
                 })
             } else {

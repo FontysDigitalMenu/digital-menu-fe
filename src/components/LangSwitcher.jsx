@@ -6,6 +6,7 @@ function LangSwitcher({ ...props }) {
         en: { nativeName: 'English' },
         nl: { nativeName: 'Nederlands' },
         de: { nativeName: 'Deutsch' },
+        ko: { nativeName: '한국어' },
     }
 
     return (

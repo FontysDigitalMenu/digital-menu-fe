@@ -58,14 +58,14 @@ function IngredientsUpdate() {
             })
 
             if (response.status === 204) {
-                ToastNotification('success', 'Ingredient updated successfully')
+                ToastNotification('success', t('Ingredient updated successfully'))
 
                 return navigate('/admin/ingredients')
             } else {
-                ToastNotification('error', 'Failed to update ingredient')
+                ToastNotification('error', t('Failed to update ingredient'))
             }
         } catch (error) {
-            ToastNotification('error', 'Error updating ingredient:', error)
+            ToastNotification('error', t('Error updating ingredient'), error)
         }
     }
 
@@ -94,6 +94,10 @@ function IngredientsUpdate() {
                             {
                                 value: 'de',
                                 label: 'de',
+                            },
+                            {
+                                value: 'ko',
+                                label: 'ko',
                             },
                         ]}
                         className="w-full"

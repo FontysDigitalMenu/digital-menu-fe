@@ -16,7 +16,7 @@ function Waiter() {
     function handleReceivedOrder(order) {
         const audio = new Audio(notification)
         audio.play()
-        toastNotification('success', 'New completed order')
+        toastNotification('success', t('New completed order'))
         setOrders((prevOrders) => [...prevOrders, order])
     }
 
@@ -37,7 +37,7 @@ function Waiter() {
         if (response.status === 204) {
             console.log('Updated')
             setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId))
-            ToastNotification('success', 'Order removed')
+            ToastNotification('success', t('Order removed'))
         }
     }
 

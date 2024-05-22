@@ -31,14 +31,14 @@ function IngredientsCreate() {
             })
 
             if (response.status === 201) {
-                ToastNotification('success', 'Ingredient created successfully')
+                ToastNotification('success', t('Ingredient created successfully'))
 
                 return navigate('/admin/ingredients')
             } else {
-                ToastNotification('error', 'Failed to create ingredient')
+                ToastNotification('error', t('Failed to create ingredient'))
             }
         } catch (error) {
-            ToastNotification('error', 'Error creating ingredient:', error)
+            ToastNotification('error', t('Error creating ingredient'), error)
         }
     }
 
@@ -67,6 +67,10 @@ function IngredientsCreate() {
                             {
                                 value: 'de',
                                 label: 'de',
+                            },
+                            {
+                                value: 'ko',
+                                label: 'ko',
                             },
                         ]}
                         className="w-full"

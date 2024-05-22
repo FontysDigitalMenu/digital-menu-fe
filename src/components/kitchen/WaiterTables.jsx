@@ -1,11 +1,13 @@
-import { Button, Modal } from 'flowbite-react'
+import { Modal } from 'flowbite-react'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import ToastNotification from '../notifications/ToastNotification.jsx'
+import { useTranslation } from 'react-i18next'
 
 function WaiterTables() {
+    const { t } = useTranslation()
     const [modalIsOpen, setIsOpen] = useState(false)
     const [tableId, setTableId] = useState(0)
     function openModal(id) {
@@ -47,15 +49,15 @@ function WaiterTables() {
         })
             .then((response) => {
                 if (response.status === 204) {
-                    ToastNotification('success', 'Reset table successfully')
+                    ToastNotification('success', t('Reset table successfully'))
                 } else if (response.status === 404) {
-                    ToastNotification('error', 'Table not found')
+                    ToastNotification('error', t('Table not found'))
                 } else {
-                    ToastNotification('error', 'Failed to reset table')
+                    ToastNotification('error', t('Failed to reset table'))
                 }
             })
             .catch(() => {
-                ToastNotification('error', 'Failed to reset table')
+                ToastNotification('error', t('Failed to reset table'))
             })
     }
 

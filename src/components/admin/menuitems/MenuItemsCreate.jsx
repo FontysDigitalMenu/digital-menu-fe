@@ -131,14 +131,14 @@ function MenuItemsCreate() {
                 body: formData,
             })
             if (response.status === 201) {
-                ToastNotification('success', 'Menu item created successfully')
+                ToastNotification('success', t('Menu item created successfully'))
 
                 return navigate('/admin/menuItems')
             } else {
-                ToastNotification('error', 'Failed to create menu item')
+                ToastNotification('error', t('Failed to create menu item'))
             }
         } catch (error) {
-            ToastNotification('error', 'Error creating menu item:', error)
+            ToastNotification('error', t('Error creating menu item'), error)
         }
     }
 
@@ -167,6 +167,10 @@ function MenuItemsCreate() {
                             {
                                 value: 'de',
                                 label: 'de',
+                            },
+                            {
+                                value: 'ko',
+                                label: 'ko',
                             },
                         ]}
                         className="w-full"

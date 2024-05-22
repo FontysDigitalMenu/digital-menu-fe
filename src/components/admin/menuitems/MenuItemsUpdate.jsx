@@ -187,14 +187,14 @@ function MenuItemsUpdate() {
             })
 
             if (response.status === 204) {
-                ToastNotification('success', 'Menu item updated successfully')
+                ToastNotification('success', t('Menu item updated successfully'))
 
                 return navigate('/admin/menuItems')
             } else {
-                ToastNotification('error', 'Failed to update menu item')
+                ToastNotification('error', t('Failed to update menu item'))
             }
         } catch (error) {
-            ToastNotification('error', 'Error updating the menu item:', error)
+            ToastNotification('error', t('Error updating the menu item'), error)
         }
     }
 
@@ -223,6 +223,10 @@ function MenuItemsUpdate() {
                             {
                                 value: 'de',
                                 label: 'de',
+                            },
+                            {
+                                value: 'ko',
+                                label: 'ko',
                             },
                         ]}
                         className="w-full"

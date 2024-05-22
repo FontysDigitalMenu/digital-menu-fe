@@ -79,7 +79,7 @@ function Home() {
 
     const handleAddToOrder = async (id) => {
         if (!localStorage.getItem('tableSessionId')) {
-            toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+            toast.error(t('Please scan the QR-Code on your table using your camera on your phone'), {
                 autoClose: 8000,
             })
             return
@@ -98,13 +98,13 @@ function Home() {
         })
 
         if (response.status === 204) {
-            ToastNotification('success', 'Added item to order')
+            ToastNotification('success', t('Added item to order'))
         } else if (response.status === 404) {
-            toast.error('Please scan the QR-Code on your table using your camera on your phone', {
+            toast.error(t('Please scan the QR-Code on your table using your camera on your phone'), {
                 autoClose: 8000,
             })
         } else {
-            ToastNotification('error', 'Error while adding item to order')
+            ToastNotification('error', t('Error while adding item to order'))
         }
     }
 

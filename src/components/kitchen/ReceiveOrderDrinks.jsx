@@ -16,7 +16,7 @@ function ReceiveOrder() {
     function handleReceivedOrder(order) {
         const audio = new Audio(notification)
         audio.play()
-        toastNotification('success', 'Received order')
+        toastNotification('success', t('Received order'))
         setOrders((prevOrders) => [...prevOrders, order])
     }
 
