@@ -210,7 +210,7 @@ function MenuItemsCreate() {
                     ></textarea>
                 </div>
                 <div className="mb-5">
-                    <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="image">
+                    <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="categories">
                         {t('Categories')}
                     </label>
                     <CreatableSelect
@@ -226,7 +226,7 @@ function MenuItemsCreate() {
                 </div>
 
                 <div className="mb-5">
-                    <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="image">
+                    <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="ingredients">
                         {t('Ingredients')}
                     </label>
 
