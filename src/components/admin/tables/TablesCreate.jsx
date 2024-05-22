@@ -13,13 +13,21 @@ function TablesCreate() {
     const config = useContext(ConfigContext)
     const [tableForm, setTableForm] = useState({
         name: '',
+        isReservable: false,
     })
 
     function handleFormChange(e) {
-        setTableForm((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }))
+        if (e.target.name === 'isReservable') {
+            setTableForm((prevState) => ({
+                ...prevState,
+                [e.target.name]: e.target.checked,
+            }))
+        } else {
+            setTableForm((prevState) => ({
+                ...prevState,
+                [e.target.name]: e.target.value,
+            }))
+        }
     }
 
     async function submitTable(e) {
@@ -52,6 +60,10 @@ function TablesCreate() {
                     <div>
                         <label htmlFor="name">{t('Name')}</label>
                         <input type="text" id="name" name="name" required onChange={handleFormChange} className={'input'} />
+                    </div>
+                    <div className={'flex gap-x-2 items-center'}>
+                        <label htmlFor="isReservable">{t('Is reservable')}</label>
+                        <input type="checkbox" id="isReservable" name="isReservable" checked={tableForm.isReservable} onChange={handleFormChange} />
                     </div>
                     <div className={'flex gap-x-1'}>
                         <ButtonCancel text={t('Cancel')} navigateUrl={'/admin/tables'} />

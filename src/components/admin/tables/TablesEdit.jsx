@@ -5,6 +5,7 @@ import ButtonCancel from '../../elements/ButtonCancel.jsx'
 import ButtonSubmit from '../../elements/ButtonSubmit.jsx'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import { useTranslation } from 'react-i18next'
+import { Checkbox } from 'flowbite-react'
 
 function TablesEdit() {
     const { id } = useParams()
@@ -13,6 +14,7 @@ function TablesEdit() {
     const navigate = useNavigate()
     const [tableForm, setTableForm] = useState({
         name: '',
+        isReservable: false,
     })
 
     useEffect(() => {
@@ -21,10 +23,18 @@ function TablesEdit() {
     }, [config])
 
     function handleFormChange(e) {
-        setTableForm((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }))
+        if (e.target.name === 'isReservable') {
+            setTableForm((prevState) => ({
+                ...prevState,
+                [e.target.name]: e.target.checked,
+            }))
+        } else {
+            setTableForm((prevState) => ({
+                ...prevState,
+                [e.target.name]: e.target.value,
+            }))
+        }
+        console.log(tableForm)
     }
 
     async function fetchTable() {
@@ -79,6 +89,11 @@ function TablesEdit() {
                         <label htmlFor="name">{t('Name')}</label>
                         <input type="text" id="name" name="name" defaultValue={tableForm.name} required onChange={handleFormChange} className={'input'} />
                     </div>
+                    <div className={'flex gap-x-2 items-center'}>
+                        <label htmlFor="isReservable">{t('Is reservable')}</label>
+                        <input type="checkbox" id="isReservable" name="isReservable" checked={tableForm.isReservable} onChange={handleFormChange} />
+                    </div>
+                    <br />
                     <div className={'flex gap-x-1'}>
                         <ButtonCancel text={t('Cancel')} navigateUrl={'/admin/tables'}></ButtonCancel>
                         <ButtonSubmit text={t('Update')}></ButtonSubmit>

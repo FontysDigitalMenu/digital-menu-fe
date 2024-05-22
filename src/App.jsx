@@ -35,6 +35,8 @@ import WaiterFood from './components/kitchen/WaiterFood.jsx'
 import WaiterDrinks from './components/kitchen/WaiterDrinks.jsx'
 import IngredientsStock from './components/admin/ingredients/IngredientsStock.jsx'
 import { setLocale } from 'yup'
+import Reservation from './components/reservation/Reservation.jsx'
+import ReservationConfirmation from './components/reservation/ReservationConfirmation.jsx'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -90,6 +92,9 @@ function App() {
                             <Route path="cart" element={<CartOverview />} />
                             <Route path="table/:id" element={<ScannedTable />} />
                             <Route path="account/orders" element={<MyOrders />} />
+
+                            <Route path="reservation" element={<Reservation />} />
+                            <Route path="reservation/confirmation" element={<ReservationConfirmation />} />
                         </Route>
 
                         <Route path="/order" element={<Root />}>
@@ -127,7 +132,7 @@ function App() {
                             <Route path={'receive/order/drinks'} element={<ReceiveOrderDrinks />} />
                             <Route path={'waiter/food'} element={<WaiterFood />} />
                             <Route path={'waiter/drinks'} element={<WaiterDrinks />} />
-                              
+
                             <Route path={'receive/order/drinks/:orderNumber?'} element={<ReceiveOrderDrinks />} />
                             <Route path={'waiter'} />
 
