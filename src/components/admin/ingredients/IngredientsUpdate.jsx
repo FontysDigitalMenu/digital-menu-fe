@@ -3,6 +3,7 @@ import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import Select from 'react-select'
 
 function IngredientsUpdate() {
     const { id } = useParams()
@@ -12,6 +13,7 @@ function IngredientsUpdate() {
     const [ingredient, setIngredient] = useState({
         name: '',
         stock: 0,
+        formLanguage: 'en',
     })
 
     useEffect(() => {
@@ -51,6 +53,7 @@ function IngredientsUpdate() {
                 body: JSON.stringify({
                     name: ingredient.name,
                     stock: ingredient.stock,
+                    formLanguage: ingredient.formLanguage,
                 }),
             })
 
@@ -71,6 +74,32 @@ function IngredientsUpdate() {
             <h1 className="text-4xl mb-10 font-bold">{t('Update ingredient')}</h1>
 
             <form className="max-w-lg mx-auto">
+                <div className="mb-5">
+                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
+                        {t('Form language')}
+                    </label>
+                    <Select
+                        name="form language"
+                        defaultValue={{ value: 'en', label: 'en' }}
+                        onChange={(e) => setIngredient({ ...ingredient, formLanguage: e.value })}
+                        options={[
+                            {
+                                value: 'en',
+                                label: 'en',
+                            },
+                            {
+                                value: 'nl',
+                                label: 'nl',
+                            },
+                            {
+                                value: 'de',
+                                label: 'de',
+                            },
+                        ]}
+                        className="w-full"
+                        required
+                    />
+                </div>
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         {t('Name')}

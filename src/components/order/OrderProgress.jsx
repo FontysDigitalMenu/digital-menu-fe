@@ -30,7 +30,7 @@ function OrderProgress() {
         const timer = setTimeout(() => {
             const audio = new Audio(paymentNotification)
             audio.play()
-            toast('Not everyone has payed yet', {
+            toast(t('Not everyone has payed yet'), {
                 type: 'info',
             })
         }, 5 * 1000)

@@ -67,5 +67,19 @@
   "Create ingredient": "Create ingredient",
   "Update ingredient": "Update ingredient",
   "Are you sure you want to delete this ingredient?": "Are you sure you want to delete this ingredient?",
-  "Ingredients sorted by stock": "Ingredients sorted by stock"
+  "Ingredients sorted by stock": "Ingredients sorted by stock",
+  "Drinks ready for serving": "Drinks ready for serving",
+  "Food ready for serving": "Food ready for serving",
+  "Form language": "Formulier taal",
+  "Save Menu Item": "Save Menu Item",
+  "Order": "Order",
+  "Not everyone has payed yet": "Not everyone has payed yet",
+  "You do not have permission to access this page": "You do not have permission to access this page",
+  "Kitchen": "Kitchen",
+  "Bar": "Bar",
+  "Waiters food": "Waiters food",
+  "Waiters drinks": "Waiters drinks",
+  "No orders ready for serving": "No orders ready for serving",
+  "Pending": "Pending",
+  "Completed": "Completed"
 }

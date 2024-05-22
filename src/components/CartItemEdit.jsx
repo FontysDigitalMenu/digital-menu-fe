@@ -2,9 +2,11 @@ import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import ToastNotification from './notifications/ToastNotification.jsx'
+import { useTranslation } from 'react-i18next'
 
 function CartItemEdit() {
     const { id } = useParams()
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
     const [cartItemWithExcludedIngredients, setCartItemWithExcludedIngredients] = useState(null)
@@ -80,7 +82,7 @@ function CartItemEdit() {
                             >
                                 <div className="flex gap-2 pt-1">
                                     <span className="material-symbols-outlined">arrow_back</span>
-                                    <p className="text-lg font-medium">Back</p>
+                                    <p className="text-lg font-medium">{t('Back')}</p>
                                 </div>
                             </button>
                         </div>
@@ -153,7 +155,7 @@ function CartItemEdit() {
             <div className="bottom-box w-full pt-3 sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center">
                     <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600" onClick={handleCartItemSave}>
-                        Save Menu Item
+                        {t('Save Menu Item')}
                     </button>
                 </div>
             </div>

@@ -19,7 +19,7 @@ function Order({ order }) {
         <div>
             <div>
                 <Link to={`/order/progress/${order.id}`} className={'font-bold text-xl underline'}>
-                    Order #{order.orderNumber}
+                    {t('Order')} #{order.orderNumber}
                 </Link>
                 <p className={`p-3 w-fit font-bold rounded ${paymentStatusClass}`}>{t(paymentStatusText)}</p>
             </div>

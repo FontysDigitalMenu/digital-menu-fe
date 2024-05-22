@@ -52,10 +52,10 @@ function Ingredients() {
 
             <div className="sm:flex w-full justify-between mb-4">
                 <div className="pt-2">
-                    <ButtonCreateNew text={t('Stock')} navigateUrl={'/admin/ingredients/stock'} />
+                    <ButtonCreateNew text={t('Create new')} navigateUrl={'/admin/ingredients/create'} />
                 </div>
                 <div className="pt-2">
-                    <ButtonCreateNew text={t('Create new')} navigateUrl={'/admin/ingredients/create'} />
+                    <ButtonCreateNew text={t('Stock')} navigateUrl={'/admin/ingredients/stock'} />
                 </div>
             </div>
 
