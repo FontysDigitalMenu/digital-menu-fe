@@ -69,6 +69,7 @@ function Reservation() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
                 },
                 body: JSON.stringify(reservationData),
             })
