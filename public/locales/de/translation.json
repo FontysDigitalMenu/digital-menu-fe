@@ -128,5 +128,6 @@
   "Failed to make a reservation": "Fehler bei der Reservierung",
   "Error occurred while making a reservation": "Fehler bei der Reservierung",
   "Reservation successful": "Reservierung erfolgreich",
-  "Your reservation has been confirmed. You will receive an email shortly with the details.": "Ihre Reservierung wurde bestätigt. Sie erhalten in Kürze eine E-Mail mit den Details."
+  "Your reservation has been confirmed. You will receive an email shortly with the details.": "Ihre Reservierung wurde bestätigt. Sie erhalten in Kürze eine E-Mail mit den Details.",
+  "Reservation fee": "Reservierungsgebühr"
 }
