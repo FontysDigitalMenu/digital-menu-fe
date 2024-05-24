@@ -16,9 +16,9 @@ function TableQrCode({ table, config, openModal }) {
                 </Link>
             </td>
             <td className="px-6 py-4">
-                <div ref={printRef} className={'print:scale-[2] print:origin-top-left'} style={{ padding: '16px', maxWidth: 128, width: '100%' }}>
+                <div ref={printRef} className={'print:scale-[2] print:origin-top-left'} style={{ padding: '16px', maxWidth: 192, width: '100%' }}>
                     <div className={'hidden print:block mb-5'}>{table.name}</div>
-                    <QRCode size={128} style={{ height: 'auto', maxWidth: '100%', width: '100%' }} value={`${config.APP_URL}/table/${table.id}`} viewBox={`0 0 128 128`} />
+                    <QRCode size={256} style={{ height: 'auto', maxWidth: '100%', width: '100%' }} value={`${config.APP_URL}/table/${table.id}`} viewBox={`0 0 256 256`} />
                 </div>
             </td>
             <td className="px-6 py-4">
