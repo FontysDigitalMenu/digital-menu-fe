@@ -235,6 +235,15 @@ function CartOverview() {
                         </div>
 
                         <div className="bottom-box w-full pt-3 sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
+                            {cartItemCollection?.reservationFee > 0 && (
+                                <div className="total-box h-1/2 flex items-center justify-center text-2xl font-bold">
+                                    {t('Reservation fee')}: &nbsp;
+                                    {new Intl.NumberFormat('nl-NL', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                    }).format(cartItemCollection ? cartItemCollection.reservationFee / 100 : 0)}
+                                </div>
+                            )}
                             <div className="total-box h-1/2 flex items-center justify-center text-2xl font-bold">
                                 {t('Your Total')}: &nbsp;
                                 {new Intl.NumberFormat('nl-NL', {
