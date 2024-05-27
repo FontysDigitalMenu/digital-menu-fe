@@ -129,5 +129,12 @@
   "Error occurred while making a reservation": "Fout opgetreden bij het maken van een reservering",
   "Reservation successful": "Reservering succesvol",
   "Your reservation has been confirmed. You will receive an email shortly with the details.": "Je reservering is bevestigd. Je ontvangt binnenkort een e-mail met de details.",
-  "Reservation fee": "Reserveringskosten"
+  "Reservation fee": "Reserveringskosten",
+  "Reservation must be at least 2.5 hours ahead": "Reservering moet minimaal 2,5 uur van tevoren zijn",
+  "Failed to create reservation": "Reservering maken mislukt",
+  "Invalid reservation time": "Ongeldige reserveringstijd",
+  "Invalid email": "Ongeldige e-mail",
+  "Please select a date": "Selecteer een datum",
+  "No times available": "Geen tijden beschikbaar",
+  "Current table": "Huidige tafel"
 }

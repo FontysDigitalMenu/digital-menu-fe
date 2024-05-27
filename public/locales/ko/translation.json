@@ -116,5 +116,12 @@
   "Order removed": "주문이 제거되었습니다",
   "Reset table successfully": "테이블이 성공적으로 재설정되었습니다",
   "Table not found": "테이블을 찾을 수 없음",
-  "Failed to reset table": "테이블 재설정 실패"
+  "Failed to reset table": "테이블 재설정 실패",
+  "Reservation must be at least 2.5 hours ahead": "예약은 최소 2.5시간 전에 있어야 합니다",
+  "Failed to create reservation": "예약 생성 실패",
+  "Invalid reservation time": "예약 시간이 잘못되었습니다",
+  "Invalid email": "잘못된 이메일",
+  "Please select a date": "날짜를 선택하세요",
+  "No times available": "사용 가능한 시간 없음",
+  "Current table": "현재 테이블"
 }

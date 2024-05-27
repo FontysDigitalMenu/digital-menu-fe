@@ -129,5 +129,12 @@
   "Error occurred while making a reservation": "Error occurred while making a reservation",
   "Reservation successful": "Reservation successful",
   "Your reservation has been confirmed. You will receive an email shortly with the details.": "Your reservation has been confirmed. You will receive an email shortly with the details.",
-  "Reservation fee": "Reservation fee"
+  "Reservation fee": "Reservation fee",
+  "Reservation must be at least 2.5 hours ahead": "Reservation must be at least 2.5 hours ahead",
+  "Failed to create reservation": "Failed to create reservation",
+  "Invalid reservation time": "Invalid reservation time",
+  "Invalid email": "Invalid email",
+  "Please select a date": "Please select a date",
+  "No times available": "No times available",
+  "Current table": "Current table"
 }

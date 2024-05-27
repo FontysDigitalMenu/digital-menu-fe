@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import { useTranslation } from 'react-i18next'
 import ToastNotification from '../notifications/ToastNotification.jsx'
@@ -62,7 +62,6 @@ function Reservation() {
             const reservationData = {
                 email: email,
                 reservationDateTime: reservationDateTime,
-                tableId: '493FAF89-7344-403C-8D89-C9DF5BDFCB0F',
             }
 
             const response = await fetch(`${config.API_URL}/api/v1/reservation`, {
@@ -78,6 +77,9 @@ function Reservation() {
                 ToastNotification('success', t('Reservation was placed successfully'))
 
                 return navigate('/reservation/confirmation')
+            } else if (response.status === 400) {
+                const data = await response.json()
+                ToastNotification('error', t(data.message))
             } else {
                 ToastNotification('error', t('Failed to make a reservation'))
             }
@@ -93,6 +95,10 @@ function Reservation() {
 
             <label className="block mb-2 text-lg font-medium text-gray-900">{t('Choose a date')}</label>
             <input type="date" className="w-full mb-10" onChange={handleDateChange} min={new Date().toISOString().split('T')[0]} />
+
+            {!selectedDate && <p className="text-lg font-bold text-center text-gray-900">{t('Please select a date')}</p>}
+
+            {selectedDate && timeSlots.length <= 0 && <p className="text-lg font-bold text-center text-gray-900">{t('No times available')}</p>}
 
             {selectedDate && (
                 <>
