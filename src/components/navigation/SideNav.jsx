@@ -50,8 +50,8 @@ function SideNav({ setIsAuthenticated }) {
                     <ul className="space-y-2 font-medium text-lg" onClick={closeSidebar}>
                         <NavBarItem href={'/'} icon={'home'} text={'Home'} />
                         <NavBarItem href={'/admin/tables'} icon={'table_restaurant'} text={'Tables'} />
-                        <NavBarItem href={'/admin/menuItems'} icon={'restaurant_menu'} text={'MenuItems'} />
-                        <NavBarItem href={'/admin/ingredients'} icon={'grocery'} text={'Ingredients'} />
+                        <NavBarItem href={'/admin/menuItems?page=1'} icon={'restaurant_menu'} text={'MenuItems'} />
+                        <NavBarItem href={'/admin/ingredients?page=1'} icon={'grocery'} text={'Ingredients'} />
                         <hr />
                         
                         {/* <NavBarItem href={'/kitchen/receive/order'} icon={'orders'} text={'Complete orders'} /> */}
