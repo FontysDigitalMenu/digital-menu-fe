@@ -140,7 +140,12 @@ function MenuItemDetails() {
                                                 <p className="pt-5 font-bold">{t('Note')}</p>
 
                                                 <form className="w-full pt-2">
-                                                    <textarea id="note" rows="4" className="block min-h-32 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500" placeholder={t('Leave a note') + '...'}></textarea>
+                                                    <textarea
+                                                        id="note"
+                                                        rows="4"
+                                                        className={`block min-h-32 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
+                                                        placeholder={t('Leave a note') + '...'}
+                                                    ></textarea>
                                                 </form>
                                             </div>
                                         </div>
