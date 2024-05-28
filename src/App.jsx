@@ -87,7 +87,15 @@ function App() {
             <BrowserRouter>
                 <ScrollToTop>
                     <Routes>
-                        <Route path="/" element={<Root />}>
+                        <Route
+                            path="/"
+                            element={
+                                <SettingsProvider>
+                                    {' '}
+                                    <Root />{' '}
+                                </SettingsProvider>
+                            }
+                        >
                             <Route path="" element={<Home />} />
                             <Route path="menu/:id" element={<MenuItemDetails />} />
                             <Route path="cartItem/edit/:id" element={<CartItemEdit />} />

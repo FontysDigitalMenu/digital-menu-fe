@@ -287,7 +287,7 @@ function MenuItemsCreate() {
                 </div>
 
                 <div className="mb-5 flex w-full justify-end">
-                    <button type="button" onClick={handleCreateMenuItem} className={`bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`}>
+                    <button type="button" onClick={handleCreateMenuItem} className={`!bg-[${setting.primaryColor}] hover:!bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`}>
                         {t('Create menu item')}
                     </button>
                 </div>

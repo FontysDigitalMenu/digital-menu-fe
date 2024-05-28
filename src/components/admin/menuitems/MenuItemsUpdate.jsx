@@ -343,7 +343,7 @@ function MenuItemsUpdate() {
                 </div>
 
                 <div className="mb-5 flex w-full justify-end">
-                    <button className={`bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`} type="button" onClick={() => handleUpdateMenuItem()}>
+                    <button className={`!bg-[${setting.primaryColor}] hover:!bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`} type="button" onClick={() => handleUpdateMenuItem()}>
                         {t('Update menu item')}
                     </button>
                 </div>

@@ -16,6 +16,11 @@ function Login({ setIsAuthenticated }) {
     const urlParams = new URLSearchParams(queryString)
     const intended = urlParams.get('intended') ?? 'admin'
 
+    useEffect(() => {
+        if (!setting) return
+        document.title = setting.companyName
+    }, [setting])
+
     const sendLoginRequest = async () => {
         try {
             const response = await fetch(`${config.API_URL}/api/login`, {
@@ -96,7 +101,7 @@ function Login({ setIsAuthenticated }) {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-                            <button type="submit" className={`w-full bg-[${setting.primaryColor}] text-white hover:bg-[${setting.secondaryColor}] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
+                            <button type="submit" className={`w-full !bg-[${setting.primaryColor}] text-white hover:!bg-[${setting.secondaryColor}] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
                                 {t('Sign in')}
                             </button>
                         </form>

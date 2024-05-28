@@ -8,7 +8,7 @@ function ButtonCreateNew({ text, navigateUrl }) {
 
     return (
         <>
-            <button type="button" onClick={() => navigate(navigateUrl)} className={` bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`}>
+            <button type="button" onClick={() => navigate(navigateUrl)} className={`!bg-[${setting.primaryColor}] hover:!bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`}>
                 {text}
             </button>
         </>

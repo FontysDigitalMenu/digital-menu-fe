@@ -13,6 +13,11 @@ function AdminRoot({ setIsAuthenticated }) {
     const setting = useContext(SettingsContext)
 
     useEffect(() => {
+        if (!setting) return
+        document.title = setting.companyName
+    }, [setting])
+
+    useEffect(() => {
         if (!config) return
         if (!setting) return
         fetchUserInfo()
