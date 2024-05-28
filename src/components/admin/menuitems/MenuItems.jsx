@@ -3,16 +3,23 @@ import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
 import { Modal } from 'flowbite-react'
 import DeleteMenuItem from './MenuItemsDelete.jsx'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 function MenuItems() {
     const config = useContext(ConfigContext)
+    const location = useLocation()
+    const [page, setPage] = useState(1)
+    const [buttonPress, setButtonPress] = useState(false)
+    const [pageCount, setPageCount] = useState(0)
+    const amount = 5
     const { t } = useTranslation()
     const [menuItems, setMenuItems] = useState([])
     const [modalIsOpen, setIsOpen] = useState(false)
     const [id, setId] = useState(0)
     const [closeCount, setCloseCount] = useState(0)
+    const navigate = useNavigate()
+
     function openModal(id) {
         setId(id)
         setIsOpen(true)
@@ -25,16 +32,73 @@ function MenuItems() {
 
     useEffect(() => {
         if (!config) return
-        fetchMenuItems().then((r) => r)
-    }, [closeCount, config])
+        async function fetchMenuItemCount() {
+            const response = await fetch(`${config.API_URL}/api/v1/menuItem/count`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+                },
+            })
+            const data = await response.json()
+            setPageCount(Math.ceil(data / amount))
+        }
+        fetchMenuItemCount().then((r) => r)
+    }, [config, menuItems, page, location.search])
+
+    useEffect(() => {
+        if (!config) return
+        const initialSearchParams = new URLSearchParams(location.search)
+        if (page === parseInt(initialSearchParams.get('page'), 10) || buttonPress) {
+            fetchMenuItems().then((r) => r)
+        }
+    }, [pageCount, buttonPress, location.search, page, closeCount, config])
+
+    useEffect(() => {
+        if (pageCount !== 0) {
+            const initialSearchParams = new URLSearchParams(location.search)
+            if (!initialSearchParams.has('page') || parseInt(initialSearchParams.get('page'), 10) < 1 || parseInt(initialSearchParams.get('page'), 10) > pageCount) {
+                initialSearchParams.set('page', '1')
+                const initialSearchString = initialSearchParams.toString()
+                navigate(`${location.pathname}?${initialSearchString}`, { replace: true })
+            } else {
+                setPage(parseInt(initialSearchParams.get('page'), 10))
+            }
+        }
+    }, [pageCount, location.pathname, location.search])
+
+    useEffect(() => {
+        if (buttonPress) {
+            const newSearchParams = new URLSearchParams(location.search)
+            newSearchParams.set('page', page.toString())
+            navigate(`${location.pathname}?${newSearchParams}`, { replace: true })
+            setButtonPress(false)
+        }
+    }, [buttonPress, page, location.search, location.pathname])
+
+    const increasePage = () => {
+        if (page < pageCount) {
+            setPage((prevPage) => prevPage + 1)
+            setButtonPress(true)
+        }
+    }
+
+    const decreasePage = () => {
+        if (page > 1) {
+            setPage((prevPage) => prevPage - 1)
+            setButtonPress(true)
+        }
+    }
 
     async function fetchMenuItems() {
-        const response = await fetch(`${config.API_URL}/api/v1/menuItem/getMenuItems`, {
+        const response = await fetch(`${config.API_URL}/api/v1/menuItem/getMenuItems?currentPage=${page}&amount=${amount}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
             },
         })
 
@@ -103,7 +167,12 @@ function MenuItems() {
                                     {menuItem.id}
                                 </th>
                                 <td className="px-6 py-4">{menuItem.name}</td>
-                                <td className="px-6 py-4">{new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(menuItem.price / 100)}</td>
+                                <td className="px-6 py-4">
+                                    {new Intl.NumberFormat('nl-NL', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                    }).format(menuItem.price / 100)}
+                                </td>
                                 <td className="px-6 py-4">
                                     <img src={menuItem.imageUrl} alt={menuItem.name} className="h-16 w-16 object-cover" />
                                 </td>
@@ -125,6 +194,21 @@ function MenuItems() {
                     </tbody>
                 </table>
             </div>
+            <ul className="flex justify-center w-full m-2 list-none p-0 text-2xl items-center space-x-4">
+                <li>
+                    <button onClick={decreasePage} className={`py-1 px-2 text-base text-black p-2 rounded hover:bg-gray-300 focus:outline-none ${page > 1 ? 'bg-gray-200' : 'bg-gray-100 text-gray-400 pointer-events-none'}`}>
+                        &lt;
+                    </button>
+                </li>
+                <li>
+                    <button className="py-1 px-2 text-base bg-gray-200 text-black p-2 rounded">{page}</button>
+                </li>
+                <li>
+                    <button onClick={increasePage} className={`py-1 px-2 text-base text-black p-2 rounded hover:bg-gray-300 focus:outline-none ${page < pageCount ? 'bg-gray-200' : 'bg-gray-100 text-gray-400 pointer-events-none'}`}>
+                        &gt;
+                    </button>
+                </li>
+            </ul>
         </div>
     )
 }

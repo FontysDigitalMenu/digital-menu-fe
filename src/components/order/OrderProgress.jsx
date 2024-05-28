@@ -86,6 +86,7 @@ function OrderProgress() {
                 setCompletedClass('w-2/3')
                 break
             case 'Completed':
+            case 'Done':
                 setWaiterPosition('left-full -translate-x-full')
                 setProcessingClass('w-2/3')
                 setCompletedClass('w-full')
