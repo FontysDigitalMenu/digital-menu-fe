@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ButtonCreateNew from '../../elements/ButtonCreateNew.jsx'
 import { Button, Modal } from 'flowbite-react'
-import {Link, useLocation} from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
 import IngredientsDelete from './IngredientsDelete.jsx'
 import { useTranslation } from 'react-i18next'
 
@@ -11,13 +11,14 @@ function Ingredients() {
     const location = useLocation()
     const [page, setPage] = useState(1);
     const [buttonPress, setButtonPress] = useState(false);
-    const [pageCount, setPageCount] = useState()
+    const [pageCount, setPageCount] = useState(0)
     const amount = 9;
     const { t } = useTranslation()
     const [ingredients, setIngredients] = useState([])
     const [modalIsOpen, setIsOpen] = useState(false)
     const [id, setId] = useState(0)
     const [closeCount, setCloseCount] = useState(0)
+    const navigate = useNavigate();
 
     function openModal(id) {
         setId(id)
@@ -31,35 +32,55 @@ function Ingredients() {
 
     useEffect(() => {
         if (!config) return
+        async function fetchIngredientCount() {
+            const response = await fetch(`${config.API_URL}/api/v1/ingredients/count`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+                },
+            })
+            const data = await response.json()
+            setPageCount(Math.ceil(data / amount))
+        }
+        fetchIngredientCount().then((r) => r)
+    }, [config, ingredients, page, location.search])
+
+    useEffect(() => {
+        if (!config) return
         const initialSearchParams = new URLSearchParams(location.search);
         if (page === parseInt(initialSearchParams.get('page'), 10) || buttonPress) {
             fetchIngredients().then((r) => r)
         }
-    }, [buttonPress, location.search, page, closeCount, config])
+    }, [pageCount, buttonPress, location.search, page, closeCount, config])
 
     useEffect(() => {
-        const initialSearchParams = new URLSearchParams(location.search);
-        if (!initialSearchParams.has('page')) {
-            initialSearchParams.set('page', '1');
-            const initialSearchString = initialSearchParams.toString();
-            window.history.replaceState({}, '', `${location.pathname}?${initialSearchString}`);
-        } else {
-            setPage(parseInt(initialSearchParams.get('page'), 10));
+        if (pageCount !== 0){
+            const initialSearchParams = new URLSearchParams(location.search);
+            if (!initialSearchParams.has('page') ||
+                parseInt(initialSearchParams.get('page'), 10) < 1
+                || parseInt(initialSearchParams.get('page'), 10) > pageCount) {
+                initialSearchParams.set('page', '1');
+                const initialSearchString = initialSearchParams.toString();
+                navigate(`${location.pathname}?${initialSearchString}`, { replace: true });
+            } else {
+                setPage(parseInt(initialSearchParams.get('page'), 10));
+            }
         }
-    }, [location.pathname, location.search]);
-
+    }, [pageCount, location.pathname, location.search]);
 
     useEffect(() => {
         if (buttonPress){
             const newSearchParams = new URLSearchParams(location.search);
             newSearchParams.set('page', page.toString());
-            window.history.replaceState({}, '', `${location.pathname}?${newSearchParams.toString()}`);
+            navigate(`${location.pathname}?${newSearchParams}`, { replace: true });
             setButtonPress(false)
         }
     }, [buttonPress, page, location.search, location.pathname]);
 
     const increasePage = ()=> {
-        if (page < pageCount){
+        if (page <= pageCount){
             setPage(prevPage => prevPage + 1);
             setButtonPress(true);
         }
@@ -81,10 +102,8 @@ function Ingredients() {
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
             },
         })
-
         const data = await response.json()
-        setIngredients(data.ingredients)
-        setPageCount(data.ingredientCount/amount)
+        setIngredients(data)
     }
 
     return (
