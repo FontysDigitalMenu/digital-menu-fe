@@ -6,8 +6,10 @@ import ButtonCancel from '../../elements/ButtonCancel.jsx'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import AuthService from '../../../services/AuthService.jsx'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../../provider/SettingsProvider.jsx'
 
 function TablesCreate() {
+    const setting = useContext(SettingsContext)
     const navigate = useNavigate()
     const { t } = useTranslation()
     const config = useContext(ConfigContext)
@@ -59,7 +61,7 @@ function TablesCreate() {
                 <form onSubmit={submitTable} className={'flex flex-col gap-y-2'}>
                     <div>
                         <label htmlFor="name">{t('Name')}</label>
-                        <input type="text" id="name" name="name" required onChange={handleFormChange} className={'input'} />
+                        <input type="text" id="name" name="name" required onChange={handleFormChange} className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}] block w-full p-2.5`} />
                     </div>
                     <div className={'flex gap-x-2 items-center'}>
                         <label htmlFor="isReservable">{t('Is reservable')}</label>

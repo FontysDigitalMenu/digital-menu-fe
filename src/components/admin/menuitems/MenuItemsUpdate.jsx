@@ -6,9 +6,11 @@ import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import CurrencyInput from 'react-currency-input-field'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../../provider/SettingsProvider.jsx'
 
 function MenuItemsUpdate() {
     const { id } = useParams()
+    const setting = useContext(SettingsContext)
     const navigate = useNavigate()
     const { t } = useTranslation()
     const config = useContext(ConfigContext)
@@ -237,7 +239,14 @@ function MenuItemsUpdate() {
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         {t('Name')}
                     </label>
-                    <input type="text" id="name" className="block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-red-500 focus:border-red-500" required value={menuData.name} onChange={(e) => setMenuData({ ...menuData, name: e.target.value })} />
+                    <input
+                        type="text"
+                        id="name"
+                        className={`block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
+                        required
+                        value={menuData.name}
+                        onChange={(e) => setMenuData({ ...menuData, name: e.target.value })}
+                    />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900">
@@ -247,7 +256,7 @@ function MenuItemsUpdate() {
                         id="price"
                         name="price"
                         decimalSeparator=","
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                        className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}] block w-full p-2.5`}
                         intlConfig={{ locale: 'nl-NL', currency: 'EUR' }}
                         defaultValue={menuData.price}
                         value={menuData.price}
@@ -263,7 +272,7 @@ function MenuItemsUpdate() {
                     <textarea
                         id="message"
                         rows="4"
-                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500"
+                        className={`block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
                         required
                         value={menuData.description}
                         onChange={(e) => setMenuData({ ...menuData, description: e.target.value })}
@@ -341,7 +350,7 @@ function MenuItemsUpdate() {
                 </div>
 
                 <div className="mb-5 flex w-full justify-end">
-                    <button type="button" onClick={() => handleUpdateMenuItem()} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
+                    <button className={`!bg-[${setting.primaryColor}] hover:!bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`} type="button" onClick={() => handleUpdateMenuItem()}>
                         {t('Update menu item')}
                     </button>
                 </div>

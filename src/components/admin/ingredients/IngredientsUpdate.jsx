@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
+import SettingsContext from '../../../provider/SettingsProvider.jsx'
+import ConfigContext from '../../../provider/ConfigProvider.jsx'
 
 function IngredientsUpdate() {
     const { id } = useParams()
+    const setting = useContext(SettingsContext)
     const navigate = useNavigate()
     const { t } = useTranslation()
     const config = useContext(ConfigContext)
@@ -108,7 +110,14 @@ function IngredientsUpdate() {
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         {t('Name')}
                     </label>
-                    <input type="text" id="name" className="block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-red-500 focus:border-red-500" required value={ingredient.name} onChange={(e) => setIngredient({ ...ingredient, name: e.target.value })} />
+                    <input
+                        type="text"
+                        id="name"
+                        className={`block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
+                        required
+                        value={ingredient.name}
+                        onChange={(e) => setIngredient({ ...ingredient, name: e.target.value })}
+                    />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="stock" className="block mb-2 text-sm font-medium text-gray-900">
@@ -117,7 +126,7 @@ function IngredientsUpdate() {
                     <input
                         type="number"
                         id="stock"
-                        className="block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-red-500 focus:border-red-500"
+                        className={`block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
                         required
                         value={ingredient.stock}
                         onChange={(e) => setIngredient({ ...ingredient, stock: parseInt(e.target.value) })}
@@ -125,7 +134,7 @@ function IngredientsUpdate() {
                 </div>
 
                 <div className="mb-5 flex w-full justify-end">
-                    <button type="button" onClick={handleUpdateIngredient} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
+                    <button type="button" onClick={handleUpdateIngredient} className={`!bg-[${setting.primaryColor}] hover:!bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`}>
                         {t('Update ingredient')}
                     </button>
                 </div>

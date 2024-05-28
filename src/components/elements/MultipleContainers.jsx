@@ -6,8 +6,10 @@ import { createPortal } from 'react-dom'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import SortableItem from './SortableItem'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../provider/SettingsProvider.jsx'
 
 function MultipleContainers({ orders, isDrinks }) {
+    const setting = useContext(SettingsContext)
     const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const columns = [

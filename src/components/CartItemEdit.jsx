@@ -3,9 +3,11 @@ import ConfigContext from '../provider/ConfigProvider.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import ToastNotification from './notifications/ToastNotification.jsx'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../provider/SettingsProvider.jsx'
 
 function CartItemEdit() {
     const { id } = useParams()
+    const setting = useContext(SettingsContext)
     const { t } = useTranslation()
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
@@ -136,7 +138,7 @@ function CartItemEdit() {
                                                         id="note"
                                                         rows="4"
                                                         defaultValue={cartItemWithExcludedIngredients.cartItem.note}
-                                                        className="block min-h-32 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500"
+                                                        className={`block min-h-32 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
                                                         placeholder="Leave a note..."
                                                     ></textarea>
                                                 </form>
@@ -154,7 +156,7 @@ function CartItemEdit() {
 
             <div className="bottom-box w-full pt-3 sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center">
-                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600" onClick={handleCartItemSave}>
+                    <button className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}]`} onClick={handleCartItemSave}>
                         {t('Save Menu Item')}
                     </button>
                 </div>
