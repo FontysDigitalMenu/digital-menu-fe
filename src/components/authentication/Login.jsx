@@ -61,7 +61,7 @@ function Login({ setIsAuthenticated }) {
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900">
                     <h1 className="text-4xl font-bold">DIGITAL MENU</h1>
                 </a>
-                <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
+                <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">{t('Sign in to your account')}</h1>
                         <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
