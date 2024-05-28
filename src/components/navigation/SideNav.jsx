@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import LogoutButton from './LogoutButton.jsx'
 import NavBarItem from './NavBarItem.jsx'
 import SettingsContext from '../../provider/SettingsProvider.jsx'
-import { v4 } from 'uuid'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 
 function SideNav({ setIsAuthenticated }) {
