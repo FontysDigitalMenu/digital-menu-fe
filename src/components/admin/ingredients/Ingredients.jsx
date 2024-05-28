@@ -98,6 +98,7 @@ function Ingredients() {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
             },
         })
         const data = await response.json()
