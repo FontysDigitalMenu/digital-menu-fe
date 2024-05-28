@@ -136,5 +136,12 @@
   "Secondary Color": "Secundaire kleur",
   "Update Settings": "Instellingen bijwerken",
   "Settings updated successfully": "Instellingen succesvol bijgewerkt",
-  "Failed to update settings": "Bijwerken van instellingen mislukt"
+  "Failed to update settings": "Bijwerken van instellingen mislukt",
+  "Reservation must be at least 2.5 hours ahead": "Reservering moet minimaal 2,5 uur van tevoren zijn",
+  "Failed to create reservation": "Reservering maken mislukt",
+  "Invalid reservation time": "Ongeldige reserveringstijd",
+  "Invalid email": "Ongeldige e-mail",
+  "Please select a date": "Selecteer een datum",
+  "No times available": "Geen tijden beschikbaar",
+  "Current table": "Huidige tafel"
 }

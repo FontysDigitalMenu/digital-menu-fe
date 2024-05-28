@@ -136,5 +136,12 @@
   "Secondary Color": "Sekundärfarbe",
   "Update Settings": "Einstellungen aktualisieren",
   "Settings updated successfully": "Einstellungen erfolgreich aktualisiert",
-  "Failed to update settings": "Fehler beim Aktualisieren der Einstellungen"
+  "Failed to update settings": "Fehler beim Aktualisieren der Einstellungen",
+  "Reservation must be at least 2.5 hours ahead": "Reservierung muss mindestens 2,5 Stunden im Voraus erfolgen",
+  "Failed to create reservation": "Fehler beim Erstellen der Reservierung",
+  "Invalid reservation time": "Ungültige Reservierungszeit",
+  "Invalid email": "Ungültige E-Mail",
+  "Please select a date": "Bitte wählen Sie ein Datum",
+  "No times available": "Keine Zeiten verfügbar",
+  "Current table": "Aktueller Tisch"
 }
