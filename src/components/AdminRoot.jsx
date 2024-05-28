@@ -4,16 +4,24 @@ import { useContext, useEffect } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import SettingsContext, { SettingsProvider } from '../provider/SettingsProvider.jsx'
 
 function AdminRoot({ setIsAuthenticated }) {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
+    const setting = useContext(SettingsContext)
+
+    useEffect(() => {
+        if (!setting) return
+        document.title = setting.companyName
+    }, [setting])
 
     useEffect(() => {
         if (!config) return
+        if (!setting) return
         fetchUserInfo()
-    }, [config])
+    }, [config, setting])
 
     async function fetchUserInfo() {
         const response = await fetch(`${config.API_URL}/api/v1/User/info`, {
@@ -36,10 +44,10 @@ function AdminRoot({ setIsAuthenticated }) {
     }
 
     return (
-        <>
+        <SettingsProvider>
             <SideNav setIsAuthenticated={setIsAuthenticated} />
             <Outlet />
-        </>
+        </SettingsProvider>
     )
 }
 export default AdminRoot

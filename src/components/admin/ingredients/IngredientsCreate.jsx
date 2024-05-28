@@ -4,9 +4,11 @@ import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
+import SettingsContext from '../../../provider/SettingsProvider.jsx'
 
 function IngredientsCreate() {
     const navigate = useNavigate()
+    const setting = useContext(SettingsContext)
     const { t } = useTranslation()
     const config = useContext(ConfigContext)
     const [ingredient, setIngredient] = useState({
@@ -98,7 +100,7 @@ function IngredientsCreate() {
                 </div>
 
                 <div className="mb-5 flex w-full justify-end">
-                    <button type="button" onClick={handleCreateIngredient} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
+                    <button type="button" onClick={handleCreateIngredient} className={`!bg-[${setting.primaryColor}] hover:!bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`}>
                         {t('Create ingredient')}
                     </button>
                 </div>

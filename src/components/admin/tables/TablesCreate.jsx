@@ -6,8 +6,10 @@ import ButtonCancel from '../../elements/ButtonCancel.jsx'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import AuthService from '../../../services/AuthService.jsx'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../../provider/SettingsProvider.jsx'
 
 function TablesCreate() {
+    const setting = useContext(SettingsContext)
     const navigate = useNavigate()
     const { t } = useTranslation()
     const config = useContext(ConfigContext)

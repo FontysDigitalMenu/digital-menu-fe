@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { faWineGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../provider/SettingsProvider.jsx'
 
 function SortableItem({ task }) {
+    const setting = useContext(SettingsContext)
     const { t } = useTranslation()
     const [mouseIsOver, setMouseIsOver] = useState(false)
     const { orderNumber } = useParams()
@@ -30,7 +32,7 @@ function SortableItem({ task }) {
             rounded-xl cursor-grab relative border-2 
             ${orderNumber === task.order.orderNumber ? 'border-blue-500 border-4' : 'border-black'} 
             ${isDragging && 'opacity-30'}
-            ${mouseIsOver && 'hover:ring-2 hover:ring-inset hover:ring-red-500'}
+            ${mouseIsOver && `hover:ring-2 hover:ring-inset hover:ring-[${setting.primaryColor}]`}
             `}
             onMouseEnter={() => {
                 setMouseIsOver(true)

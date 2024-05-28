@@ -6,9 +6,11 @@ import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import { useTranslation } from 'react-i18next'
 import { Modal } from 'flowbite-react'
 import Delete from '../Delete.jsx'
+import SettingsContext from '../../../provider/SettingsProvider.jsx'
 
 function Tables() {
     const config = useContext(ConfigContext)
+    const setting = useContext(SettingsContext)
     const { t } = useTranslation()
     const [tables, setTables] = useState([])
     const [isLoading, setIsLoading] = useState(false)

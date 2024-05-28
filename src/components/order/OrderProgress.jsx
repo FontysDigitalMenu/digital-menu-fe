@@ -7,6 +7,7 @@ import notification from '../../assets/progress-notification.mp3'
 import paymentNotification from '../../assets/payment-noti.mp3'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../provider/SettingsProvider.jsx'
 
 function OrderProgress() {
     const config = useContext(ConfigContext)
@@ -20,6 +21,7 @@ function OrderProgress() {
     const [connection, setConnection] = useState()
     const [remainingAmount, setRemainingAmount] = useState(0)
     const [paymentsTimer, setPaymentsTimer] = useState(0)
+    const setting = useContext(SettingsContext)
 
     useEffect(() => {
         if (!config) return
@@ -287,7 +289,7 @@ function OrderProgress() {
                                                 <p className="text-xl w-32 sm:w-48 md:w-72 truncate">{split.name}</p>
                                             </div>
                                             {split.paymentStatus !== 'Paid' ? (
-                                                <button onClick={() => handlePaySplit(split.id)} className={'ml-1 bg-red-600 hover:bg-red-500 text-white w-24 text-xl rounded-md'}>
+                                                <button onClick={() => handlePaySplit(split.id)} className={`ml-1 bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}] text-white w-24 text-xl rounded-md`}>
                                                     {t('Pay')}
                                                 </button>
                                             ) : (
