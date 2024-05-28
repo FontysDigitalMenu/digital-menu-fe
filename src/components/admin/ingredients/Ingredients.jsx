@@ -92,12 +92,13 @@ function Ingredients() {
     }
 
     async function fetchIngredients() {
-        const response = await fetch(`${config.API_URL}/api/v1/ingredients/?currentPage=${page}&amount=${amount}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/ingredients/paginated?currentPage=${page}&amount=${amount}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
             },
         })
         const data = await response.json()

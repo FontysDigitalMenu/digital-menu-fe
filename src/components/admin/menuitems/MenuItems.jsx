@@ -92,12 +92,13 @@ function MenuItems() {
     }
 
     async function fetchMenuItems() {
-        const response = await fetch(`${config.API_URL}/api/v1/menuItem/getMenuItems/?currentPage=${page}&amount=${amount}`, {
+        const response = await fetch(`${config.API_URL}/api/v1/menuItem/getMenuItems?currentPage=${page}&amount=${amount}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
             },
         })
 
