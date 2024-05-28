@@ -110,7 +110,14 @@ function IngredientsUpdate() {
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         {t('Name')}
                     </label>
-                    <input type="text" id="name" className="block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-red-500 focus:border-red-500" required value={ingredient.name} onChange={(e) => setIngredient({ ...ingredient, name: e.target.value })} />
+                    <input
+                        type="text"
+                        id="name"
+                        className={`block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
+                        required
+                        value={ingredient.name}
+                        onChange={(e) => setIngredient({ ...ingredient, name: e.target.value })}
+                    />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="stock" className="block mb-2 text-sm font-medium text-gray-900">
@@ -119,7 +126,7 @@ function IngredientsUpdate() {
                     <input
                         type="number"
                         id="stock"
-                        className="block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-red-500 focus:border-red-500"
+                        className={`block w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
                         required
                         value={ingredient.stock}
                         onChange={(e) => setIngredient({ ...ingredient, stock: parseInt(e.target.value) })}
