@@ -66,6 +66,7 @@ function SideNav({ setIsAuthenticated }) {
                         <NavBarItem href={'/admin/tables'} icon={'table_restaurant'} text={'Tables'} />
                         <NavBarItem href={'/admin/menuItems'} icon={'restaurant_menu'} text={'MenuItems'} />
                         <NavBarItem href={'/admin/ingredients'} icon={'grocery'} text={'Ingredients'} />
+                        <NavBarItem href={'/admin/reservations'} icon={'book_online'} text={'Reservations'} />
                         <NavBarItem href={'/admin/settings'} icon={'settings'} text={'Settings'} />
                         <hr />
 
