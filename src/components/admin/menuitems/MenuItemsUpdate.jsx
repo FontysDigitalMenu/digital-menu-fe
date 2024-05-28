@@ -6,9 +6,11 @@ import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import CurrencyInput from 'react-currency-input-field'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../../provider/SettingsProvider.jsx'
 
 function MenuItemsUpdate() {
     const { id } = useParams()
+    const setting = useContext(SettingsContext)
     const navigate = useNavigate()
     const { t } = useTranslation()
     const config = useContext(ConfigContext)
@@ -341,7 +343,7 @@ function MenuItemsUpdate() {
                 </div>
 
                 <div className="mb-5 flex w-full justify-end">
-                    <button type="button" onClick={() => handleUpdateMenuItem()} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
+                    <button className={`bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`} type="button" onClick={() => handleUpdateMenuItem()}>
                         {t('Update menu item')}
                     </button>
                 </div>

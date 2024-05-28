@@ -3,9 +3,11 @@ import ConfigContext from '../../provider/ConfigProvider.jsx'
 import { useTranslation } from 'react-i18next'
 import ToastNotification from '../notifications/ToastNotification.jsx'
 import { useNavigate } from 'react-router-dom'
+import SettingsContext from '../../provider/SettingsProvider.jsx'
 
 function Reservation() {
     const { t } = useTranslation()
+    const setting = useContext(SettingsContext)
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
     const [selectedDate, setSelectedDate] = useState(null)
@@ -99,7 +101,7 @@ function Reservation() {
                     <label className="block mb-2 text-lg font-medium text-gray-900">{t('Choose a time')}</label>
                     <div className="mb-10">
                         {timeSlots.map((slot, index) => (
-                            <div key={index} className={`${selectedSlot === index ? 'bg-red-500 text-white' : 'bg-white'} border border-black py-4 rounded-lg mb-2 cursor-pointer`} onClick={() => handleSlotSelect(index)}>
+                            <div key={index} className={`${selectedSlot === index ? `bg-[${setting.primaryColor}] text-white` : 'bg-white'} border border-black py-4 rounded-lg mb-2 cursor-pointer`} onClick={() => handleSlotSelect(index)}>
                                 <p className="flex w-full justify-center text-lg">{`${slot.startTime} - ${slot.endTime}`}</p>
                             </div>
                         ))}
@@ -110,7 +112,7 @@ function Reservation() {
                         <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder={t('Email')} onChange={handleEmailChange} required />
                     </div>
 
-                    <button className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-full bg-red-500 hover:bg-red-600" onClick={handleReservation}>
+                    <button className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-full bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}]`} onClick={handleReservation}>
                         {t('Reserve')}
                     </button>
                 </>

@@ -4,6 +4,7 @@ import { useContext, useEffect } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import { SettingsProvider } from '../provider/SettingsProvider.jsx'
 
 function KitchenRoot({ setIsAuthenticated }) {
     const { t } = useTranslation()
@@ -36,10 +37,10 @@ function KitchenRoot({ setIsAuthenticated }) {
     }
 
     return (
-        <>
+        <SettingsProvider>
             <StaffNav />
             <Outlet />
-        </>
+        </SettingsProvider>
     )
 }
 export default KitchenRoot

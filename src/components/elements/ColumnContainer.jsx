@@ -1,11 +1,14 @@
 import TrashIcon from '../icons/TrashIcon'
-import { useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import PlusIcon from '../icons/PlusIcon'
 import SortableItem from './SortableItem'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import SettingsContext from '../../provider/SettingsProvider.jsx'
 
 function ColumnContainer({ column, tasks, deleteTask, updateTask }) {
+    const setting = useContext(SettingsContext)
+
     const tasksIds = useMemo(() => {
         return tasks.map((task) => task.id)
     }, [tasks])
@@ -28,8 +31,8 @@ function ColumnContainer({ column, tasks, deleteTask, updateTask }) {
             <div
                 ref={setNodeRef}
                 style={style}
-                className="bg-columnBackgroundColor opacity-40 border-2 border-red-500
-      w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"
+                className={`bg-columnBackgroundColor opacity-40 border-2 border-[${setting.primaryColor}]
+      w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col`}
             ></div>
         )
     }

@@ -116,5 +116,12 @@
   "Order removed": "주문이 제거되었습니다",
   "Reset table successfully": "테이블이 성공적으로 재설정되었습니다",
   "Table not found": "테이블을 찾을 수 없음",
-  "Failed to reset table": "테이블 재설정 실패"
+  "Failed to reset table": "테이블 재설정 실패",
+  "Settings": "설정",
+  "Company Name": "회사 이름",
+  "Primary Color": "기본 색상",
+  "Secondary Color": "보조 색상",
+  "Update Settings": "설정 업데이트",
+  "Settings updated successfully": "설정이 성공적으로 업데이트되었습니다",
+  "Failed to update settings": "설정 업데이트 실패"
 }

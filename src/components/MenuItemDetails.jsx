@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import ToastNotification from './notifications/ToastNotification.jsx'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../provider/SettingsProvider.jsx'
 
 function MenuItemDetails() {
     const { id } = useParams()
@@ -11,6 +12,7 @@ function MenuItemDetails() {
     const config = useContext(ConfigContext)
     const [menuItem, setMenuItem] = useState(null)
     const { t } = useTranslation()
+    const setting = useContext(SettingsContext)
 
     useEffect(() => {
         if (config) {
@@ -155,7 +157,11 @@ function MenuItemDetails() {
             <div className="bottom-box w-full pt-3 sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center">
                     {menuItem && (
-                        <button className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 ${menuItem.isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-400 cursor-not-allowed'}`} onClick={addToOrder} disabled={!menuItem.isActive}>
+                        <button
+                            className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 ${menuItem.isActive ? `bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}]` : 'bg-gray-400 cursor-not-allowed'}`}
+                            onClick={addToOrder}
+                            disabled={!menuItem.isActive}
+                        >
                             {t('Add to order')}
                         </button>
                     )}

@@ -4,9 +4,11 @@ import ToastNotification from './notifications/ToastNotification.jsx'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../provider/SettingsProvider.jsx'
 
 function Home() {
     const config = useContext(ConfigContext)
+    const setting = useContext(SettingsContext)
     const [categories, setCategories] = useState([])
     const [lastId, setLastId] = useState(0)
     const [loading, setLoading] = useState(false)
@@ -167,7 +169,7 @@ function Home() {
                                         </Link>
                                         <button
                                             onClick={() => handleAddToOrder(menuItem.id)}
-                                            className={`w-full mt-2 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center ${menuItem.isActive ? 'bg-red-500 hover:bg-red-600 focus:ring-2 focus:outline-none focus:ring-red-500' : 'bg-gray-400 cursor-not-allowed'}`}
+                                            className={`w-full mt-2 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center ${menuItem.isActive ? `bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}] focus:ring-2 focus:outline-none focus:ring-red-500` : 'bg-gray-400 cursor-not-allowed'}`}
                                             disabled={!menuItem.isActive}
                                         >
                                             {t('Add to order')}
@@ -183,7 +185,7 @@ function Home() {
             </div>
             <div className="bottom-box w-full sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                 <div className="text-2xl w-full h-1/2 flex items-center justify-center pt-2.5">
-                    <Link to="/cart" className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                    <Link to="/cart" className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}]`}>
                         {t('View order')}
                     </Link>
                 </div>

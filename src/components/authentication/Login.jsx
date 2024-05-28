@@ -1,16 +1,17 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthService from '../../services/AuthService.jsx'
 import ConfigContext from '../../provider/ConfigProvider.jsx'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../provider/SettingsProvider.jsx'
 
 function Login({ setIsAuthenticated }) {
     const config = useContext(ConfigContext)
+    const setting = useContext(SettingsContext)
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
     const queryString = window.location.search
     const urlParams = new URLSearchParams(queryString)
     const intended = urlParams.get('intended') ?? 'admin'
@@ -59,7 +60,7 @@ function Login({ setIsAuthenticated }) {
         <div className="bg-gray-50">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900">
-                    <h1 className="text-4xl font-bold">DIGITAL MENU</h1>
+                    <h1 className="text-4xl font-bold">{setting.companyName}</h1>
                 </a>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -95,7 +96,7 @@ function Login({ setIsAuthenticated }) {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-                            <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            <button type="submit" className={`w-full bg-[${setting.primaryColor}] text-white hover:bg-[${setting.secondaryColor}] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
                                 {t('Sign in')}
                             </button>
                         </form>

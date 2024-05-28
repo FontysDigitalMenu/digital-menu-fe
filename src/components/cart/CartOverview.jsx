@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom'
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../provider/SettingsProvider.jsx'
 
 function CartOverview() {
     const config = useContext(ConfigContext)
     const [cartItemCollection, setCartItemCollection] = useState()
     const [connection, setConnection] = useState()
     const { t } = useTranslation()
+    const setting = useContext(SettingsContext)
 
     useEffect(() => {
         if (!config) return
@@ -252,11 +254,11 @@ function CartOverview() {
                                 }).format(cartItemCollection ? cartItemCollection.totalAmount / 100 : 0)}
                             </div>
                             <div className="text-2xl w-full h-1/2 flex items-center flex-col justify-center">
-                                <button onClick={checkoutOrder} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600">
+                                <button onClick={checkoutOrder} className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}]`}>
                                     {t('Checkout Order')}
                                 </button>
                                 <span>--- {t('OR')} ---</span>
-                                <Link to={'/order/split'} className="flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-800 hover:bg-red-600">
+                                <Link to={'/order/split'} className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-[${setting.primaryColor}] hover:bg-[${setting.secondaryColor}]`}>
                                     {t('Split Order Bill')}
                                 </Link>
                             </div>
