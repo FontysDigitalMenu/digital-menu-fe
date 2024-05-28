@@ -1,12 +1,22 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LogoutButton from './LogoutButton.jsx'
 import NavBarItem from './NavBarItem.jsx'
+import SettingsContext from '../../provider/SettingsProvider.jsx'
+import { v4 } from 'uuid'
+import ConfigContext from '../../provider/ConfigProvider.jsx'
 
 function SideNav({ setIsAuthenticated }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const navigate = useNavigate()
     const sidebarRef = useRef(null)
+
+    const config = useContext(ConfigContext)
+    const setting = useContext(SettingsContext)
+
+    useEffect(() => {
+        if (!config) return
+    }, [config, setting])
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen)
@@ -36,6 +46,10 @@ function SideNav({ setIsAuthenticated }) {
         }
     }, [])
 
+    if (!setting) {
+        return null
+    }
+
     return (
         <div>
             <button onClick={toggleSidebar} aria-controls="default-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
@@ -46,14 +60,15 @@ function SideNav({ setIsAuthenticated }) {
             </button>
 
             <aside id="default-sidebar" ref={sidebarRef} className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`} aria-label="Sidebar">
-                <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-red-500">
+                <div className={`h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-[${setting.primaryColor}]`}>
                     <ul className="space-y-2 font-medium text-lg" onClick={closeSidebar}>
                         <NavBarItem href={'/'} icon={'home'} text={'Home'} />
                         <NavBarItem href={'/admin/tables'} icon={'table_restaurant'} text={'Tables'} />
                         <NavBarItem href={'/admin/menuItems'} icon={'restaurant_menu'} text={'MenuItems'} />
                         <NavBarItem href={'/admin/ingredients'} icon={'grocery'} text={'Ingredients'} />
+                        <NavBarItem href={'/admin/settings'} icon={'settings'} text={'Settings'} />
                         <hr />
-                        
+
                         {/* <NavBarItem href={'/kitchen/receive/order'} icon={'orders'} text={'Complete orders'} /> */}
 
                         <NavBarItem href={'/kitchen/receive/order/food'} icon={'restaurant'} text={'Food orders'} />

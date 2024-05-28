@@ -6,10 +6,12 @@ import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate } from 'react-router-dom'
 import CurrencyInput from 'react-currency-input-field'
 import { useTranslation } from 'react-i18next'
+import SettingsContext from '../../../provider/SettingsProvider.jsx'
 
 function MenuItemsCreate() {
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
+    const setting = useContext(SettingsContext)
     const { t } = useTranslation()
     const [categories, setCategories] = useState([])
     const [ingredients, setIngredients] = useState([])
@@ -285,7 +287,7 @@ function MenuItemsCreate() {
                 </div>
 
                 <div className="mb-5 flex w-full justify-end">
-                    <button type="button" onClick={handleCreateMenuItem} className={'bg-red-500 border border-red-500 text-white rounded px-4 py-2'}>
+                    <button type="button" onClick={handleCreateMenuItem} className={`!bg-[${setting.primaryColor}] hover:!bg-[${setting.secondaryColor}] border border-[${setting.primaryColor}] text-white rounded px-4 py-2`}>
                         {t('Create menu item')}
                     </button>
                 </div>

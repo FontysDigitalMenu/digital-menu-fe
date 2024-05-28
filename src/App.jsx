@@ -37,6 +37,8 @@ import IngredientsStock from './components/admin/ingredients/IngredientsStock.js
 import { setLocale } from 'yup'
 import Reservation from './components/reservation/Reservation.jsx'
 import ReservationConfirmation from './components/reservation/ReservationConfirmation.jsx'
+import Settings from './components/admin/settings/Settings.jsx'
+import { SettingsProvider } from './provider/SettingsProvider.jsx'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -85,7 +87,15 @@ function App() {
             <BrowserRouter>
                 <ScrollToTop>
                     <Routes>
-                        <Route path="/" element={<Root />}>
+                        <Route
+                            path="/"
+                            element={
+                                <SettingsProvider>
+                                    {' '}
+                                    <Root />{' '}
+                                </SettingsProvider>
+                            }
+                        >
                             <Route path="" element={<Home />} />
                             <Route path="menu/:id" element={<MenuItemDetails />} />
                             <Route path="cartItem/edit/:id" element={<CartItemEdit />} />
@@ -103,7 +113,14 @@ function App() {
                         </Route>
 
                         {/*AUTH*/}
-                        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+                        <Route
+                            path="/login"
+                            element={
+                                <SettingsProvider>
+                                    <Login setIsAuthenticated={setIsAuthenticated} />
+                                </SettingsProvider>
+                            }
+                        />
 
                         {/*ADMIN*/}
                         <Route path={'/admin'} element={isAuthenticated ? <AdminRoot setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login?intended=admin" />}>
@@ -121,6 +138,8 @@ function App() {
                             <Route path={'ingredients/create'} element={<IngredientsCreate />} />
                             <Route path={'ingredients/:id/edit'} element={<IngredientsUpdate />} />
                             <Route path={'ingredients/stock'} element={<IngredientsStock />} />
+
+                            <Route path={'settings'} element={<Settings />} />
                         </Route>
 
                         {/*KITCHEN*/}

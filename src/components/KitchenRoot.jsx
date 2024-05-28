@@ -4,11 +4,18 @@ import { useContext, useEffect } from 'react'
 import ConfigContext from '../provider/ConfigProvider.jsx'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import SettingsContext, { SettingsProvider } from '../provider/SettingsProvider.jsx'
 
 function KitchenRoot({ setIsAuthenticated }) {
+    const setting = useContext(SettingsContext)
     const { t } = useTranslation()
     const navigate = useNavigate()
     const config = useContext(ConfigContext)
+
+    useEffect(() => {
+        if (!setting) return
+        document.title = setting.companyName
+    }, [setting])
 
     useEffect(() => {
         if (!config) return
@@ -36,10 +43,10 @@ function KitchenRoot({ setIsAuthenticated }) {
     }
 
     return (
-        <>
+        <SettingsProvider>
             <StaffNav />
             <Outlet />
-        </>
+        </SettingsProvider>
     )
 }
 export default KitchenRoot
