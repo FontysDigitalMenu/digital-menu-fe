@@ -92,8 +92,7 @@ function App() {
                             path="/"
                             element={
                                 <SettingsProvider>
-                                    {' '}
-                                    <Root />{' '}
+                                    <Root />
                                 </SettingsProvider>
                             }
                         >
