@@ -39,6 +39,8 @@ import Reservation from './components/reservation/Reservation.jsx'
 import ReservationConfirmation from './components/reservation/ReservationConfirmation.jsx'
 import Settings from './components/admin/settings/Settings.jsx'
 import { SettingsProvider } from './provider/SettingsProvider.jsx'
+import ReservationOverview from './components/admin/reservations/ReservationOverview.jsx'
+import CancelReservation from './components/reservation/CancelReservation.jsx'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -104,6 +106,8 @@ function App() {
 
                             <Route path="reservation" element={<Reservation />} />
                             <Route path="reservation/confirmation" element={<ReservationConfirmation />} />
+
+                            <Route path="/reservation/cancel/:id" element={<CancelReservation />} />
                         </Route>
 
                         <Route path="/order" element={<Root />}>
@@ -138,6 +142,7 @@ function App() {
                             <Route path={'ingredients/:id/edit'} element={<IngredientsUpdate />} />
                             <Route path={'ingredients/stock'} element={<IngredientsStock />} />
 
+                            <Route path={'reservations'} element={<ReservationOverview />} />
                             <Route path={'settings'} element={<Settings />} />
                         </Route>
 
