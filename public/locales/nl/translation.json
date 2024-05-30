@@ -148,5 +148,7 @@
   "Reservation not found": "Reservering niet gevonden",
   "Failed to cancel reservation": "Annuleren van reservering mislukt",
   "Are you sure you want to cancel this reservation?": "Weet je zeker dat je deze reservering wilt annuleren?",
-  "Yes, I'm sure": "Ja, ik weet het zeker"
+  "Yes, I'm sure": "Ja, ik weet het zeker",
+  "Cancel reservation": "Reservering annuleren",
+  "Are you sure you want to cancel the following reservation?": "Weet je zeker dat je de volgende reservering wilt annuleren?"
 }

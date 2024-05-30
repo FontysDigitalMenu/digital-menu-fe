@@ -148,5 +148,7 @@
   "Reservation not found": "Reservierung nicht gefunden",
   "Failed to cancel reservation": "Fehler beim Stornieren der Reservierung",
   "Are you sure you want to cancel this reservation?": "Sind Sie sicher, dass Sie diese Reservierung stornieren möchten?",
-  "Yes, I'm sure": "Ja, ich bin sicher"
+  "Yes, I'm sure": "Ja, ich bin sicher",
+  "Cancel reservation": "Reservierung stornieren",
+  "Are you sure you want to cancel the following reservation?": "Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?"
 }

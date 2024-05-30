@@ -40,7 +40,6 @@ function ReservationOverview() {
 
         const data = await response.json()
         setReservations(data)
-        console.log(data)
     }
 
     function deleteReservation() {
