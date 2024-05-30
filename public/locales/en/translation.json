@@ -143,5 +143,10 @@
   "Invalid email": "Invalid email",
   "Please select a date": "Please select a date",
   "No times available": "No times available",
-  "Current table": "Current table"
+  "Current table": "Current table",
+  "Reservation has been cancelled successfully": "Reservation has been cancelled successfully",
+  "Reservation not found": "Reservation not found",
+  "Failed to cancel reservation": "Failed to cancel reservation",
+  "Are you sure you want to cancel this reservation?": "Are you sure you want to cancel this reservation?",
+  "Yes, I'm sure": "Yes, I'm sure"
 }

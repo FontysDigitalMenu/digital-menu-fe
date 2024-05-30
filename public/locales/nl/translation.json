@@ -143,5 +143,10 @@
   "Invalid email": "Ongeldige e-mail",
   "Please select a date": "Selecteer een datum",
   "No times available": "Geen tijden beschikbaar",
-  "Current table": "Huidige tafel"
+  "Current table": "Huidige tafel",
+  "Reservation has been cancelled successfully": "Reservering is succesvol geannuleerd",
+  "Reservation not found": "Reservering niet gevonden",
+  "Failed to cancel reservation": "Annuleren van reservering mislukt",
+  "Are you sure you want to cancel this reservation?": "Weet je zeker dat je deze reservering wilt annuleren?",
+  "Yes, I'm sure": "Ja, ik weet het zeker"
 }

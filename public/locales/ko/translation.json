@@ -130,5 +130,10 @@
   "Invalid email": "잘못된 이메일",
   "Please select a date": "날짜를 선택하세요",
   "No times available": "사용 가능한 시간 없음",
-  "Current table": "현재 테이블"
+  "Current table": "현재 테이블",
+  "Reservation has been cancelled successfully": "예약이 성공적으로 취소되었습니다",
+  "Reservation not found": "예약을 찾을 수 없음",
+  "Failed to cancel reservation": "예약 취소 실패",
+  "Are you sure you want to cancel this reservation?": "이 예약을 취소하시겠습니까?",
+  "Yes, I'm sure": "네, 확실합니다"
 }

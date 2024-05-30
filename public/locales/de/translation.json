@@ -143,5 +143,10 @@
   "Invalid email": "Ungültige E-Mail",
   "Please select a date": "Bitte wählen Sie ein Datum",
   "No times available": "Keine Zeiten verfügbar",
-  "Current table": "Aktueller Tisch"
+  "Current table": "Aktueller Tisch",
+  "Reservation has been cancelled successfully": "Reservierung wurde erfolgreich storniert",
+  "Reservation not found": "Reservierung nicht gefunden",
+  "Failed to cancel reservation": "Fehler beim Stornieren der Reservierung",
+  "Are you sure you want to cancel this reservation?": "Sind Sie sicher, dass Sie diese Reservierung stornieren möchten?",
+  "Yes, I'm sure": "Ja, ich bin sicher"
 }
