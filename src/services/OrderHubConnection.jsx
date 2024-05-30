@@ -8,15 +8,15 @@ export function startConnection(backendUrl) {
     return connection.start()
 }
 
-export function startListen(callback) {
-    connection.on('ReceiveOrder', (order) => {
-        callback(order)
+export async function addToGroup(groupName) {
+    await connection.invoke('AddToGroup', { groupName }).then(() => {
+        console.log('added to group', groupName)
     })
 }
 
-export async function addToGroup(groupName){
-    await connection.invoke('AddToGroup', { groupName }).then(() => {
-        console.log("added to group", groupName)
+export function startListen(callback) {
+    connection.on('ReceiveOrder', (order) => {
+        callback(order)
     })
 }
 

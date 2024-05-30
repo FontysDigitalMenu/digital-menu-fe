@@ -2,22 +2,61 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useState } from 'react'
 import ConfigContext from '../../provider/ConfigProvider'
-import { startConnection, startListen, stopListen } from '../../services/OrderHubConnection'
+import { startConnection, startListen, startListenDrinks, stopListen } from '../../services/OrderHubConnection'
 import ToastNotification from '../notifications/ToastNotification'
 import { useTranslation } from 'react-i18next'
-import notification from 'react-notifications/lib/Notification.js'
-import toastNotification from '../notifications/ToastNotification'
 
 function Waiter() {
     const config = useContext(ConfigContext)
     const [orders, setOrders] = useState([])
     const { t } = useTranslation()
 
-    function handleReceivedOrder(order) {
-        const audio = new Audio(notification)
-        audio.play()
-        toastNotification('success', t('New completed order'))
-        setOrders((prevOrders) => [...prevOrders, order])
+    function handleReceiveOrderDrinksUpdate() {
+        fetchCompletedOrders().then((r) => r)
+    }
+
+    useEffect(() => {
+        if (!config) return
+
+        fetchCompletedOrders().then((r) => r)
+    }, [config])
+
+    useEffect(() => {
+        if (!config) return
+
+        const connect = async () => {
+            try {
+                console.log('Trying to connect to hub...')
+                await startConnection(config.API_URL)
+                console.log('SignalR Connected!')
+                startListen(handleReceiveOrderDrinksUpdate)
+                startListenDrinks(handleReceiveOrderDrinksUpdate)
+            } catch (error) {
+                console.error('Error starting SignalR connection:', error)
+            }
+        }
+        connect().catch(console.error)
+        return () => {
+            stopListen()
+        }
+    }, [config])
+
+    async function fetchCompletedOrders() {
+        const response = await fetch(`${config.API_URL}/api/v1/order/completed/food`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+        })
+
+        if (response.status === 200) {
+            const data = await response.json()
+            setOrders(data)
+        } else if (response.status === 404) {
+            setOrders(null)
+        }
     }
 
     async function updateOrderStatus(orderId) {
@@ -40,49 +79,6 @@ function Waiter() {
             ToastNotification('success', t('Order removed'))
         }
     }
-
-    useEffect(() => {
-        if (!config) return
-
-        async function fetchCompletedOrders() {
-            const response = await fetch(`${config.API_URL}/api/v1/order/completed/food`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
-                },
-            })
-
-            if (response.status === 200) {
-                const data = await response.json()
-                setOrders(data)
-            } else if (response.status === 404) {
-                setOrders(null)
-            }
-        }
-
-        fetchCompletedOrders().then((r) => r)
-    }, [config])
-
-    useEffect(() => {
-        if (!config) return
-
-        const connect = async () => {
-            try {
-                console.log('Trying to connect to hub...')
-                await startConnection(config.API_URL)
-                console.log('SignalR Connected!')
-                startListen(handleReceivedOrder)
-            } catch (error) {
-                console.error('Error starting SignalR connection:', error)
-            }
-        }
-        connect().catch(console.error)
-        return () => {
-            stopListen()
-        }
-    }, [config])
 
     if (orders.length <= 0) {
         return <div className="title text-center text-2xl">{t('No orders ready for serving')}</div>

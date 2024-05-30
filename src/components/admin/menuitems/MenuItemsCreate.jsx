@@ -39,6 +39,7 @@ function MenuItemsCreate() {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
             },
         })
@@ -53,6 +54,7 @@ function MenuItemsCreate() {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
             },
         })
@@ -103,7 +105,7 @@ function MenuItemsCreate() {
     const handleCreateMenuItem = async () => {
         try {
             const formData = new FormData()
-            formData.append('formLanguage', menuData.formLanguage)
+            // formData.append('formLanguage', menuData.formLanguage)
             formData.append('name', menuData.name)
             formData.append('price', menuData.price)
             formData.append('description', menuData.description)
@@ -128,6 +130,7 @@ function MenuItemsCreate() {
             const response = await fetch(`${config.API_URL}/api/v1/menuItem`, {
                 method: 'POST',
                 headers: {
+                    'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
                     Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
                 },
                 body: formData,
@@ -149,36 +152,36 @@ function MenuItemsCreate() {
             <h1 className="text-4xl mb-10 font-bold">{t('Create menu item')}</h1>
 
             <form className="max-w-lg mx-auto">
-                <div className="mb-5">
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
-                        {t('Form language')}
-                    </label>
-                    <Select
-                        name="form language"
-                        defaultValue={{ value: 'en', label: 'en' }}
-                        onChange={(e) => setMenuData({ ...menuData, formLanguage: e.value })}
-                        options={[
-                            {
-                                value: 'en',
-                                label: 'en',
-                            },
-                            {
-                                value: 'nl',
-                                label: 'nl',
-                            },
-                            {
-                                value: 'de',
-                                label: 'de',
-                            },
-                            {
-                                value: 'ko',
-                                label: 'ko',
-                            },
-                        ]}
-                        className="w-full"
-                        required
-                    />
-                </div>
+                {/*<div className="mb-5">*/}
+                {/*    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">*/}
+                {/*        {t('Form language')}*/}
+                {/*    </label>*/}
+                {/*    <Select*/}
+                {/*        name="form language"*/}
+                {/*        defaultValue={{ value: 'en', label: 'en' }}*/}
+                {/*        onChange={(e) => setMenuData({ ...menuData, formLanguage: e.value })}*/}
+                {/*        options={[*/}
+                {/*            {*/}
+                {/*                value: 'en',*/}
+                {/*                label: 'en',*/}
+                {/*            },*/}
+                {/*            {*/}
+                {/*                value: 'nl',*/}
+                {/*                label: 'nl',*/}
+                {/*            },*/}
+                {/*            {*/}
+                {/*                value: 'de',*/}
+                {/*                label: 'de',*/}
+                {/*            },*/}
+                {/*            {*/}
+                {/*                value: 'ko',*/}
+                {/*                label: 'ko',*/}
+                {/*            },*/}
+                {/*        ]}*/}
+                {/*        className="w-full"*/}
+                {/*        required*/}
+                {/*    />*/}
+                {/*</div>*/}
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         {t('Name')}
