@@ -47,9 +47,6 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(true)
 
     useEffect(() => {
-        // 123456
-        localStorage.setItem('i18nextLng', 'en')
-
         if (!config) return
 
         if (config.DEVICE_ID !== null || config.TABLE_ID !== null) {
@@ -145,8 +142,7 @@ function App() {
                             <Route path={'ingredients/:id/edit'} element={<IngredientsUpdate />} />
                             <Route path={'ingredients/stock'} element={<IngredientsStock />} />
 
-                            {/*123456*/}
-                            {/*<Route path={'reservations'} element={<ReservationOverview />} />*/}
+                            <Route path={'reservations'} element={<ReservationOverview />} />
                             <Route path={'settings'} element={<Settings />} />
                         </Route>
 
