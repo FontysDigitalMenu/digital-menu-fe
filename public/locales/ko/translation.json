@@ -137,5 +137,6 @@
   "Are you sure you want to cancel this reservation?": "이 예약을 취소하시겠습니까?",
   "Yes, I'm sure": "네, 확실합니다",
   "Cancel reservation": "예약 취소",
-  "Are you sure you want to cancel the following reservation?": "다음 예약을 취소하시겠습니까?"
+  "Are you sure you want to cancel the following reservation?": "다음 예약을 취소하시겠습니까?",
+  "Table": "테이블"
 }

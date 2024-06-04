@@ -93,6 +93,9 @@ function Waiter() {
                                     <p className="mb-2 font-bold">
                                         {t('Order')}: {item.orderNumber}
                                     </p>
+                                    <p className="mb-2 font-bold">
+                                        {t('Table')}: {item.table.name}
+                                    </p>
                                     <ul className="list-none p-0">
                                         {item.menuItems.map((menuItem) => (
                                             <li key={menuItem.id} className="border border-black rounded mb-2">
