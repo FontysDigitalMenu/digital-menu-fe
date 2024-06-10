@@ -76,37 +76,36 @@ function IngredientsUpdate() {
             <h1 className="text-4xl mb-10 font-bold">{t('Update ingredient')}</h1>
 
             <form className="max-w-lg mx-auto">
-                {/*123456*/}
-                {/*<div className="mb-5">*/}
-                {/*    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">*/}
-                {/*        {t('Form language')}*/}
-                {/*    </label>*/}
-                {/*    <Select*/}
-                {/*        name="form language"*/}
-                {/*        defaultValue={{ value: 'en', label: 'en' }}*/}
-                {/*        onChange={(e) => setIngredient({ ...ingredient, formLanguage: e.value })}*/}
-                {/*        options={[*/}
-                {/*            {*/}
-                {/*                value: 'en',*/}
-                {/*                label: 'en',*/}
-                {/*            },*/}
-                {/*            {*/}
-                {/*                value: 'nl',*/}
-                {/*                label: 'nl',*/}
-                {/*            },*/}
-                {/*            {*/}
-                {/*                value: 'de',*/}
-                {/*                label: 'de',*/}
-                {/*            },*/}
-                {/*            {*/}
-                {/*                value: 'ko',*/}
-                {/*                label: 'ko',*/}
-                {/*            },*/}
-                {/*        ]}*/}
-                {/*        className="w-full"*/}
-                {/*        required*/}
-                {/*    />*/}
-                {/*</div>*/}
+                <div className="mb-5">
+                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
+                        {t('Form language')}
+                    </label>
+                    <Select
+                        name="form language"
+                        defaultValue={{ value: 'en', label: 'en' }}
+                        onChange={(e) => setIngredient({ ...ingredient, formLanguage: e.value })}
+                        options={[
+                            {
+                                value: 'en',
+                                label: 'en',
+                            },
+                            {
+                                value: 'nl',
+                                label: 'nl',
+                            },
+                            {
+                                value: 'de',
+                                label: 'de',
+                            },
+                            {
+                                value: 'ko',
+                                label: 'ko',
+                            },
+                        ]}
+                        className="w-full"
+                        required
+                    />
+                </div>
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         {t('Name')}

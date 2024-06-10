@@ -60,8 +60,7 @@ function Nav() {
                         {t('View Order')}
                     </Navbar.Link>
 
-                    {/*123456*/}
-                    {/*<LangSwitcher className={'py-2 pl-3 pr-4 md:p-0'} />*/}
+                    <LangSwitcher className={'py-2 pl-3 pr-4 md:p-0'} />
                 </div>
             </Navbar.Collapse>
         </Navbar>

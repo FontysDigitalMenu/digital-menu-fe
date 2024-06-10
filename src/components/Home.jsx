@@ -154,7 +154,7 @@ function Home() {
                             </div>
                             <div className="mt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
                                 {category.menuItems.map((menuItem) => (
-                                    <div key={menuItem.id} className="flex flex-col justify-between bg-white shadow-lg rounded-lg p-4">
+                                    <div key={menuItem.id} className={`flex flex-col justify-between bg-white shadow-lg rounded-lg p-4 ${menuItem.isActive ? `opacity-100` : 'opacity-50'}`}>
                                         <Link to={`/menu/${menuItem.id}`}>
                                             <img className="h-40 md:h-52 w-full object-cover" src={menuItem.imageUrl} alt={menuItem.name} />
                                             <div key={menuItem.id} className="flex items-center justify-between pt-2 font-medium text-lg">
