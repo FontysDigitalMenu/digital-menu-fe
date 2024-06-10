@@ -28,7 +28,7 @@ function SortableItem({ task }) {
             ref={setNodeRef}
             {...attributes}
             {...listeners}
-            className={`bg-white p-2.5 items-center flex text-left mb-3
+            className={`bg-white items-center flex text-left mb-3
             rounded-xl cursor-grab relative border-2 
             ${orderNumber === task.order.orderNumber ? 'border-blue-500 border-4' : 'border-black'} 
             ${isDragging && 'opacity-30'}
@@ -41,18 +41,21 @@ function SortableItem({ task }) {
                 setMouseIsOver(false)
             }}
         >
-            <div aria-disabled className={`my-auto text-black w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap`}>
-                <div className={'flex justify-between'}>
+            <div aria-disabled className={`my-auto text-black w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap rounded-t-xl`}>
+                <div className={'flex justify-between bg-gray-200 p-2.5'}>
                     <p className="mb-2 font-bold">
                         {t('Order')}: {task.order.orderNumber}
                     </p>
-                    {!task.isDrinks && task.order.drinkStatus !== 'None' && (
-                        <Link to={'/kitchen/receive/order/drinks/' + task.order.orderNumber} className={`text-xl ${drinkStatusColor}`}>
-                            <FontAwesomeIcon icon={faWineGlass} />
-                        </Link>
-                    )}
+                    <div>
+                        {!task.isDrinks && task.order.drinkStatus !== 'None' && (
+                            <Link to={'/kitchen/receive/order/drinks/' + task.order.orderNumber} className={`text-xl flex justify-end mb-2 ${drinkStatusColor}`}>
+                                <FontAwesomeIcon icon={faWineGlass} />
+                            </Link>
+                        )}
+                        <p>tafel 80</p>
+                    </div>
                 </div>
-                <ul className="list-none p-0">
+                <ul className="list-none p-2.5">
                     {task.order.menuItems.map((item) => (
                         <li key={item.id} className="border border-black rounded mb-2">
                             <div className="flex justify-between items-center">

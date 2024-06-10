@@ -10,7 +10,16 @@ function LangSwitcher({ ...props }) {
     }
 
     return (
-        <select defaultValue={localStorage.getItem('i18nextLng')} name="languages" id="languages" {...props} onChange={(e) => i18n.changeLanguage(e.target.value)}>
+        <select
+            defaultValue={localStorage.getItem('i18nextLng')}
+            name="languages"
+            id="languages"
+            {...props}
+            onChange={(e) => {
+                window.location.reload()
+                i18n.changeLanguage(e.target.value).then((r) => r)
+            }}
+        >
             {Object.keys(languages).map((language) => (
                 <option key={language} value={language}>
                     {languages[language].nativeName}
