@@ -41,6 +41,8 @@ import Settings from './components/admin/settings/Settings.jsx'
 import { SettingsProvider } from './provider/SettingsProvider.jsx'
 import ReservationOverview from './components/admin/reservations/ReservationOverview.jsx'
 import CancelReservation from './components/reservation/CancelReservation.jsx'
+import HomePage from './components/HomePage.jsx'
+import RootHome from './components/RootHome.jsx'
 
 function App() {
     const config = useContext(ConfigContext)
@@ -93,11 +95,21 @@ function App() {
                             path="/"
                             element={
                                 <SettingsProvider>
+                                    <RootHome />
+                                </SettingsProvider>
+                            }
+                        >
+                            <Route path="/" element={<HomePage />} />
+                        </Route>
+                        <Route
+                            path="/"
+                            element={
+                                <SettingsProvider>
                                     <Root />
                                 </SettingsProvider>
                             }
                         >
-                            <Route path="" element={<Home />} />
+                            <Route path="/menu" element={<Home />} />
                             <Route path="menu/:id" element={<MenuItemDetails />} />
                             <Route path="cartItem/edit/:id" element={<CartItemEdit />} />
                             <Route path="cart" element={<CartOverview />} />

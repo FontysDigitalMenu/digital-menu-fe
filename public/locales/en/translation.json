@@ -151,5 +151,9 @@
   "Yes, I'm sure": "Yes, I'm sure",
   "Cancel reservation": "Cancel reservation",
   "Are you sure you want to cancel the following reservation?": "Are you sure you want to cancel the following reservation?",
-  "Table": "Table"
+  "Table": "Table",
+  "Make a reservation": "Make a reservation",
+  "Or": "Or",
+  "Go to the menu": "Go to the menu",
+  "Welcome to the home page": "Welcome to the home page"
 }

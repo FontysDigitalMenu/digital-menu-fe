@@ -35,7 +35,7 @@ function Nav() {
 
     return (
         <Navbar fluid style={{ backgroundColor: setting.primaryColor, borderBottomColor: 'white', borderBottomWidth: '2px' }} className="px-4">
-            <Navbar.Brand as={Link} to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <Navbar.Brand as={Link} to="/menu" className="flex items-center space-x-3 rtl:space-x-reverse">
                 <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">{setting.companyName}</span>
             </Navbar.Brand>
             <Navbar.Toggle
