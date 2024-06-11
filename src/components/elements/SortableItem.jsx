@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { faWineGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,13 +23,32 @@ function SortableItem({ task }) {
 
     const drinkStatusColor = task.order.drinkStatus === 'None' ? 'text-white' : task.order.drinkStatus === 'Pending' ? 'text-gray-500' : task.order.drinkStatus === 'Processing' ? 'text-blue-500' : 'text-green-500'
 
+    function formatDate(orderDate) {
+        let orderDateTime = new Date(orderDate)
+
+        let dateOptions = {
+            month: 'long',
+            day: 'numeric',
+        }
+
+        let timeOptions = {
+            hour: '2-digit',
+            minute: '2-digit',
+        }
+
+        let formattedDate = orderDateTime.toLocaleDateString(localStorage.getItem('i18nextLng') || 'en', dateOptions)
+        let formattedTime = orderDateTime.toLocaleTimeString(localStorage.getItem('i18nextLng') || 'en', timeOptions)
+
+        return `${formattedDate} - ${formattedTime}`
+    }
+
     return (
         <div
             ref={setNodeRef}
             {...attributes}
             {...listeners}
             className={`bg-white items-center flex text-left mb-3
-            rounded-xl cursor-grab relative border-2 
+            rounded-xl cursor-grab relative border 
             ${orderNumber === task.order.orderNumber ? 'border-blue-500 border-4' : 'border-black'} 
             ${isDragging && 'opacity-30'}
             ${mouseIsOver && `hover:ring-2 hover:ring-[${setting.primaryColor}]`}
@@ -43,9 +62,12 @@ function SortableItem({ task }) {
         >
             <div aria-disabled className={`my-auto text-black w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap rounded-t-xl`}>
                 <div className={'flex justify-between bg-gray-200 p-2.5'}>
-                    <p className="mb-2 font-bold">
-                        {t('Order')}: {task.order.orderNumber}
-                    </p>
+                    <div>
+                        <div className="mb-2 font-bold">
+                            {t('Order')}: <span className={'font-mono'}>{task.order.orderNumber}</span>
+                        </div>
+                        <div className={'text-gray-500'}>{formatDate(task.order.orderDate)}</div>
+                    </div>
                     <div>
                         {!task.isDrinks && task.order.drinkStatus !== 'None' && (
                             <Link to={'/kitchen/receive/order/drinks/' + task.order.orderNumber} className={`text-xl flex justify-end mb-2 ${drinkStatusColor}`}>

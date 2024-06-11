@@ -89,12 +89,12 @@ function Waiter() {
                 <div className="w-[93%]">
                     {orders.map((item) => (
                         <div key={item.id} className="w-[30%] mb-3 border-black border-2 rounded-xl overflow-hidden">
-                            <div className="bg-gray-200 w-full h-12 p-2">
-                                <div className="mb-2 flex w-full">
-                                    <div className="w-[50%] font-bold">
-                                        {t('Order')}: {item.orderNumber}
+                            <div className="bg-gray-200 w-full p-2.5">
+                                <div className="mb-2 flex w-full justify-between">
+                                    <div className="font-bold">
+                                        {t('Order')}: <span className={'font-mono'}>{item.orderNumber}</span>
                                     </div>
-                                    <div className="w-[50%] text-right">{item.table.name}</div>
+                                    <div className="text-right">{item.table.name}</div>
                                 </div>
                             </div>
                             <div className="w-full h-auto flex p-2.5">
