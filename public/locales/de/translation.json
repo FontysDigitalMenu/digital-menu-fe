@@ -151,5 +151,10 @@
   "Yes, I'm sure": "Ja, ich bin sicher",
   "Cancel reservation": "Reservierung stornieren",
   "Are you sure you want to cancel the following reservation?": "Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?",
-  "Table": "Tisch"
+  "Table": "Tisch",
+  "Make a reservation": "Reservieren",
+  "Or": "Oder",
+  "Go to the menu": "Zum Menü gehen",
+  "Welcome to the home page": "Willkommen auf der Startseite",
+  "AmountQuantity": "Menge"
 }

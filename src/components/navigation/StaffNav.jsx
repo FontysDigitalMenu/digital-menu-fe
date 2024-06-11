@@ -8,10 +8,12 @@ function StaffNav() {
     const { t } = useTranslation()
 
     return (
-        <div className="staffnav mb-4 flex w-full text-white h-12" style={{ backgroundColor: setting.primaryColor, borderBottomColor: 'white', borderBottomWidth: '2px' }}>
+        <div className="staffnav mb-4 flex w-full text-white py-4" style={{ backgroundColor: setting.primaryColor, borderBottomColor: 'white', borderBottomWidth: '2px' }}>
             <div className="sm:w-[15%] h-full flex sm:pl-2 justify-center sm:justify-normal items-center text-xl w-[40%]">
                 <div>
-                    <Link to="/admin">{setting.companyName}</Link>
+                    <Link to="/admin" className="font-bold pl-2">
+                        {setting.companyName}
+                    </Link>
                 </div>
             </div>
             <div className="sm:w-[85%] h-full sm:gap-7 flex text-lg items-center w-[60%] justify-center sm:justify-normal gap-2">

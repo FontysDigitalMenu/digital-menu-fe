@@ -67,7 +67,7 @@ function MenuItemDetails() {
 
             if (response.status === 204) {
                 ToastNotification('success', t('Added item to order'))
-                navigate('/')
+                navigate('/menu')
             } else if (response.status === 404) {
                 toast.error(t('Please scan the QR-Code on your table using your camera on your phone'), {
                     autoClose: 8000,
@@ -91,7 +91,7 @@ function MenuItemDetails() {
                                 style={{
                                     boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.1)',
                                 }}
-                                onClick={() => navigate('/')}
+                                onClick={() => navigate('/menu')}
                             >
                                 <div className="flex gap-2 pt-1">
                                     <span className="material-symbols-outlined">arrow_back</span>

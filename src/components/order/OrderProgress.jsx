@@ -15,9 +15,11 @@ function OrderProgress() {
     const { orderId } = useParams()
     const [order, setOrder] = useState()
     const [loading, setLoading] = useState(true)
-    const [waiterPosition, setWaiterPosition] = useState('')
-    const [processingClass, setProcessingClass] = useState('')
-    const [completedClass, setCompletedClass] = useState('')
+    const [foodWaiterPosition, setFoodWaiterPosition] = useState('')
+    const [foodProcessingClass, setFoodProcessingClass] = useState('')
+    const [foodCompletedClass, setFoodCompletedClass] = useState('')
+    const [drinkProcessingClass, setDrinkProcessingClass] = useState('')
+    const [drinkCompletedClass, setDrinkCompletedClass] = useState('')
     const [connection, setConnection] = useState()
     const [remainingAmount, setRemainingAmount] = useState(0)
     const [paymentsTimer, setPaymentsTimer] = useState(0)
@@ -73,26 +75,40 @@ function OrderProgress() {
 
     useEffect(() => {
         if (order === undefined || order === null) return
-
         switch (order.foodStatus) {
             case 'Pending':
-                setWaiterPosition('left-0')
-                setProcessingClass('w-0')
-                setCompletedClass('w-0')
+                setFoodWaiterPosition('left-0')
+                setFoodProcessingClass('w-0')
+                setFoodCompletedClass('w-0')
                 break
             case 'Processing':
-                setWaiterPosition('left-1/2 -translate-x-1/2')
-                setProcessingClass('w-2/3')
-                setCompletedClass('w-2/3')
+                setFoodWaiterPosition('left-1/2 -translate-x-1/2')
+                setFoodProcessingClass('w-2/3')
+                setFoodCompletedClass('w-2/3')
                 break
             case 'Completed':
             case 'Done':
-                setWaiterPosition('left-full -translate-x-full')
-                setProcessingClass('w-2/3')
-                setCompletedClass('w-full')
+                setFoodWaiterPosition('left-full -translate-x-full')
+                setFoodProcessingClass('w-2/3')
+                setFoodCompletedClass('w-full')
                 break
         }
 
+        switch (order.drinkStatus) {
+            case 'Pending':
+                setDrinkProcessingClass('w-0')
+                setDrinkCompletedClass('w-0')
+                break
+            case 'Processing':
+                setDrinkProcessingClass('w-2/3')
+                setDrinkCompletedClass('w-2/3')
+                break
+            case 'Completed':
+            case 'Done':
+                setDrinkProcessingClass('w-2/3')
+                setDrinkCompletedClass('w-full')
+                break
+        }
         AmountToBePaid()
     }, [order])
 
@@ -117,7 +133,6 @@ function OrderProgress() {
         } else if (response.status === 404) {
             setOrder(null)
         }
-
         setLoading(false)
     }
 
@@ -163,38 +178,75 @@ function OrderProgress() {
                             <div className="title-box text-6xl font-bold w-full px-2 mb-6">
                                 <p className="text-center">{t('Thank you for your order!')}</p>
                             </div>
-                            <div className={`relative h-20`}>
-                                <img className={`w-20 absolute ${waiterPosition} duration-1000 transition-all`} src={waiter} alt="waiter" />
-                            </div>
+                            {/*food*/}
+                            {order.hasFood && (
+                                <>
+                                    <div className={`relative h-20`}>
+                                        <img className={`w-20 absolute ${foodWaiterPosition} duration-1000 transition-all`} src={waiter} alt="waiter" />
+                                    </div>
+                                    <div className={'relative text-white'}>
+                                        <div className="flex absolute w-full z-30">
+                                            <div className={`rounded-l-lg h-[40px] w-[30%] bg-green-500 flex justify-end items-center pr-3`}>{t('Received')}</div>
+                                            <div
+                                                className={`
+                                        w-0 h-0
+                                        border-t-[20px] border-t-transparent
+                                        border-b-[20px] border-b-transparent
+                                        border-l-[30px] border-l-green-500`}
+                                            ></div>
+                                        </div>
 
-                            <div className={'relative text-white'}>
-                                <div className="flex absolute w-full z-30">
-                                    <div className="rounded-l-lg h-[40px] w-[30%] bg-green-500 flex justify-end items-center pr-3">{t('Received')}</div>
-                                    <div
-                                        className="w-0 h-0
-                                      border-t-[20px] border-t-transparent
-                                      border-b-[20px] border-b-transparent
-                                      border-l-[30px] border-l-green-500
-                                      "
-                                    ></div>
-                                </div>
-
-                                <div className="flex absolute w-full z-20">
-                                    <div className={`rounded-l-lg h-[40px] ${processingClass} transition-all duration-1000 bg-green-600 flex justify-end items-center pr-3`}>{t('Processing')}</div>
-                                    <div
-                                        className="w-0 h-0
+                                        <div className="flex absolute w-full z-20">
+                                            <div className={`rounded-l-lg h-[40px] ${foodProcessingClass} transition-all duration-1000 bg-green-600 flex justify-end items-center pr-3`}>{t('Processing')}</div>
+                                            <div
+                                                className="w-0 h-0
                                           border-t-[20px] border-t-transparent
                                           border-b-[20px] border-b-transparent
                                           border-l-[30px] border-l-green-600
                                           "
-                                    ></div>
-                                </div>
+                                            ></div>
+                                        </div>
 
-                                <div className="flex absolute w-full z-10">
-                                    <div className={`rounded-l-lg h-[40px] ${completedClass} transition-all duration-1000 bg-green-700 flex justify-end items-center rounded pr-3`}>{t('Done')}</div>
-                                </div>
-                            </div>
+                                        <div className="flex absolute w-full z-10">
+                                            <div className={`rounded-l-lg h-[40px] ${foodCompletedClass} transition-all duration-1000 bg-green-700 flex justify-end items-center rounded pr-3`}>{t('Done')}</div>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                            {order.hasDrinks && order.hasFood && <div className={`relative h-5`}></div>}
+                            {/*drink*/}
+                            {order.hasDrinks && (
+                                <>
+                                    <div className={`relative h-10`}></div>
+                                    <div className={'relative text-white'}>
+                                        <div className="flex absolute w-full z-30">
+                                            <div className={`rounded-l-lg h-[40px] w-[30%] bg-blue-500 flex justify-end items-center pr-3`}>{t('Received')}</div>
+                                            <div
+                                                className={`
+                                        w-0 h-0
+                                        border-t-[20px] border-t-transparent
+                                        border-b-[20px] border-b-transparent
+                                        border-l-[30px] border-l-blue-500`}
+                                            ></div>
+                                        </div>
 
+                                        <div className="flex absolute w-full z-20">
+                                            <div className={`rounded-l-lg h-[40px] ${drinkProcessingClass} transition-all duration-1000 bg-blue-600 flex justify-end items-center pr-3`}>{t('Processing')}</div>
+                                            <div
+                                                className="w-0 h-0
+                                          border-t-[20px] border-t-transparent
+                                          border-b-[20px] border-b-transparent
+                                          border-l-[30px] border-l-blue-600
+                                          "
+                                            ></div>
+                                        </div>
+
+                                        <div className="flex absolute w-full z-10">
+                                            <div className={`rounded-l-lg h-[40px] ${drinkCompletedClass} transition-all duration-1000 bg-blue-700 flex justify-end items-center rounded pr-3`}>{t('Done')}</div>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                             <div className="total-box text-2xl font-bold w-full px-2 mt-8 mb-4 pt-4">
                                 {t('Total')}: &nbsp;
                                 {new Intl.NumberFormat('nl-NL', {
@@ -244,7 +296,7 @@ function OrderProgress() {
                                                     {menuItem.excludedIngredients.map((excludedIngredient) => {
                                                         return (
                                                             <div key={excludedIngredient.id} className="flex gap-2 pt-2">
-                                                                <span className="material-symbols-outlined text-red-600">{t('close')}</span>
+                                                                <span className="material-symbols-outlined text-red-600">close</span>
                                                                 <p>{excludedIngredient.name}</p>
                                                             </div>
                                                         )

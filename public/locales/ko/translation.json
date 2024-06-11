@@ -138,5 +138,10 @@
   "Yes, I'm sure": "네, 확실합니다",
   "Cancel reservation": "예약 취소",
   "Are you sure you want to cancel the following reservation?": "다음 예약을 취소하시겠습니까?",
-  "Table": "테이블"
+  "Table": "테이블",
+  "Make a reservation": "예약하기",
+  "Or": "또는",
+  "Go to the menu": "메뉴로 이동",
+  "Welcome to the home page": "홈 페이지에 오신 것을 환영합니다",
+  "AmountQuantity": "수량"
 }
