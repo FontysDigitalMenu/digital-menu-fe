@@ -296,7 +296,7 @@ function OrderProgress() {
                                                     {menuItem.excludedIngredients.map((excludedIngredient) => {
                                                         return (
                                                             <div key={excludedIngredient.id} className="flex gap-2 pt-2">
-                                                                <span className="material-symbols-outlined text-red-600">{t('close')}</span>
+                                                                <span className="material-symbols-outlined text-red-600">close</span>
                                                                 <p>{excludedIngredient.name}</p>
                                                             </div>
                                                         )

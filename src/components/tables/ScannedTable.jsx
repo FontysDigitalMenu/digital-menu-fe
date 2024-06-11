@@ -26,7 +26,7 @@ function ScannedTable() {
                 await AddTableSessionIdWithCode(code)
                 break
             case 'done':
-                return navigate('/')
+                return navigate('/menu')
         }
     }
 
