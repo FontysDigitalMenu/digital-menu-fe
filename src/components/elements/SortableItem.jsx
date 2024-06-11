@@ -83,7 +83,7 @@ function SortableItem({ task }) {
                                                 </div>
                                             )}
                                             {item.note ? (
-                                                <div className={`${item.excludedIngredients.length > 0 ? 'mt-4' : ''} mb-4`}>
+                                                <div className={`${item.note ? 'mt-4' : ''} mb-4`}>
                                                     <span>note: {item.note}</span>
                                                 </div>
                                             ) : (
