@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { faWineGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -52,7 +52,7 @@ function SortableItem({ task }) {
                                 <FontAwesomeIcon icon={faWineGlass} />
                             </Link>
                         )}
-                        <p>tafel 80</p>
+                        <p>{task.order.table.name}</p>
                     </div>
                 </div>
                 <ul className="list-none p-2.5">
@@ -67,7 +67,7 @@ function SortableItem({ task }) {
                                             </div>
                                             <div className="w-24">
                                                 <p className="text-left font-bold">
-                                                    {t('Amount')}: {item.quantity}
+                                                    {t('AmountQuantity')}: {item.quantity}
                                                 </p>
                                             </div>
                                         </div>
