@@ -65,8 +65,8 @@ function SortableItem({ task }) {
                                             <div className="font-bold">
                                                 <p>{item.name}</p>
                                             </div>
-                                            <div className="w-24">
-                                                <p className="text-left font-bold">
+                                            <div className="w-32 text-right">
+                                                <p className="font-bold">
                                                     {t('AmountQuantity')}: {item.quantity}
                                                 </p>
                                             </div>
