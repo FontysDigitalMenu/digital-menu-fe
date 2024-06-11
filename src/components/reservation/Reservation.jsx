@@ -93,7 +93,7 @@ function Reservation() {
 
     return (
         <div className="p-2 md:p-4">
-            <h1 className="text-4xl mb-10 font-bold">{t('Reservation')}</h1>
+            <h1 className="text-4xl mb-10 font-bold">{t('Reservations')}</h1>
 
             <label className="block mb-2 text-lg font-medium text-gray-900">{t('Choose a date')}</label>
             <input type="date" className="w-full mb-10" onChange={handleDateChange} min={new Date().toISOString().split('T')[0]} />
