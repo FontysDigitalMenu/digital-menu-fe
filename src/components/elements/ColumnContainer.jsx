@@ -56,10 +56,12 @@ function ColumnContainer({ column, tasks, deleteTask, updateTask }) {
             </div>
 
             <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
-                <div items={tasksIds}>
-                    {tasks.map((task) => (
-                        <SortableItem key={task.id} task={task} />
-                    ))}
+                <div>
+                    {tasks
+                        .sort((a, b) => new Date(a.order.orderDate) - new Date(b.order.orderDate))
+                        .map((task) => {
+                            return <SortableItem key={task.id} task={task} />
+                        })}
                 </div>
             </div>
         </div>

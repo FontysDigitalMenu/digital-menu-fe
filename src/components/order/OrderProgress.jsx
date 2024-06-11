@@ -256,7 +256,7 @@ function OrderProgress() {
                             </div>
                             <div className="title-box text-2xl font-bold w-full px-2 mt-4 mb-4">
                                 <p className="text-left">
-                                    {t('Order Number')}: {order.orderNumber}
+                                    {t('Order Number')}: <span className={'font-mono'}>{order.orderNumber}</span>
                                 </p>
                             </div>
                             <div className="title-box text-2xl font-bold w-full px-2 mt-4">

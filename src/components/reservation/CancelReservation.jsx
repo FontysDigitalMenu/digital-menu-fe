@@ -43,7 +43,6 @@ function CancelReservation(props) {
         })
 
         const data = await response.json()
-        console.log(data)
         setReservation(data)
     }
 
