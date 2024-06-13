@@ -27,6 +27,7 @@ function CartItemEdit() {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
             },
         })
 
@@ -103,13 +104,13 @@ function CartItemEdit() {
 
                                                 <hr className="border border-gray-600 sm:mx-auto rounded-lg" />
 
-                                                <p className="pt-5 font-bold">Description</p>
+                                                <p className="pt-5 font-bold">{t('Description')}</p>
 
                                                 <p className="pt-2 whitespace">{cartItemWithExcludedIngredients.cartItem.menuItem.description}</p>
 
                                                 {cartItemWithExcludedIngredients.cartItem.menuItem.ingredients.length !== 0 && (
                                                     <div>
-                                                        <p className="pt-5 font-bold">Ingredients</p>
+                                                        <p className="pt-5 font-bold">{t('Ingredients')}</p>
 
                                                         <div className="pt-4">
                                                             {cartItemWithExcludedIngredients.cartItem.menuItem.ingredients.map((ingredient) => (
@@ -131,7 +132,7 @@ function CartItemEdit() {
                                                     </div>
                                                 )}
 
-                                                <p className="pt-5 font-bold">Note</p>
+                                                <p className="pt-5 font-bold">{t('Note')}</p>
 
                                                 <form className="w-full pt-2">
                                                     <textarea
@@ -139,7 +140,7 @@ function CartItemEdit() {
                                                         rows="4"
                                                         defaultValue={cartItemWithExcludedIngredients.cartItem.note}
                                                         className={`block min-h-32 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-[${setting.primaryColor}] focus:border-[${setting.primaryColor}]`}
-                                                        placeholder="Leave a note..."
+                                                        placeholder={t('Leave a note') + '...'}
                                                     ></textarea>
                                                 </form>
                                             </div>

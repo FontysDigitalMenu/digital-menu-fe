@@ -157,5 +157,7 @@
   "Or": "Oder",
   "Go to the menu": "Zum Menü gehen",
   "Welcome to the home page": "Willkommen auf der Startseite",
-  "AmountQuantity": "Menge"
+  "AmountQuantity": "Menge",
+  "!!! There are unpaid orders !!!": "!!! Es gibt unbezahlte Bestellungen !!!",
+  "See the unpaid orders here": "Sieh dir hier die unbezahlten Bestellungen an"
 }

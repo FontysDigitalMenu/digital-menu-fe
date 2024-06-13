@@ -157,5 +157,7 @@
   "Or": "Or",
   "Go to the menu": "Go to the menu",
   "Welcome to the home page": "Welcome to the home page",
-  "AmountQuantity": "Amount"
+  "AmountQuantity": "Amount",
+  "!!! There are unpaid orders !!!": "!!! There are unpaid orders !!!",
+  "See the unpaid orders here": "See the unpaid orders here"
 }

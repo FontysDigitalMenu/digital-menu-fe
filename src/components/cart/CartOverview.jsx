@@ -62,6 +62,7 @@ function CartOverview() {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+                'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
             },
         })
 
@@ -176,9 +177,9 @@ function CartOverview() {
                     <div className="w-96 md:w-[500px]">
                         {cartItemCollection && cartItemCollection.anyUnpaidOrders && (
                             <div>
-                                <p className="text-center text-xl">!!! There are unpaid orders !!!</p>
+                                <p className="text-center text-xl">{t('!!! There are unpaid orders !!!')}</p>
                                 <Link to="/account/orders" className="w-fit mx-auto block text-blue-500 underline">
-                                    See the unpaid orders here
+                                    {t('See the unpaid orders here')}
                                 </Link>
                                 <br />
                             </div>
