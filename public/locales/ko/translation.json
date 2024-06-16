@@ -160,5 +160,16 @@
   "AmountQuantity": "수량",
   "!!! There are unpaid orders !!!": "!!! 미결제 주문이 있습니다 !!!",
   "See the unpaid orders here": "여기에서 미결제 주문을 보세요",
-  "Date": "날짜"
+  "Date": "날짜",
+  "Split the bill": "계산서 분할",
+  "Split option": "분할 옵션",
+  "Split evenly": "균등하게 분할",
+  "Split in custom ranges": "사용자 정의 범위로 분할",
+  "Number of splits": "분할 수",
+  "Value": "값",
+  "Confirm": "확인",
+  "Left to split": "남은 분할",
+  "Price per person": "인당 가격",
+  "Custom splits": "사용자 정의 분할",
+  "Total price": "총 가격"
 }

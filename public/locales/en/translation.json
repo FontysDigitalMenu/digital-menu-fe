@@ -160,5 +160,16 @@
   "AmountQuantity": "Amount",
   "!!! There are unpaid orders !!!": "!!! There are unpaid orders !!!",
   "See the unpaid orders here": "See the unpaid orders here",
-  "Date": "Date"
+  "Date": "Date",
+  "Split the bill": "Split the bill",
+  "Split option": "Split option",
+  "Split evenly": "Split evenly",
+  "Split in custom ranges": "Split in custom ranges",
+  "Number of splits": "Number of splits",
+  "Value": "Value",
+  "Confirm": "Confirm",
+  "Left to split": "Left to split",
+  "Price per person": "Price per person",
+  "Custom splits": "Custom splits",
+  "Total price": "Total price"
 }

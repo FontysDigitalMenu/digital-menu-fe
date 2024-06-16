@@ -160,5 +160,16 @@
   "AmountQuantity": "Menge",
   "!!! There are unpaid orders !!!": "!!! Es gibt unbezahlte Bestellungen !!!",
   "See the unpaid orders here": "Sieh dir hier die unbezahlten Bestellungen an",
-  "Date": "Datum"
+  "Date": "Datum",
+  "Split the bill": "Rechnung teilen",
+  "Split option": "Aufteilungsoption",
+  "Split evenly": "Gleichmäßig aufteilen",
+  "Split in custom ranges": "In benutzerdefinierte Bereiche aufteilen",
+  "Number of splits": "Anzahl der Aufteilungen",
+  "Value": "Wert",
+  "Confirm": "Bestätigen",
+  "Left to split": "Übrig zum Aufteilen",
+  "Price per person": "Preis pro Person",
+  "Custom splits": "Benutzerdefinierte Aufteilungen",
+  "Total price": "Gesamtpreis"
 }

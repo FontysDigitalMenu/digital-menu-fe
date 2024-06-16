@@ -165,9 +165,9 @@ function SplitOrder() {
             <div className="mt-6 w-full flex justify-center">
                 <div className="w-96 md:w-[500px]">
                     <div className="title-box text-left text-2xl font-bold w-full px-2">
-                        <p>Split the bill</p>
+                        <p>{t('Split the bill')}</p>
                         <p className="pt-1">
-                            Total price:{' '}
+                            {t('Total price')}:{' '}
                             {new Intl.NumberFormat('nl-NL', {
                                 style: 'currency',
                                 currency: 'EUR',
@@ -175,24 +175,24 @@ function SplitOrder() {
                         </p>
                     </div>
                     <div className="text-box flex flex-col px-2">
-                        <p className="text-left pt-5 pb-2 font-style: italic">Split option</p>
+                        <p className="text-left pt-5 pb-2 font-style: italic">{t('Split option')}</p>
                         <select className="bg-gray-300 border border-gray-300 rounded-lg block p-2 mb-4" value={splitOption} onChange={handleSelectChange}>
-                            <option value="Even">Split evenly</option>
-                            <option value="Custom">Split in custom ranges</option>
+                            <option value="Even">{t('Split evenly')}</option>
+                            <option value="Custom">{t('Split in custom ranges')}</option>
                         </select>
                         {splitOption === 'Even' ? (
                             <div>
-                                <p className="text-left pt-4 pb-2 font-style: italic">Number of splits</p>
+                                <p className="text-left pt-4 pb-2 font-style: italic">{t('Number of splits')}</p>
                                 <input className="bg-gray-300 w-[15%] p-2 rounded-lg" type="number" min="1" max="99" maxLength={2} value={splitAmount} onChange={handleSplitAmountChange} />
                             </div>
                         ) : (
                             <div>
-                                <p className="text-left pt-4 font-style: italic">Custom splits</p>
+                                <p className="text-left pt-4 font-style: italic">{t('Custom splits')}</p>
                                 {customSplits.map((split, index) => (
                                     <div key={index} className="flex pt-2 items-center">
                                         <p className="mr-1">€</p>
-                                        <input required min="0.01" step="0.01" className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" max={totalPrice} placeholder="Value" value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
-                                        <input required className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" maxLength={20} placeholder="Name" value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
+                                        <input required min="0.01" step="0.01" className="bg-gray-300 w-[20%] p-2 rounded-lg mr-1" type="number" max={totalPrice} placeholder={t('Value')} value={split.amount} onChange={(e) => handleCustomSplitValueChange(index, e)} />
+                                        <input required className="bg-gray-300 w-[70%] p-2 rounded-lg ml-1 mr-1" type="text" maxLength={20} placeholder={t('Name')} value={split.name} onChange={(e) => handleCustomSplitNameChange(index, e)} />
                                         <button className="bg-red-500 w-[10%] text-white p-2 rounded-lg ml-1" onClick={() => handleRemoveCustomSplit(index)}>
                                             -
                                         </button>
@@ -210,7 +210,7 @@ function SplitOrder() {
             <div className="bottom-box w-full sticky bottom-0 left-0" style={{ backgroundColor: 'rgb(255,255,255,.8)' }}>
                 {splitOption === 'Even' ? (
                     <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
-                        Price per person: &nbsp;
+                        {t('Price per person')}: &nbsp;
                         {pricePerPerson
                             ? new Intl.NumberFormat('nl-NL', {
                                   style: 'currency',
@@ -220,7 +220,7 @@ function SplitOrder() {
                     </div>
                 ) : (
                     <div className="flex text-2xl font-bold w-full px-2 items-center justify-center">
-                        Left to split: &nbsp;
+                        {t('Left to split')}: &nbsp;
                         {new Intl.NumberFormat('nl-NL', {
                             style: 'currency',
                             currency: 'EUR',
@@ -233,7 +233,7 @@ function SplitOrder() {
                         className={`flex items-center py-2 h-full text-white rounded-2xl italic mb-3 justify-center w-9/12 bg-red-500 hover:bg-red-600 ${splitOption !== 'Even' && totalCustomSplitsAmount !== totalPrice ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={splitOption !== 'Even' && totalCustomSplitsAmount !== totalPrice}
                     >
-                        Confirm
+                        {t('Confirm')}
                     </button>
                 </div>
             </div>

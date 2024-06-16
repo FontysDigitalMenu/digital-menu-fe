@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext } from 'react'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
 import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import { useTranslation } from 'react-i18next'

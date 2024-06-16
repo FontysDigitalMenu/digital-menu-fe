@@ -3,7 +3,6 @@ import ConfigContext from '../../../provider/ConfigProvider.jsx'
 import ToastNotification from '../../notifications/ToastNotification.jsx'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Select from 'react-select'
 import SettingsContext from '../../../provider/SettingsProvider.jsx'
 
 function IngredientsCreate() {
@@ -22,6 +21,7 @@ function IngredientsCreate() {
             const response = await fetch(`${config.API_URL}/api/v1/ingredients`, {
                 method: 'POST',
                 headers: {
+                    'Accept-Language': localStorage.getItem('i18nextLng') || 'en',
                     Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
                     'Content-Type': 'application/json',
                 },
@@ -49,36 +49,6 @@ function IngredientsCreate() {
             <h1 className="text-4xl mb-10 font-bold">{t('Create ingredient')}</h1>
 
             <form className="max-w-lg mx-auto">
-                <div className="mb-5">
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
-                        {t('Form language')}
-                    </label>
-                    <Select
-                        name="form language"
-                        defaultValue={{ value: 'en', label: 'en' }}
-                        onChange={(e) => setIngredient({ ...ingredient, formLanguage: e.value })}
-                        options={[
-                            {
-                                value: 'en',
-                                label: 'en',
-                            },
-                            {
-                                value: 'nl',
-                                label: 'nl',
-                            },
-                            {
-                                value: 'de',
-                                label: 'de',
-                            },
-                            {
-                                value: 'ko',
-                                label: 'ko',
-                            },
-                        ]}
-                        className="w-full"
-                        required
-                    />
-                </div>
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                         {t('Name')}
