@@ -158,6 +158,7 @@
   "Go to the menu": "Go to the menu",
   "Welcome to the home page": "Welcome to the home page",
   "AmountQuantity": "Amount",
-  "Date": "Date",
-  "Reservations": "Reservations"
+  "!!! There are unpaid orders !!!": "!!! There are unpaid orders !!!",
+  "See the unpaid orders here": "See the unpaid orders here",
+  "Date": "Date"
 }
