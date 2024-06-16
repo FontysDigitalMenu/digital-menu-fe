@@ -97,7 +97,7 @@ function ReservationOverview() {
                 </Modal>
 
                 <div className="mb-10">
-                    <h1 className="text-4xl font-bold">Reservations</h1>
+                    <h1 className="text-4xl font-bold">{t('Reservations')}</h1>
                 </div>
                 <div>
                     <label className="block mb-2 text-lg font-medium text-gray-900">{t('Choose a date')}</label>
