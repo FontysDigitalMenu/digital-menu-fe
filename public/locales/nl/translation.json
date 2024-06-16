@@ -160,5 +160,16 @@
   "AmountQuantity": "Aantal",
   "!!! There are unpaid orders !!!": "!!! Er zijn onbetaalde bestellingen !!!",
   "See the unpaid orders here": "Bekijk hier de onbetaalde bestellingen",
-  "Date": "Datum"
+  "Date": "Datum",
+  "Split the bill": "Rekening splitsen",
+  "Split option": "Splits optie",
+  "Split evenly": "Gelijk splitsen",
+  "Split in custom ranges": "Splits in aangepaste bereiken",
+  "Number of splits": "Aantal splitsingen",
+  "Value": "Waarde",
+  "Confirm": "Bevestigen",
+  "Left to split": "Over om te splitsen",
+  "Price per person": "Prijs per persoon",
+  "Custom splits": "Aangepaste splitsingen",
+  "Total price": "Totale prijs"
 }
